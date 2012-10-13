@@ -128,3 +128,11 @@
 .remove-comment:active {
 	background-position: left -48px;
 }
+.beta{
+	position:fixed;
+	top:0px;
+	left:65%;
+	width:100px;
+	hieght:100px;
+	
+}
