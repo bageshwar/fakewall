@@ -6,6 +6,20 @@
  * 
  */
 
+//vars
+
+var temp;
+
+/**
+ * The current span control being edited.
+ */
+var spanControl;
+
+/**
+ * Flag to find the source of DialogClose event.
+ * */
+var isPopupCancelled = true;
+
 (function($) {
 
 	Like = Backbone.Model.extend({
@@ -65,7 +79,7 @@
 $(document).ready(function() {
 
 	// dialog
-	$("#forgot-dialog").dialog({
+	$("#comment-dialog").dialog({
 		modal : true,
 		autoOpen : false,
 		/*
@@ -73,33 +87,50 @@ $(document).ready(function() {
 		 */
 		buttons : {
 			"Add" : function() {
-				addComments($('#enter_comment').val());
+
+				isPopupCancelled = false;
 				$(this).dialog("close");
 			},
 			Cancel : function() {
+				isPopupCancelled = true;
 				$(this).dialog("close");
 			}
 		},
+		callback : function(value) {
+			console.log('do nothing for ', value)
+		},
+		beforeClose : function(event, ui) {
+			// if the event has been fired by the OK button
+			if (!isPopupCancelled) {
+				spanControl.innerHTML = $('#enter_comment').val();
+				isPopupCancelled = true; // resetting flag
+			}
+		},
+
 	});
 
-	//on click handler for dialog
+	// on click handler for dialog
 	$('#but').click(function() {
-		$("#forgot-dialog").dialog("open");
+
+		$("#comment-dialog").dialog("open");
+
 	});
-	
-	//animated text area
+
+	// animated text area
 	$('#enter_comment').autosize({
 		append : "\n"
 	});
+
+	// adding event handler for all span
+
+	$('span').dblclick(function(event, owner) {
+
+		// populate the text in the popup
+		$('#enter_comment').val(event.srcElement.innerHTML);
+		// assing the currently being edited span
+		spanControl = event.srcElement;
+		$("#comment-dialog").dialog("open");
+	});
+
 });
 
-var myDialog;
-function showDialog() {
-	// alert("hi")
-	// console.log($( "#forgot-dialog" ).dialog( "open" ));
-	// alert("bye");
-}
-
-function addComments(object) {
-	console.log(object);
-}
