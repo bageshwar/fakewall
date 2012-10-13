@@ -26,18 +26,20 @@
 	<div class="wrapper">
 		<div class="post_user">
 			<div>
-				<img class="dp" src="resources/dp.jpg" />
+				<img class="dp" src="resources/dp.jpg" onclick="imageClicked(event)" />
 			</div>
 			<div class="post-user">
-				<span class="name-user">Bageshwar Pratap Narain</span> <br /> <span class="timestamp">9 hours ago</span>
+				<span class="name-user" onclick="spanDoubleClicked(event)">User</span> <br /> <span class="timestamp"
+					onclick="spanDoubleClicked(event)">1 hours ago</span>
 			</div>
 		</div>
 		<div class="post-content">
-			<span>here is the post</span>
+			<span onclick="spanDoubleClicked(event)">Post</span>
 		</div>
 		<div class="likebanner link">Like · Comment · Share</div>
 		<div class="likes">
-			<i class="like-icon"></i> <span class="link">You, Me and Several others</span><span> like this.</span>
+			<i class="like-icon"></i> <span class="link" onclick="spanDoubleClicked(event)">You, Me and Several others</span>
+			<span onclick="spanDoubleClicked(event)"> like this.</span>
 		</div>
 		<div class="response" id="response">
 			<!-- <div class="comment">
