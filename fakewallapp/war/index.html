@@ -7,8 +7,10 @@
 <script src="resources/underscore-min.js"></script>
 <script src="resources/backbone-min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
-<script src="resources/core.js"></script>
 <script src="resources/jquery.autosize-min.js"></script>
+<script src="resources/commentTemplate.js"></script>
+<script src="resources/core.js"></script>
+
 
 <link rel="stylesheet" href="resources/style.css" />
 <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
@@ -19,9 +21,7 @@
 <body>
 
 	<input type="button" value="show dialog" id="but" />
-	<button id="add-comment">Add Friend</button>
-	<ul id="comment-list">
-	</ul>
+	<button id="add-comment">Add Comment</button>
 
 	<div class="wrapper">
 		<div class="post_user">
@@ -40,10 +40,11 @@
 			<i class="like-icon"></i> <span class="link">You, Me and Several others</span><span> like this.</span>
 		</div>
 		<div class="response" id="response">
-			<div class="comment">
+			<!-- <div class="comment">
 				<div>
 					<img class="comment-dp" src="resources/dp.jpg" />
 				</div>
+				<i class="remove-comment"></i>
 				<div class="comment-content">
 					<span class="name-user">Bageshwar Pratap Narain</span> <span class="comment-text">Here is my first comment</span> <br />
 					<span class="timestamp">9 hours ago · </span><span class="link">Like</span>
@@ -52,10 +53,9 @@
 					</div>
 				</div>
 
-			</div>
+			</div> -->
 
-			<div class="comment">Here is my second comment</div>
-			<div class="comment">Here is my third comment</div>
+
 		</div>
 	</div>
 
@@ -67,12 +67,11 @@
 			style="width: 80%" rows="1"></textarea>
 
 	</div>
-	
+
 	<div id="dp_dialog" style="display: none;" title="Fake Wall App">
 
-		<label for="dp_url">URL</label>
-		<input type="text" name="dp_url" id="dp_url" class="text ui-widget-content ui-corner-all"
-			style="width: 80%"  />
+		<label for="dp_url">URL</label> <input type="text" name="dp_url" id="dp_url"
+			class="text ui-widget-content ui-corner-all" style="width: 80%" />
 
 	</div>
 </body>

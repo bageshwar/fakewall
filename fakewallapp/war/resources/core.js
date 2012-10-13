@@ -19,6 +19,11 @@ var spanControl;
  */
 var isPopupCancelled = true;
 
+/**
+ * The current image control being edited.
+ */
+var imageControl;
+
 (function($) {
 
 	Like = Backbone.Model.extend({
@@ -66,7 +71,8 @@ var isPopupCancelled = true;
 		},
 		addComment : function(model) {
 			// The parameter passed is a reference to the model that was added
-			$("#comment-list").append("<li>" + model.get('text') + "</li>");
+			// $("#comment-list").append("<li>" + model.get('text') + "</li>");
+			$("#response").append(commentTemplate);
 			// Use .get to receive attributes of the model
 		}
 	});
@@ -170,9 +176,8 @@ function registerEventHandlers() {
 
 	});
 
-	// adding event handler for all span
-	$('span').dblclick(function(event, owner) {
-
+	/*// adding event handler for all span
+	$('span').click(function(event, owner) {
 		// populate the text in the popup
 		$('#enter_comment').val(event.srcElement.innerHTML);
 		// setting the currently being edited span
@@ -180,14 +185,34 @@ function registerEventHandlers() {
 		$("#comment_dialog").dialog("open");
 	});
 
-	// adding event handler for all image
+	// adding event handler for all images
+	$('img').click(function(event, owner) {
+		imageClicked(event);
+	});*/
 
-	$('img').dblclick(function(event, owner) {
+	// for adding comment
+	$('#add-comment').click(function(event) {
+		console.log($('#response').append(commentTemplate));
 
-		// populate the text in the popup
-		$('#dp_url').val(event.srcElement.innerHTML);
-		// setting the currently being edited image
-		imageControl = event.srcElement;
-		$("#dp_dialog").dialog("open");
 	});
+}
+
+function spanDoubleClicked(event) {
+	// populate the text in the popup
+	$('#enter_comment').val(event.srcElement.innerHTML);
+	// setting the currently being edited span
+	spanControl = event.srcElement;
+	$("#comment_dialog").dialog("open");
+}
+
+function imageClicked(event) {
+	// populate the text in the popup
+	$('#dp_url').val(event.srcElement.innerHTML);
+	// setting the currently being edited image
+	imageControl = event.srcElement;
+	$("#dp_dialog").dialog("open");
+}
+
+function deleteComment(event) {
+	console.log(event.srcElement.parentElement.outerHTML = '');
 }

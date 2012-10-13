@@ -15,7 +15,6 @@
 	margin: 0 0 5px 0;
 	padding: 0px 0 10px 15px;
 	display: block;
-	
 }
 
 .likes {
@@ -35,8 +34,6 @@
 .response { /*padding:5px 12px;*/
 	
 }
-
-
 
 .likebanner {
 	margin-top: 1px;
@@ -63,6 +60,7 @@
 .post-user {
 	margin-left: 60px;
 }
+
 .post_user {
 	height: 60px;
 	border-bottom: 1px solid #E9E9E9;
@@ -82,6 +80,7 @@
 	height: 32px;
 	float: left;
 }
+
 .comment-content {
 	margin-left: 42px;
 }
@@ -109,4 +108,23 @@
 	-webkit-transition: height 0.2s;
 	-moz-transition: height 0.2s;
 	width: 80%;
+}
+
+.remove-comment {
+	top: 5px;
+	background-image: url(deleteicons.png);
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+	float: right;
+	background-position: left -0px;
+	opacity: 1;
+}
+
+.remove-comment:hover {
+	background-position: left -32px;
+}
+
+.remove-comment:active {
+	background-position: left -48px;
 }
