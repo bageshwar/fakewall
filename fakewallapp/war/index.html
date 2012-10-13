@@ -1,27 +1,70 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
-
+<!doctype html>
 <html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Hello App Engine</title>
-  </head>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title></title>
+<script src="resources/jquery-1.7.1.min.js"></script>
+<script src="resources/underscore-min.js"></script>
+<script src="resources/backbone-min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+<script src="resources/core.js"></script>
+<script src="resources/jquery.autosize-min.js"></script>
 
-  <body>
-    <h1>Hello App Engine!</h1>
-	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="fakewallapp">Fakewallapp</a></td>
-      </tr>
-    </table>
-  </body>
+<link rel="stylesheet" href="resources/style.css" />
+<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet"
+	type="text/css" />
+
+</head>
+
+<body>
+
+	<input type="button" value="show dialog" id="but" />
+	<button id="add-comment">Add Friend</button>
+	<ul id="comment-list">
+	</ul>
+
+	<div class="wrapper">
+		<div class="post_user">
+			<div>
+				<img class="dp" src="resources/dp.jpg" />
+			</div>
+			<div class="post-user">
+				<span class="name-user">Bageshwar Pratap Narain</span> <br /> <span class="timestamp">9 hours ago</span>
+			</div>
+		</div>
+		<div class="post-content">here is the post</div>
+		<div class="likebanner link">Like · Comment · Share</div>
+		<div class="likes">
+			<i class="like-icon"></i> <span class="link">You</span>, <span class="link">Me</span> and <span class="link">Several
+				others</span><span> like this.</span>
+		</div>
+		<div class="response" id="response">
+			<div class="comment">
+				<div>
+					<img class="comment-dp" src="resources/dp.jpg" />
+				</div>
+				<div class="comment-content">
+					<span class="name-user">Bageshwar Pratap Narain</span> <span class="comment-text">Here is my first comment</span> <br />
+					<span class="timestamp">9 hours ago · </span><span class="link">Like</span>
+					<div class="comment-likes likes" >
+						<span class="link">You</span>, <span class="link">Me</span> and <span
+							class="link">Several others</span><span> like this.</span>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="comment">Here is my second comment</div>
+			<div class="comment">Here is my third comment</div>
+		</div>
+	</div>
+	<p>what?</p>
+	<div id="forgot-dialog" style="display: none;" title="Reset your password">
+
+		<label for="enter_comment">Comment</label>
+		<textarea name="enter_comment" id="enter_comment" class="text ui-widget-content ui-corner-all animated"
+			style="width: 80%" rows="1"></textarea>
+
+	</div>
+</body>
 </html>
