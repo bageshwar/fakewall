@@ -150,39 +150,39 @@ function registerEventHandlers() {
 
 	// generating canvas element
 	$('#generate_canvas').click(function(event) {
-		
-		h2cSelector =  $('#wrapper') ;
+
+		h2cSelector = $('#wrapper');
 
 		if (window.setUp) {
 			window.setUp();
 		}
-		
-		pageCanvas=$(h2cSelector).html2canvas({
-             flashcanvas: "resources/flashcanvas.min.js",
-             logging: true,
-             profile: true,
-             useCORS: true,
-             onComplete:function(){
-            	 console.log("completed");
-     			//$('dp_dialog').css('display','none');
-     			$('div[role="dialog"]').css('display','none');
-     			$('#post').css('display','block');
-     			$('#post').css('position','absolute');
-     			$('#post').css('top',$('canvas').css('height'));   			
-     				
-             },
-             onHide:function(){
-            	 //$('div[role="dialog"]').css('display','none');
-            	 console.log('hiding');
-             }
-         });
-		
-		$('#post').click(function(){
+
+		pageCanvas = $(h2cSelector).html2canvas({
+			flashcanvas : "resources/flashcanvas.min.js",
+			logging : true,
+			profile : true,
+			useCORS : true,
+			onComplete : function() {
+				console.log("completed");
+				// $('dp_dialog').css('display','none');
+				$('div[role="dialog"]').css('display', 'none');
+				$('#post').css('display', 'block');
+				$('#post').css('position', 'absolute');
+				$('#post').css('top', $('canvas').css('height'));
+
+			},
+			onHide : function() {
+				// $('div[role="dialog"]').css('display','none');
+				console.log('hiding');
+			}
+		});
+
+		$('#post').click(function() {
 			postToFacebook();
 		});
-		
-		//$('dp_dialog').css('display','none');
-		//$('div[role="dialog"]').css('display','none');
+
+		// $('dp_dialog').css('display','none');
+		// $('div[role="dialog"]').css('display','none');
 	});
 }
 
@@ -206,55 +206,49 @@ function deleteComment(event) {
 	console.log(event.srcElement.parentElement.outerHTML = '');
 }
 
-
 /**
  * Called to post the image to facebook.
- * */
-function postToFacebook(){
-	
-	var url='https://graph.facebook.com/me/photos?access_token=';
-	var token=$('#code').val();
-	var host="fakewallapp.appspot.com";
-	//host="localhost:8888";
-		$.ajax({
-		type : "POST",
-		url : "http://" + host + "/saveimage",
-		data : {
-			image : $('canvas')[0].toDataURL(),
-			token : token
-		},
-		success : function(data) {
-			console.log('image saved success', data.path);
-			$.ajax({
+ */
+function postToFacebook() {
+
+	var url = 'https://graph.facebook.com/me/photos?access_token=';	
+	var host = "https://fakewallapp.appspot.com";
+	//host = "http://localhost:8888";
+	$.ajax({
 				type : "POST",
-				url : "https://graph.facebook.com/me/photos",
+				url :  host + "/saveimage",
 				data : {
-					message : "Fake Wall App",
-					url : "https://fakewallapp.appspot.com/getimage?path="
-							+ data.path,
-					access_token : token,
-					format : "json"
+					image : $('canvas')[0].toDataURL()
 				},
 				success : function(data) {
-					console.log("Posted on Wall!");
+					console.log('image saved success', data.path);
+					$.ajax({
+								type : "POST",
+								url : "https://graph.facebook.com/me/photos",
+								data : {
+									message : "Fake Wall App",
+									url :  host + "/getimage?path=" + data.path,
+									access_token : access_token,
+									format : "json"
+								},								
+								complete : function(data) {
+									if (data.readyState == 4 && data.status==200) {
+										console.log("Posted on Wall!");
+										alert("Posted on Wall!");
+										window.location.reload();
+									}else {
+										console.log("Error while posting to facebook",data);
+									}									
+								}
+							});
+				},
+				complete : function(data) {
+					console.log('Save image request complete', data);
+				},
+				error : function(data) {
+					console.log('Error while saving image', data);
 				}
 			});
-		},
-		complete : function(data) {
-			console.log('posted on facebook', data);
-		},
-		error : function(data) {
-			console.log('error while posting', data);
-		}
-	});	
+
 	
-		
-		/*
-		 * $.ajax({ type: "POST", url: "https://graph.facebook.com/me/photos",
-		 * data: { message: "Fake Wall App", url:
-		 * "http://sourceforge.net/p/sogo-zeg/icon", access_token: token,
-		 * format: "json" }, success: function(data){ alert("POST SUCCESSFUL"); }
-		 * });
-		 */
-		
 }
