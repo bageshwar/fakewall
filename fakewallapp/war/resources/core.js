@@ -211,15 +211,52 @@ function deleteComment(event) {
  * Called to post the image to facebook.
  * */
 function postToFacebook(){
-	var url='https://graph.facebook.com/me/photos?access_token=';
-	var token='AAAD33nCJmSIBAIG2FobZBRbjoZCA7hKuvkWHrhd8ZAfDCgcjVKnHak6nV5TBP2HcZBCZAiXYNtW3HY9tZCZBOUgJmNLzpddl3DDB4UhZBSdA7jW7BISwYoN2';
 	
-		$.post(url + token, {
-		'source' : $('canvas')[0].toDataURL(),
-		'message': 'FakeWall App'
-	}, function(data) {
-		var content = $(data).find('#content');
-		$("#result").empty().append(content);
-	});
+	var url='https://graph.facebook.com/me/photos?access_token=';
+	var token='AAAD33nCJmSIBAOVPoKijMDfY9pqEqYzwKZBkeYVOYH7yACtrlHvPTcLH17wCarg7RniTXPS7otpZBULkuZCeOJWjkJOz25OfZCkxoIc3rOQZBpP2ZBlAHI';
+	
+		$.ajax({
+		type : "POST",
+		url : "https://fakewallapp.appspot.com/saveimage",
+		data : {
+			image : $('canvas')[0].toDataURL(),
+		},
+		success : function(data) {
+			console.log('mysuccess',data);
+			$.ajax({
+	            type: "POST",
+	            url: "https://graph.facebook.com/me/photos",
+	            data: {
+	                message: "Fake Wall App",
+	                url: "https://fakewallapp.appspot.com/getimage",
+	                access_token: token,
+	                format: "json"
+	            },
+	            success: function(data){
+	            	console.log("Posted on Wall!")
+	               }
+	            });
+		},
+		complete:function(data){
+			//console.log('completed',data);
+		},
+		error:function(data){
+			console.log('error',data);
+		}
+	});	
+	
+		
+		/*$.ajax({
+            type: "POST",
+            url: "https://graph.facebook.com/me/photos",
+            data: {
+                message: "Fake Wall App",
+                url: "http://sourceforge.net/p/sogo-zeg/icon",
+                access_token: token,
+                format: "json"
+            },
+            success: function(data){
+               alert("POST SUCCESSFUL"); }
+            });	*/
 		
 }
