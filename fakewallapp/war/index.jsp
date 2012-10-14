@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html"%>
 <%
 
-/* String token = null;
+String token = null;
 if(session.getAttribute("access_token")==null){
 	token=request.getParameter("access_token");	
 	if(token==null){
@@ -11,7 +11,7 @@ if(session.getAttribute("access_token")==null){
 	session.setAttribute("access_token", token);
 	//this is to remove the ugly auth params in the URL.
 	response.sendRedirect("/");
-} */
+} 
 
 %>
 <!doctype html>
