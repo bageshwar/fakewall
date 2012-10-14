@@ -213,50 +213,48 @@ function deleteComment(event) {
 function postToFacebook(){
 	
 	var url='https://graph.facebook.com/me/photos?access_token=';
-	var token='AAAD33nCJmSIBAOVPoKijMDfY9pqEqYzwKZBkeYVOYH7yACtrlHvPTcLH17wCarg7RniTXPS7otpZBULkuZCeOJWjkJOz25OfZCkxoIc3rOQZBpP2ZBlAHI';
-	
+	var token=$('#code').val();
+	var host="fakewallapp.appspot.com";
+	//host="localhost:8888";
 		$.ajax({
 		type : "POST",
-		url : "https://fakewallapp.appspot.com/saveimage",
+		url : "http://" + host + "/saveimage",
 		data : {
 			image : $('canvas')[0].toDataURL(),
+			token : token
 		},
 		success : function(data) {
-			console.log('mysuccess',data);
+			console.log('image saved success', data.path);
 			$.ajax({
-	            type: "POST",
-	            url: "https://graph.facebook.com/me/photos",
-	            data: {
-	                message: "Fake Wall App",
-	                url: "https://fakewallapp.appspot.com/getimage",
-	                access_token: token,
-	                format: "json"
-	            },
-	            success: function(data){
-	            	console.log("Posted on Wall!")
-	               }
-	            });
+				type : "POST",
+				url : "https://graph.facebook.com/me/photos",
+				data : {
+					message : "Fake Wall App",
+					url : "https://fakewallapp.appspot.com/getimage?path="
+							+ data.path,
+					access_token : token,
+					format : "json"
+				},
+				success : function(data) {
+					console.log("Posted on Wall!");
+				}
+			});
 		},
-		complete:function(data){
-			//console.log('completed',data);
+		complete : function(data) {
+			console.log('posted on facebook', data);
 		},
-		error:function(data){
-			console.log('error',data);
+		error : function(data) {
+			console.log('error while posting', data);
 		}
 	});	
 	
 		
-		/*$.ajax({
-            type: "POST",
-            url: "https://graph.facebook.com/me/photos",
-            data: {
-                message: "Fake Wall App",
-                url: "http://sourceforge.net/p/sogo-zeg/icon",
-                access_token: token,
-                format: "json"
-            },
-            success: function(data){
-               alert("POST SUCCESSFUL"); }
-            });	*/
+		/*
+		 * $.ajax({ type: "POST", url: "https://graph.facebook.com/me/photos",
+		 * data: { message: "Fake Wall App", url:
+		 * "http://sourceforge.net/p/sogo-zeg/icon", access_token: token,
+		 * format: "json" }, success: function(data){ alert("POST SUCCESSFUL"); }
+		 * });
+		 */
 		
 }
