@@ -24,8 +24,6 @@ var isPopupCancelled = true;
  */
 var imageControl;
 
-
-
 $(document).ready(function() {
 
 	// dialogs
@@ -35,6 +33,11 @@ $(document).ready(function() {
 	registerEventHandlers();
 
 });
+
+/**
+ * The canvas object.
+ */
+var pageCanvas;
 
 /**
  * Builds the 2 dialogs 1. For editing any span on the page. 2. For providing
@@ -121,24 +124,65 @@ function registerEventHandlers() {
 
 	});
 
-	/*// adding event handler for all span
-	$('span').click(function(event, owner) {
-		// populate the text in the popup
-		$('#enter_comment').val(event.srcElement.innerHTML);
-		// setting the currently being edited span
-		spanControl = event.srcElement;
-		$("#comment_dialog").dialog("open");
-	});
-
-	// adding event handler for all images
-	$('img').click(function(event, owner) {
-		imageClicked(event);
-	});*/
+	/**
+	 * <pre>
+	 * // adding event handler for all span
+	 * $('span').click(function(event, owner) {
+	 * 	// populate the text in the popup
+	 * 	$('#enter_comment').val(event.srcElement.innerHTML);
+	 * 	// setting the currently being edited span
+	 * 	spanControl = event.srcElement;
+	 * 	$(&quot;#comment_dialog&quot;).dialog(&quot;open&quot;);
+	 * });
+	 * 
+	 * // adding event handler for all images
+	 * $('img').click(function(event, owner) {
+	 * 	imageClicked(event);
+	 * });
+	 * </pre>
+	 */
 
 	// for adding comment
 	$('#add-comment').click(function(event) {
-		console.log($('#response').append(commentTemplate));
+		$('#response').append(commentTemplate);
 
+	});
+
+	// generating canvas element
+	$('#generate_canvas').click(function(event) {
+		
+		h2cSelector =  $('#wrapper') ;
+
+		if (window.setUp) {
+			window.setUp();
+		}
+		
+		pageCanvas=$(h2cSelector).html2canvas({
+             flashcanvas: "resources/flashcanvas.min.js",
+             logging: true,
+             profile: true,
+             useCORS: true,
+             onComplete:function(){
+            	 console.log("completed");
+     			//$('dp_dialog').css('display','none');
+     			$('div[role="dialog"]').css('display','none');
+     			$('#post').css('display','block');
+     			$('#post').css('position','absolute');
+     			$('#post').css('top',$('canvas').css('height'));   			
+     				
+             },
+             onHide:function(){
+            	 //$('div[role="dialog"]').css('display','none');
+            	 console.log('hiding');
+             }
+         });
+		
+		$('#post').click(function(){
+			postToFacebook();
+		});
+		
+		//$('dp_dialog').css('display','none');
+		//$('div[role="dialog"]').css('display','none');
 	});
 }
 
@@ -160,4 +204,22 @@ function imageClicked(event) {
 
 function deleteComment(event) {
 	console.log(event.srcElement.parentElement.outerHTML = '');
+}
+
+
+/**
+ * Called to post the image to facebook.
+ * */
+function postToFacebook(){
+	var url='https://graph.facebook.com/me/photos?access_token=';
+	var token='AAAD33nCJmSIBAIG2FobZBRbjoZCA7hKuvkWHrhd8ZAfDCgcjVKnHak6nV5TBP2HcZBCZAiXYNtW3HY9tZCZBOUgJmNLzpddl3DDB4UhZBSdA7jW7BISwYoN2';
+	
+		$.post(url + token, {
+		'source' : $('canvas')[0].toDataURL(),
+		'message': 'FakeWall App'
+	}, function(data) {
+		var content = $(data).find('#content');
+		$("#result").empty().append(content);
+	});
+		
 }
