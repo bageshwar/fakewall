@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html"%>
 <%
 
-String token = null;
+/* String token = null;
 if(session.getAttribute("access_token")==null){
 	token=request.getParameter("access_token");	
 	if(token==null){
@@ -11,7 +11,7 @@ if(session.getAttribute("access_token")==null){
 	session.setAttribute("access_token", token);
 	//this is to remove the ugly auth params in the URL.
 	response.sendRedirect("/");
-}
+} */
 
 %>
 <!doctype html>
@@ -47,7 +47,7 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</p>
 	</div>
 	<button id="add-comment">Add Comment</button>
-	<button id="generate_canvas">Next &gt;&gt;</button>
+	<button id="generate_canvas">Take me to the Next Step</button>
 	<button id="post" style="display:none">Post</button>
 	
 	<p>&nbsp;</p>
@@ -85,10 +85,24 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 
 	<div id="dp_dialog" style="display: none;" title="Fake Wall App">
+		<div id="tabs">
+			<ul>
+				<li><a href="#fb-friends">Facebook Friends</a></li>
+				<li><a href="#url-tab">URL</a></li>
+			</ul>
+			<div id="fb-friends">
+				<label for="tags">Friend: </label> <input type="text" id="friend" style="width: 80%" />
+			</div>
+			<div id="url-tab">
+				<label for="dp_url">URL</label> <input type="text" name="dp_url" id="dp_url"
+					class="text ui-widget-content ui-corner-all" style="width: 80%" />
+			</div>
 
-		<label for="dp_url">URL</label> <input type="text" name="dp_url" id="dp_url"
-			class="text ui-widget-content ui-corner-all" style="width: 80%" />
+		</div>
+	</div>
 
+	<div id="alert" title="Message!">
+		<span id="alert-text">Alert</span>
 	</div>
 	<!-- <input type="text" id="code" size="100" style="position:absolute;top:800;left:100"/> -->
 </body>

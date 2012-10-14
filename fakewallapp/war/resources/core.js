@@ -6,6 +6,8 @@
  * 
  */
 
+
+
 // vars
 var temp;
 
@@ -24,14 +26,31 @@ var isPopupCancelled = true;
  */
 var imageControl;
 
+/**
+ * 
+ * Array to hold name of friends
+ */
+var fdata=[];
+
+/**
+ * Name-Value for id against username.
+ * To be used to fetch Image URL.
+ * */
+var fmap={};
+
 $(document).ready(function() {
 
+	//load the list of friends
+	loadFriends();
+	
 	// dialogs
 	buildDialogs();
 
 	// event handlers
 	registerEventHandlers();
 
+	
+	$( "#tabs" ).tabs();
 });
 
 /**
@@ -82,6 +101,7 @@ function buildDialogs() {
 	$("#dp_dialog").dialog({
 		modal : true,
 		autoOpen : false,
+		width: '400px',
 		/*
 		 * show:'slide', hide:'slide',
 		 */
@@ -99,7 +119,16 @@ function buildDialogs() {
 		beforeClose : function(event, ui) {
 			// if the event has been fired by the OK button
 			if (!isPopupCancelled) {
+				
+				//priority to text present in name field,
+				if($('#friend').val()!=null || $('#friend').val()!=''){
+					imageControl.src='http://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
+					$(imageControl).parent().parent().find('.name-user').html(($('#friend').val()));
+					$('#friend').val('');
+				}
+				else {
 				imageControl.src = $('#dp_url').val();
+				}
 				isPopupCancelled = true; // resetting flag
 			}
 		},
@@ -110,6 +139,12 @@ function buildDialogs() {
 	$('#dp_url').autosize({
 		append : "\n"
 	});
+	
+	//alert dialog
+	$("#alert").dialog({
+		modal : true,
+		autoOpen : false,
+	});
 }
 
 /**
@@ -117,13 +152,7 @@ function buildDialogs() {
  * elements on the page.
  */
 function registerEventHandlers() {
-	// on click handler for dialog
-	$('#but').click(function() {
-
-		$("#comment_dialog").dialog("open");
-
-	});
-
+	
 	/**
 	 * <pre>
 	 * // adding event handler for all span
@@ -143,13 +172,13 @@ function registerEventHandlers() {
 	 */
 
 	// for adding comment
-	$('#add-comment').click(function(event) {
+	$('#add-comment').button().click(function(event) {
 		$('#response').append(commentTemplate);
 
 	});
 
 	// generating canvas element
-	$('#generate_canvas').click(function(event) {
+	$('#generate_canvas').button().click(function(event) {
 
 		h2cSelector = $('#wrapper');
 
@@ -166,6 +195,7 @@ function registerEventHandlers() {
 				console.log("completed");
 				// $('dp_dialog').css('display','none');
 				$('div[role="dialog"]').css('display', 'none');
+				$('ul[role="listbox"]').css('display','none');
 				$('#post').css('display', 'block');
 				$('#post').css('position', 'absolute');
 				$('#post').css('top', $('canvas').css('height'));
@@ -177,7 +207,7 @@ function registerEventHandlers() {
 			}
 		});
 
-		$('#post').click(function() {
+		$('#post').button().click(function() {
 			postToFacebook();
 		});
 
@@ -220,8 +250,8 @@ function postToFacebook() {
 				data : {
 					image : $('canvas')[0].toDataURL()
 				},
-				success : function(data) {
-					console.log('image saved success', data.path);
+				success : function(data) {					
+					console.log('image saved success', data.path);					
 					$.ajax({
 								type : "POST",
 								url : "https://graph.facebook.com/me/photos",
@@ -233,8 +263,9 @@ function postToFacebook() {
 								},								
 								complete : function(data) {
 									if (data.readyState == 4 && data.status==200) {
-										console.log("Posted on Wall!");
-										alert("Posted on Wall!");
+										console.log("Posted on Wall!");										
+										$('#alert-text').html("Posted on your Wall!");
+										$("#alert").dialog("open");
 										window.location.reload();
 									}else {
 										console.log("Error while posting to facebook",data);
@@ -248,7 +279,26 @@ function postToFacebook() {
 				error : function(data) {
 					console.log('Error while saving image', data);
 				}
-			});
+			});	
+}
 
+
+function loadFriends(){
 	
+	var url="https://graph.facebook.com/me/friends?limit=5000&access_token="+access_token;
+	
+	$.getJSON(url, function(data) {
+		//mdata=data;
+		for(i in data.data){
+			fdata[i]=data.data[i].name;
+			fmap[data.data[i].name]=data.data[i].id;
+		}
+		
+		$( "#friend" ).autocomplete({
+	        source: fdata,
+	        delay:10
+	    });
+		console.log("initialized");
+	});
+		
 }
