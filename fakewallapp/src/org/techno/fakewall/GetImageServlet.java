@@ -1,14 +1,19 @@
 package org.techno.fakewall;
 
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.nio.channels.Channels;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.repackaged.com.google.common.util.Base64;
-import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
+import com.google.appengine.api.files.AppEngineFile;
+import com.google.appengine.api.files.FileReadChannel;
+import com.google.appengine.api.files.FileService;
+import com.google.appengine.api.files.FileServiceFactory;
 
 public class GetImageServlet extends HttpServlet {
 	/**
@@ -18,26 +23,30 @@ public class GetImageServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		// String image=request.getParameter("image");
-		// request.getSession().setAttribute("image", image);
+		try{
+		String path = request.getParameter("path");
+		FileService fileService = FileServiceFactory.getFileService();
+		AppEngineFile file = new AppEngineFile(path);
+		FileReadChannel readChannel = fileService.openReadChannel(file, false);
 
-		// response.setCharacterEncoding("base64");
-		// response.setContentLength(image.length());
-		// response.getWriter().write("data:image/png;base64,"+image);
-		try {
-			String image = (String) request.getSession().getAttribute("image");
-			
-			byte data[] = Base64.decode(image);
-			response.setContentLength(data.length);
-			response.setContentType("image/png");
-			response.getOutputStream().write(data);
-			response.getOutputStream().close();
+		DataInputStream in = new DataInputStream(Channels.newInputStream(readChannel));
+		response.setContentType("image/png");
 
-		} catch (Base64DecoderException e) {
-
-			e.printStackTrace();
+		ServletOutputStream out = response.getOutputStream();
+		byte data[] = new byte[8 * 1024];
+		int ret = 0;
+		while ((ret = in.read(data)) != -1) {
+			out.write(data);
+			// System.out.println(ret);
 		}
 
+		in.close();
+		readChannel.close();
+		out.close();
+		}catch(Exception e){
+			e.printStackTrace();
+			response.sendError(500);
+		}
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
