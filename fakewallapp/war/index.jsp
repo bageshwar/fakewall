@@ -1,18 +1,18 @@
 <%@ page language="java" contentType="text/html"%>
 <%
 
-/* String token = null;
+String token = null;
 if(session.getAttribute("access_token")==null){
 	token=request.getParameter("access_token");	
 	if(token==null){
-		response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
+		response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
 		return;
 	}
 	session.setAttribute("access_token", token);
 	//this is to remove the ugly auth params in the URL.
 	response.sendRedirect("/");
-}  */
-//session.setAttribute("access_token")
+}    
+
 %>
 <!doctype html>
 <html>
@@ -46,20 +46,25 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	<p> The rules are simple, Click on any item to change it. Once done, click on the <b>Next</b> button.
 	</p>
 	</div>
-	<button id="add-comment">Add Comment</button>
-	<button id="generate_canvas">Take me to the Next Step</button>
-	<div id="post" style="/* display:none */">
+	<button id="add-comment" class="button">Add Comment</button>
+	<button id="generate_canvas" class="button">Take me to the Next Step</button>
+	<div id="post" style="display:none;" class="button">
 		<button id="post-button">Post to Facebook
 		<!-- <img src="resources/ajax-loader.gif" /> -->
 		</button>		 
 		<span id="gaga"></span>
+	</div>
+	
+	<div style="display:none" class="button" id="final-actions">
+		<button id="view-on-facebook">View on Facebook</button>
+		<button id="create-new">Create another Fake Wall</button>
 	</div>
 
 	
 	<div class="wrapper" id="wrapper">
 		<div class="post_user">
 			<div>
-				<img class="dp" src="resources/dp.jpg" onclick="imageClicked(event)" />
+				<img class="main-dp dp" src="resources/dp.jpg" onclick="imageClicked(event)" />
 			</div>
 			<div class="post-user">
 				<span class="name-user" onclick="spanDoubleClicked(event)">User</span> <br /> <span class="timestamp"

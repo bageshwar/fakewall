@@ -56,12 +56,13 @@ var popupTimer;
 /**
  * Map to store the friends that will be tagged.
  * */
-var taggedFriends=[];
+var taggedFriends={};
+
 
 $(document).ready(function() {
 
 	//load the list of friends
-	//loadFriends();
+	loadFriends();
 	
 	// dialogs
 	buildDialogs();
@@ -81,6 +82,7 @@ var pageCanvas;
 /**
  * Builds the 2 dialogs 1. For editing any span on the page. 2. For providing
  * URL to any image on the page.
+ * 1 more dialog to show alerts.
  */
 function buildDialogs() {
 	// Span dialogs
@@ -142,9 +144,18 @@ function buildDialogs() {
 				
 				//priority to text present in name field,
 				if($('#friend').val()!=null || $('#friend').val()!=''){
+					//save the name of the friend as to be tagged					
+					imageControl.userid=fmap[$('#friend').val()];
+					
+					//add image src
 					imageControl.src='http://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
+					
+					//set the name
 					$(imageControl).parent().parent().find('.name-user').html(($('#friend').val()));
-					$('#friend').val('');
+					
+					//reset the textbox value
+					$('#friend').val('');				
+					
 				}
 				else {
 				imageControl.src = $('#dp_url').val();
@@ -182,24 +193,6 @@ function buildDialogs() {
  */
 function registerEventHandlers() {
 	
-	/**
-	 * <pre>
-	 * // adding event handler for all span
-	 * $('span').click(function(event, owner) {
-	 * 	// populate the text in the popup
-	 * 	$('#enter_comment').val(event.srcElement.innerHTML);
-	 * 	// setting the currently being edited span
-	 * 	spanControl = event.srcElement;
-	 * 	$(&quot;#comment_dialog&quot;).dialog(&quot;open&quot;);
-	 * });
-	 * 
-	 * // adding event handler for all images
-	 * $('img').click(function(event, owner) {
-	 * 	imageClicked(event);
-	 * });
-	 * </pre>
-	 */
-
 	// for adding comment
 	$('#add-comment').button().click(function(event) {
 		$('#response').append(commentTemplate);
@@ -208,6 +201,16 @@ function registerEventHandlers() {
 
 	$('#post-button').button().click(function() {
 		postToFacebook();
+	});
+	
+	//button to view the post on facebook
+	$('#view-on-facebook').button().click(function(){
+		window.location.href=$('#view-on-facebook').attr('href');
+	});
+	
+	//button to create a new fakewall
+	$('#create-new').button().click(function(){
+		window.location.reload();
 	});
 	
 	// generating canvas element
@@ -225,7 +228,7 @@ function registerEventHandlers() {
 			profile : true,
 			useCORS : true,
 			onComplete : function() {
-				console.log("completed");
+				
 				// $('dp_dialog').css('display','none');
 				$('div[role="dialog"]').css('display', 'none');
 				$('ul[role="listbox"]').css('display','none');
@@ -242,9 +245,7 @@ function registerEventHandlers() {
 		// $('dp_dialog').css('display','none');
 		// $('div[role="dialog"]').css('display','none');
 	});
-	
-	//random text button
-	
+			
 }
 
 function spanDoubleClicked(event) {
@@ -253,6 +254,7 @@ function spanDoubleClicked(event) {
 	// setting the currently being edited span
 	spanControl = event.srcElement;
 	$("#comment_dialog").dialog("open");
+	$('#enter_comment').focus();
 }
 
 function imageClicked(event) {
@@ -261,23 +263,23 @@ function imageClicked(event) {
 	// setting the currently being edited image
 	imageControl = event.srcElement;
 	$("#dp_dialog").dialog("open");
+	$('#friend').focus();
 }
 
 function deleteComment(event) {
+		
 	console.log(event.srcElement.parentElement.outerHTML = '');
 }
 
-var errorObject;
+
 /**
  * Called to post the image to facebook.
  */
 function postToFacebook() {
 
-	access_token='AAAD33nCJmSIBAF7W9L9o5TsxmouiIuL4UJba7LUkAQtSrVhlZBcbSb2EzpbO7FuevqjnlrDGNeokSOT4vvthZB4fZC9j7kg6vx79t5IMZBVeEFYqa04l';
-	
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
 	var host = "https://fakewallapp.appspot.com";
-	host = "http://localhost:8888";
+	//host = "http://localhost:8888";
 	$.ajax({
 				type : "POST",
 				url :  host + "/saveimage",
@@ -291,23 +293,15 @@ function postToFacebook() {
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									/*url :  host + "/getimage?path=" + data.path,*/
-									url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',
+									url :  host + "/getimage?path=" + data.path,
+									/*url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',*/
 									access_token : access_token,
-									format : "json"
+									format : "json",									
 								},								
-								complete : function(data) {
-									//remove progress indicator and enable the button
-									clearInterval(intervalID);
-									$('#post-button').removeAttr("disabled", "disabled");									
-									if (data.readyState == 4 && data.status==200) {
-										console.log("Posted on Wall!");										
-										$('#alert-text').html("Posted on your Wall!");										
-										$("#alert").dialog("open");
-										//popup("Posted to Facebook")
-										//window.location.reload();
-									}else {
-										
+								complete : function(data) {																	
+									if (data.readyState == 4 && data.status==200) {										
+										tagPhotos(data);										
+									}else {										
 										handleAuthTokenError(data);
 									}									
 								}
@@ -322,7 +316,7 @@ function postToFacebook() {
 			});
 	//progress indicator
 	doRandomText();
-	$('#post-button').attr("disabled", "enabled");
+	$('#post-button').attr("disabled", "disabled");
 }
 
 
@@ -341,14 +335,14 @@ function loadFriends(){
 	        source: fdata,
 	        delay:10
 	    });
-		console.log("initialized");
+		console.log("friend list loaded");
 	});
 		
 }
 
 function doRandomText(){
 	
-	url="http://localhost:8888/randomtext";
+	url="http://fakewallapp.appspot.com/randomtext";
 	$.getJSON(url, function(data) {
 		randomText=data;
 		console.log(data);
@@ -395,11 +389,11 @@ function popup(msg,duration){
  * */
 function handleAuthTokenError(data){
 	console.log(data.statusText);
-	errorObject=JSON.parse(data.responseText);	
+	var errorObject=JSON.parse(data.responseText);	
 	if(errorObject.error.code==190){
 		
 		//clean the session data
-		url="http://localhost:8888/releasesession.jsp";
+		url="https://fakewallapp.appspot.com/releasesession.jsp";
 		$.getJSON(url, function(data) {
 			console.log(data);
 			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
@@ -413,4 +407,81 @@ function handleAuthTokenError(data){
 	}
 	
 	console.log("Error while posting to facebook",data);
+}
+
+/**
+ * To tag photos.
+ * */
+function tagPhotos(data){
+	var images=$(".dp").toArray();
+	var tagsExist=false;
+	postDetails=JSON.parse(data.responseText);
+	
+	//to be viewed later via link
+	$('#view-on-facebook').attr('href','https://www.facebook.com/photo.php?fbid='+postDetails.id);	
+	
+	//to save the request identifiers.	
+	for(idx in images){
+		if(images[idx].userid!=null){
+			taggedFriends[images[idx].userid]=false;
+			tagsExist=true;
+		}
+	}
+	
+	if(!tagsExist){
+		checkAllComplete();
+	}
+	
+	for(idx in images){
+		if(images[idx].userid!=null){			
+			//one request per friend
+			$.ajax({
+				type : "POST",
+				url : 'https://graph.facebook.com/'+postDetails.id+'/tags/'+images[idx].userid+"?access_token="+access_token,
+				complete:function(data){
+					taggedFriends[this.payload]=true;
+					if(data.readyState == 4 && data.status==200 ){
+						console.log("posted tag for ",this.payload,data);				
+						
+						checkAllComplete();
+					}else {
+						console.log("Error!",data.responseText);										
+						$('#alert-text').html("An error occured while tagging your friends!");										
+						$("#alert").dialog("open");
+					}
+					},
+				payload:images[idx].userid
+				});
+		}
+	}	
+}
+/**
+ * Checks for all the pending "Create Tag" requests.
+ * */
+function haveAllBeenTagged(){
+	
+	for(i in taggedFriends){
+		if(!taggedFriends[i]){
+			return false;
+		}
+	}
+	return true;
+}
+
+function checkAllComplete(){
+	if(haveAllBeenTagged()){
+		//remove progress indicator and enable the button
+		clearInterval(intervalID);
+		$('#post-button').removeAttr("disabled", "disabled");	
+		console.log("Posted on Wall!");
+		
+		//hide the post button
+		$('#post').css('display','none');
+		
+		//display a link to the post							
+		$('#final-actions').css('position', 'absolute');
+		$('#final-actions').css('top', $('canvas').css('height'));
+		$('#alert-text').html("Posted on your Wall!");										
+		$("#alert").dialog("open");
+	}
 }
