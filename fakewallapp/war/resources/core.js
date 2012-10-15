@@ -38,10 +38,20 @@ var fdata=[];
  * */
 var fmap={};
 
+/**
+ * Array of random text fetched from the server
+ * */
+var randomText;
+
+/**
+ * Holds the ID of the timer to show random text
+ * */
+var intervalID;
+
 $(document).ready(function() {
 
 	//load the list of friends
-	loadFriends();
+	//loadFriends();
 	
 	// dialogs
 	buildDialogs();
@@ -101,7 +111,7 @@ function buildDialogs() {
 	$("#dp_dialog").dialog({
 		modal : true,
 		autoOpen : false,
-		width: '400px',
+		width: '500px',
 		/*
 		 * show:'slide', hide:'slide',
 		 */
@@ -137,6 +147,10 @@ function buildDialogs() {
 
 	// animated text area
 	$('#dp_url').autosize({
+		append : "\n"
+	});
+	
+	$('#friend').autosize({
 		append : "\n"
 	});
 	
@@ -207,13 +221,16 @@ function registerEventHandlers() {
 			}
 		});
 
-		$('#post').button().click(function() {
+		$('#post-button').button().click(function() {
 			postToFacebook();
 		});
 
 		// $('dp_dialog').css('display','none');
 		// $('div[role="dialog"]').css('display','none');
 	});
+	
+	//random text button
+	
 }
 
 function spanDoubleClicked(event) {
@@ -243,7 +260,7 @@ function postToFacebook() {
 
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
 	var host = "https://fakewallapp.appspot.com";
-	//host = "http://localhost:8888";
+	host = "http://localhost:8888";
 	$.ajax({
 				type : "POST",
 				url :  host + "/saveimage",
@@ -262,6 +279,10 @@ function postToFacebook() {
 									format : "json"
 								},								
 								complete : function(data) {
+									//remove progress indicator and enable the button
+									clearInterval(intervalID);
+									$('#post-button').removeAttr("disabled", "disabled");
+									
 									if (data.readyState == 4 && data.status==200) {
 										console.log("Posted on Wall!");										
 										$('#alert-text').html("Posted on your Wall!");
@@ -279,7 +300,10 @@ function postToFacebook() {
 				error : function(data) {
 					console.log('Error while saving image', data);
 				}
-			});	
+			});
+	//progress indicator
+	doRandomText();
+	$('#post-button').attr("disabled", "enabled");
 }
 
 
@@ -301,4 +325,18 @@ function loadFriends(){
 		console.log("initialized");
 	});
 		
+}
+
+function doRandomText(){
+	
+	url="http://localhost:8888/randomtext";
+	$.getJSON(url, function(data) {
+		randomText=data;
+		console.log(data);
+		intervalID=setInterval(function(){
+			$('#gaga').html(randomText[Math.floor(Math.random()*5 )]);
+		},500);
+	});
+	
+	
 }
