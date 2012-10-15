@@ -342,7 +342,7 @@ function loadFriends(){
 
 function doRandomText(){
 	
-	url="http://fakewallapp.appspot.com/randomtext";
+	url="https://fakewallapp.appspot.com/randomtext";
 	$.getJSON(url, function(data) {
 		randomText=data;
 		console.log(data);
