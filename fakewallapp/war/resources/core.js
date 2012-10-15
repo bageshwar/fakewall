@@ -48,6 +48,16 @@ var randomText;
  * */
 var intervalID;
 
+/**
+ * Holds the ID of the timer used for popups
+ * */
+var popupTimer;
+
+/**
+ * Map to store the friends that will be tagged.
+ * */
+var taggedFriends=[];
+
 $(document).ready(function() {
 
 	//load the list of friends
@@ -158,6 +168,11 @@ function buildDialogs() {
 	$("#alert").dialog({
 		modal : true,
 		autoOpen : false,
+		buttons : {
+			"OK":function(){
+				$(this).dialog("close");
+			}
+		}
 	});
 }
 
@@ -191,6 +206,10 @@ function registerEventHandlers() {
 
 	});
 
+	$('#post-button').button().click(function() {
+		postToFacebook();
+	});
+	
 	// generating canvas element
 	$('#generate_canvas').button().click(function(event) {
 
@@ -219,12 +238,7 @@ function registerEventHandlers() {
 				// $('div[role="dialog"]').css('display','none');
 				console.log('hiding');
 			}
-		});
-
-		$('#post-button').button().click(function() {
-			postToFacebook();
-		});
-
+		});		
 		// $('dp_dialog').css('display','none');
 		// $('div[role="dialog"]').css('display','none');
 	});
@@ -253,11 +267,14 @@ function deleteComment(event) {
 	console.log(event.srcElement.parentElement.outerHTML = '');
 }
 
+var errorObject;
 /**
  * Called to post the image to facebook.
  */
 function postToFacebook() {
 
+	access_token='AAAD33nCJmSIBAF7W9L9o5TsxmouiIuL4UJba7LUkAQtSrVhlZBcbSb2EzpbO7FuevqjnlrDGNeokSOT4vvthZB4fZC9j7kg6vx79t5IMZBVeEFYqa04l';
+	
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
 	var host = "https://fakewallapp.appspot.com";
 	host = "http://localhost:8888";
@@ -274,22 +291,24 @@ function postToFacebook() {
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									url :  host + "/getimage?path=" + data.path,
+									/*url :  host + "/getimage?path=" + data.path,*/
+									url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',
 									access_token : access_token,
 									format : "json"
 								},								
 								complete : function(data) {
 									//remove progress indicator and enable the button
 									clearInterval(intervalID);
-									$('#post-button').removeAttr("disabled", "disabled");
-									
+									$('#post-button').removeAttr("disabled", "disabled");									
 									if (data.readyState == 4 && data.status==200) {
 										console.log("Posted on Wall!");										
-										$('#alert-text').html("Posted on your Wall!");
+										$('#alert-text').html("Posted on your Wall!");										
 										$("#alert").dialog("open");
-										window.location.reload();
+										//popup("Posted to Facebook")
+										//window.location.reload();
 									}else {
-										console.log("Error while posting to facebook",data);
+										
+										handleAuthTokenError(data);
 									}									
 								}
 							});
@@ -336,7 +355,62 @@ function doRandomText(){
 		intervalID=setInterval(function(){
 			$('#gaga').html(randomText[Math.floor(Math.random()*5 )]);
 		},500);
-	});
+	});	
+}
+
+function popup(msg,duration){
+	var message = $('<div />').html(msg).css({
+        margin:0,
+        padding:10,
+        background: "#000",
+        opacity:0.7,
+        position:"fixed",
+        top:10,
+        right:10,
+        fontFamily: 'Tahoma',
+        color:'#fff',
+        fontSize:12,
+        borderRadius:12,
+        width:'auto',
+        height:'auto',
+        textAlign:'center',
+        textDecoration:'none',
+        display:'none'
+    });
 	
+    window.clearTimeout(popupTimer);
+    popupTimer = window.setTimeout(function(){
+        message.fadeOut(function(){
+            message.remove();
+            message = null;
+        });
+    },duration || 2000);
+    if (message)
+        message.remove();
+   message.appendTo(document.body).fadeIn();    
+}
+
+/**
+ * Handle failure while posting the image to facebook.
+ * */
+function handleAuthTokenError(data){
+	console.log(data.statusText);
+	errorObject=JSON.parse(data.responseText);	
+	if(errorObject.error.code==190){
+		
+		//clean the session data
+		url="http://localhost:8888/releasesession.jsp";
+		$.getJSON(url, function(data) {
+			console.log(data);
+			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
+			$("#alert").dialog("open");
+		});
+		
+	}else if(errorObject.error.type=="CurlUrlInvalidException"){
+		console.log(errorObject.error.message);
+		$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
+		$("#alert").dialog("open");
+	}
 	
+	console.log("Error while posting to facebook",data);
 }

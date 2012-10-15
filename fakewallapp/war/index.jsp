@@ -48,10 +48,11 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 	<button id="add-comment">Add Comment</button>
 	<button id="generate_canvas">Take me to the Next Step</button>
-	<div id="post" style="">
-		<button id="post-button">Post to Facebook</button>
+	<div id="post" style="/* display:none */">
+		<button id="post-button">Post to Facebook
 		<!-- <img src="resources/ajax-loader.gif" /> -->
-		<span id="gaga">Random Text</span>
+		</button>		 
+		<span id="gaga"></span>
 	</div>
 
 	

@@ -43,8 +43,9 @@
                          options.onHide( canvas );
                      }
                 }
-            });*/
+            });
             throwMessage('Screenshot created in '+ ((finishTime.getTime()-timer)) + " ms<br />",4000);
+            */
 
             // test if canvas is read-able
             try {
