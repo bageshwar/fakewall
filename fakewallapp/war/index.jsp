@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html"%>
 <%
 
-/* String token = null;
+String token = null;
 if(session.getAttribute("access_token")==null){
 	token=request.getParameter("access_token");	
 	if(token==null){
@@ -12,7 +12,7 @@ if(session.getAttribute("access_token")==null){
 	//this is to remove the ugly auth params in the URL.
 	response.sendRedirect("/");
 }    
- */
+ 
 %>
 <!doctype html>
 <html>
@@ -41,18 +41,21 @@ var access_token='<%=session.getAttribute("access_token")%>';
 <body>
 
 <!-- <img alt="" src="resources/beta_test.jpg" class="beta" /> -->
-	
-	<div id="masthead"></div>
+
+	<div id="masthead">
+		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> <a href="https://www.facebook.com/"><span
+			id="user"></span><img id="user-dp" /></a>
+	</div>
 	<div class="main">
 		
 		<div class="content" >
 		<div class="top-buttons" >
-			<button id="add-comment" >Add Comment</button>
-			<button id="generate_canvas" >Take me to the Next Step</button>
+			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
+			<button id="generate_canvas" title="Click to Preview the Fake Wall" >Take me to the Next Step</button>
 		</div>
 		
 		<div class="wrapper" id="wrapper">
-		
+		<img src="resources/beta.png" style="float:right" />
 		<div class="post_user">
 			<div>
 				<img class="main-dp dp clickable" src="resources/dp.jpg" onclick="imageClicked(event)" title="Click to add a Friend" />
@@ -60,7 +63,7 @@ var access_token='<%=session.getAttribute("access_token")%>';
 			<div class="post-user">
 				<span class="name-user clickable" onclick="spanDoubleClicked(event)" title="Click to add a Friend">User</span> <br />
 				 <span class="timestamp clickable"
-					onclick="spanDoubleClicked(event)" title="Click to edit Time">1 hours ago</span>
+					onclick="spanDoubleClicked(event)" title="Click to edit Time">3 hours ago</span>
 			</div>
 		</div>
 		<div class="post-content">

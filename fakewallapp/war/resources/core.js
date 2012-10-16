@@ -58,20 +58,21 @@ var popupTimer;
  * */
 var taggedFriends={};
 
-
+/**
+ * The current user.
+ * */
+var userObject;
 
 /**
  * 
  * */
 var myDomain="https://fakewallapp.appspot.com/";
-myDomain="http://localhost:8888/";
 
 $(document).ready(function() {
 
-	access_token='AAAD33nCJmSIBANAldrdCCu6SWNSPIws5ZBzToOZAre8NAULAr72G4OWiqKbNr9SVxrcVeNVhxYcdjZCN7Kl4HeV3ebKTxCg7lMzvH7arYsvp0XdZCrFG';
 	
 	//load the list of friends
-	//loadFriends();
+	loadFriends();
 	
 	// dialogs
 	buildDialogs();
@@ -222,8 +223,6 @@ function registerEventHandlers() {
 		window.location.reload();
 	});
 	
-	$('#masthead').button().click(function(){});
-	$('#masthead').css({width:'100%'});
 	// generating canvas element
 	$('#generate_canvas').button().click(function(event) {
 
@@ -333,21 +332,39 @@ function postToFacebook() {
 
 function loadFriends(){
 	
-	var url="https://graph.facebook.com/me/friends?limit=5000&access_token="+access_token;
 	
-	$.getJSON(url, function(data) {
-		//mdata=data;
-		for(i in data.data){
-			fdata[i]=data.data[i].name;
-			fmap[data.data[i].name]=data.data[i].id;
-		}
+	$.getJSON("https://graph.facebook.com/me?access_token="+access_token,function(data){
 		
-		$( "#friend" ).autocomplete({
-	        source: fdata,
-	        delay:10
-	    });
-		console.log("friend list loaded");
-		popup("Facebook friend list loaded",3000);
+		console.log(data);
+		userObject=data;
+		$('#user').html(userObject.first_name);
+		$('#user-dp').attr("src","https://graph.facebook.com/"+userObject.id+"/picture");
+		$('#user-dp').css('display','inline');
+		var url="https://graph.facebook.com/me/friends?limit=5000&access_token="+access_token;		
+		$.getJSON(url, function(data) {
+			//mdata=data;
+			for(i in data.data){
+				fdata[i]=data.data[i].name;
+				fmap[data.data[i].name]=data.data[i].id;
+			}
+			
+			$( "#friend" ).autocomplete({
+		        source: fdata,
+		        delay:10
+		    });
+			console.log("friend list loaded");
+			popup("Facebook friend list loaded",3000);
+		}).error(function(data){
+			//handleAuthTokenError(data);		
+			error=$.parseJSON(data.responseText);
+			console.warn(error);
+			if(error.error.code==190){
+				console.log("Auth expired")
+				handleAuthTokenError(data);
+			}
+			
+		});
+		
 	}).error(function(data){
 		//handleAuthTokenError(data);		
 		error=$.parseJSON(data.responseText);
@@ -357,7 +374,7 @@ function loadFriends(){
 			handleAuthTokenError(data);
 		}
 		
-	});
+	});	
 		
 }
 
@@ -380,7 +397,7 @@ function popup(msg,duration){
         background: "#000",
         opacity:0.5,
         position:"fixed",
-        top:10,
+        top:50,
         right:10,
         fontFamily: 'Tahoma',
         color:'#fff',
@@ -427,6 +444,8 @@ function handleAuthTokenError(data){
 		console.log(errorObject.error.message);
 		$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
 		$("#alert").dialog("open");
+		clearInterval(intervalID);
+		$('#post-button').removeAttr("disabled", "disabled");
 	}
 	
 	console.log("Error while accessing data from facebook",data);

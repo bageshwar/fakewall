@@ -27,11 +27,13 @@
             if (options && options.profile && window.console && window.console.profileEnd) {
                 console.profileEnd();
             }
-            $canvas.css({ opacity:.3
+            $canvas.css({ opacity:1
                 /*position: 'absolute',
                 left: 0,
                 top: 0*/
             }).appendTo($('#canvas'));
+            
+            $canvas.attr("title","Image Preview. Nothing is editable");
             $canvas.siblings().toggle();
 
             $('.content').css('display','none');

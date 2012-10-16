@@ -160,15 +160,58 @@
 	
 }
 
-.top-buttons1 {
-	
-}
-
-.main{
+.main {
 	width: 700px;
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 50px;
 }
-.clickable{
+
+.clickable {
 	cursor: pointer;
+}
+
+#masthead {
+	height: 40px;
+	width: 99%;
+	background-color: black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #CFCFBE;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 24px;
+	padding: 3px 0 3px 10px;
+}
+
+#user-dp {
+	display: none;
+	float: right;
+	margin-left: 20px;
+	padding: 0px 5px 0 20px;
+	margin: 4px 0px 4px 0px;
+	height: 32px;
+	width: 32px;
+	border: none;
+}
+
+#user {
+	float: right;
+	padding: 0px 20px 0 5px;
+	margin: 4px 0px 4px 0px;
+}
+
+#appheader {
+	float: left;
+	padding: 5px 5px 0 10px;
+	margin: 4px 0px 4px 0px;
+}
+
+a {
+	text-decoration: none;
+	color: #CFCFBE;
+}
+
+a:hover {
+	color: #ffffff;
 }
