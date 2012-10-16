@@ -348,12 +348,14 @@ function loadFriends(){
 				fmap[data.data[i].name]=data.data[i].id;
 			}
 			
+			fdata[data.data.length]=userObject.name;
+			fmap[userObject.name]=userObject.id;
 			$( "#friend" ).autocomplete({
 		        source: fdata,
 		        delay:10
 		    });
 			console.log("friend list loaded");
-			popup("Facebook friend list loaded",3000);
+			popup("Facebook Friend List Loaded",3000);
 		}).error(function(data){
 			//handleAuthTokenError(data);		
 			error=$.parseJSON(data.responseText);
@@ -395,7 +397,7 @@ function popup(msg,duration){
         margin:0,
         padding:10,
         background: "#000",
-        opacity:0.5,
+        opacity:0.7,
         position:"fixed",
         top:50,
         right:10,
