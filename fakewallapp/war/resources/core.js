@@ -59,10 +59,19 @@ var popupTimer;
 var taggedFriends={};
 
 
+
+/**
+ * 
+ * */
+var myDomain="https://fakewallapp.appspot.com/";
+myDomain="http://localhost:8888/";
+
 $(document).ready(function() {
 
+	access_token='AAAD33nCJmSIBANAldrdCCu6SWNSPIws5ZBzToOZAre8NAULAr72G4OWiqKbNr9SVxrcVeNVhxYcdjZCN7Kl4HeV3ebKTxCg7lMzvH7arYsvp0XdZCrFG';
+	
 	//load the list of friends
-	loadFriends();
+	//loadFriends();
 	
 	// dialogs
 	buildDialogs();
@@ -213,6 +222,8 @@ function registerEventHandlers() {
 		window.location.reload();
 	});
 	
+	$('#masthead').button().click(function(){});
+	$('#masthead').css({width:'100%'});
 	// generating canvas element
 	$('#generate_canvas').button().click(function(event) {
 
@@ -233,8 +244,8 @@ function registerEventHandlers() {
 				$('div[role="dialog"]').css('display', 'none');
 				$('ul[role="listbox"]').css('display','none');
 				$('#post').css('display', 'block');
-				$('#post').css('position', 'absolute');
-				$('#post').css('top', $('canvas').css('height'));
+				/*$('#post').css('position', 'absolute');
+				$('#post').css('top', $('canvas').css('height'));*/
 
 			},
 			onHide : function() {
@@ -278,11 +289,11 @@ function deleteComment(event) {
 function postToFacebook() {
 
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
-	var host = "https://fakewallapp.appspot.com";
-	//host = "http://localhost:8888";
+	//var host = "https://fakewallapp.appspot.com";
+	
 	$.ajax({
 				type : "POST",
-				url :  host + "/saveimage",
+				url :  myDomain + "saveimage",
 				data : {
 					image : $('canvas')[0].toDataURL()
 				},
@@ -293,7 +304,7 @@ function postToFacebook() {
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									url :  host + "/getimage?path=" + data.path,
+									url :  myDomain + "getimage?path=" + data.path,
 									/*url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',*/
 									access_token : access_token,
 									format : "json",									
@@ -336,13 +347,23 @@ function loadFriends(){
 	        delay:10
 	    });
 		console.log("friend list loaded");
+		popup("Facebook friend list loaded",3000);
+	}).error(function(data){
+		//handleAuthTokenError(data);		
+		error=$.parseJSON(data.responseText);
+		console.warn(error);
+		if(error.error.code==190){
+			console.log("Auth expired")
+			handleAuthTokenError(data);
+		}
+		
 	});
 		
 }
 
 function doRandomText(){
 	
-	url="https://fakewallapp.appspot.com/randomtext";
+	url=myDomain+"randomtext";
 	$.getJSON(url, function(data) {
 		randomText=data;
 		console.log(data);
@@ -357,7 +378,7 @@ function popup(msg,duration){
         margin:0,
         padding:10,
         background: "#000",
-        opacity:0.7,
+        opacity:0.5,
         position:"fixed",
         top:10,
         right:10,
@@ -393,11 +414,13 @@ function handleAuthTokenError(data){
 	if(errorObject.error.code==190){
 		
 		//clean the session data
-		url="https://fakewallapp.appspot.com/releasesession.jsp";
+		url=myDomain +"releasesession.jsp";
 		$.getJSON(url, function(data) {
 			console.log(data);
 			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
 			$("#alert").dialog("open");
+			clearInterval(intervalID);
+			$('#post-button').removeAttr("disabled", "disabled");
 		});
 		
 	}else if(errorObject.error.type=="CurlUrlInvalidException"){
@@ -406,7 +429,7 @@ function handleAuthTokenError(data){
 		$("#alert").dialog("open");
 	}
 	
-	console.log("Error while posting to facebook",data);
+	console.log("Error while accessing data from facebook",data);
 }
 
 /**
@@ -479,8 +502,9 @@ function checkAllComplete(){
 		$('#post').css('display','none');
 		
 		//display a link to the post							
-		$('#final-actions').css('position', 'absolute');
-		$('#final-actions').css('top', $('canvas').css('height'));
+		/*$('#final-actions').css('position', 'absolute');
+		$('#final-actions').css('top', $('canvas').css('height'));*/
+		$('#final-actions').css('display','block');
 		$('#alert-text').html("Posted on your Wall!");										
 		$("#alert").dialog("open");
 	}

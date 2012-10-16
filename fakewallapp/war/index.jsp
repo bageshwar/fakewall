@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html"%>
 <%
 
-String token = null;
+/* String token = null;
 if(session.getAttribute("access_token")==null){
 	token=request.getParameter("access_token");	
 	if(token==null){
@@ -12,7 +12,7 @@ if(session.getAttribute("access_token")==null){
 	//this is to remove the ugly auth params in the URL.
 	response.sendRedirect("/");
 }    
-
+ */
 %>
 <!doctype html>
 <html>
@@ -40,50 +40,61 @@ var access_token='<%=session.getAttribute("access_token")%>';
 
 <body>
 
-<img alt="" src="resources/beta_test.jpg" class="beta">
-	<!-- <input type="button" value="show dialog" id="but" /> -->
-	<div>
-	<p> The rules are simple, Click on any item to change it. Once done, click on the <b>Next</b> button.
-	</p>
-	</div>
-	<button id="add-comment" class="button">Add Comment</button>
-	<button id="generate_canvas" class="button">Take me to the Next Step</button>
-	<div id="post" style="display:none;" class="button">
-		<button id="post-button">Post to Facebook
-		<!-- <img src="resources/ajax-loader.gif" /> -->
-		</button>		 
-		<span id="gaga"></span>
-	</div>
+<!-- <img alt="" src="resources/beta_test.jpg" class="beta" /> -->
 	
-	<div style="display:none" class="button" id="final-actions">
-		<button id="view-on-facebook">View on Facebook</button>
-		<button id="create-new">Create another Fake Wall</button>
-	</div>
-
-	
-	<div class="wrapper" id="wrapper">
+	<div id="masthead"></div>
+	<div class="main">
+		
+		<div class="content" >
+		<div class="top-buttons" >
+			<button id="add-comment" >Add Comment</button>
+			<button id="generate_canvas" >Take me to the Next Step</button>
+		</div>
+		
+		<div class="wrapper" id="wrapper">
+		
 		<div class="post_user">
 			<div>
-				<img class="main-dp dp" src="resources/dp.jpg" onclick="imageClicked(event)" />
+				<img class="main-dp dp clickable" src="resources/dp.jpg" onclick="imageClicked(event)" title="Click to add a Friend" />
 			</div>
 			<div class="post-user">
-				<span class="name-user" onclick="spanDoubleClicked(event)">User</span> <br /> <span class="timestamp"
-					onclick="spanDoubleClicked(event)">1 hours ago</span>
+				<span class="name-user clickable" onclick="spanDoubleClicked(event)" title="Click to add a Friend">User</span> <br />
+				 <span class="timestamp clickable"
+					onclick="spanDoubleClicked(event)" title="Click to edit Time">1 hours ago</span>
 			</div>
 		</div>
 		<div class="post-content">
-			<span onclick="spanDoubleClicked(event)">Post</span>
+			<span onclick="spanDoubleClicked(event)" class="clickable" title="Click to edit the Post">Post</span>
 		</div>
 		<div class="likebanner link">Like &middot; Comment &middot; Share</div>
 		<div class="likes">
-			<i class="like-icon"></i> <span class="link" onclick="spanDoubleClicked(event)">You, Me and Several others</span>
-			<span onclick="spanDoubleClicked(event)"> like this.</span>
+			<i class="like-icon"></i> <span class="link clickable" onclick="spanDoubleClicked(event)" title="Click to add names">
+			You, Me and Several others</span>
+			<span onclick="spanDoubleClicked(event)" class="clickable" title="Click to change"> like this.</span>
 		</div>
 		<div class="response" id="response">
 			
 		</div>
+	</div>	
 	</div>
-
+	<div id="canvas" >
+		
+	</div>
+	
+	<div id="post" style="display:none;" class="button">
+			<button id="post-button">Post to Facebook
+			<!-- <img src="resources/ajax-loader.gif" /> -->
+			</button>		 
+			<span id="gaga"></span>
+		</div>
+		
+		<div style="display:none" class="button" id="final-actions">
+			<button id="view-on-facebook">View on Facebook</button>
+			<button id="create-new">Create another Fake Wall</button>
+		</div>
+	</div>
+	
+	
 	
 	<div id="comment_dialog" style="display: none;" title="Fake Wall App">
 

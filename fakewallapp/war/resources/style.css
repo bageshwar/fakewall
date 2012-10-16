@@ -3,10 +3,17 @@
 	padding: 0 3px 1px;
 	-webkit-border-radius: 4px;
 	background-color: white;
-	width: 700px;
+	/* width: 700px; */
 	word-wrap: break-word;
 	color: #333;
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.top-buttons { /* width: 700px; */
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .post-content {
@@ -141,13 +148,27 @@
 	color: #3B5998;
 	font-size: 1.1em;
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
-	margin-left:10px;
+	margin-left: 10px;
 }
 
 .dp { /*added to select all dp images  */
 	
 }
-.button{
-	margin-top:15px;
-	margin-bottom:20px;
+
+.button { /* margin-top:15px;
+	margin-bottom:20px; */
+	
+}
+
+.top-buttons1 {
+	
+}
+
+.main{
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.clickable{
+	cursor: pointer;
 }

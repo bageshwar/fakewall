@@ -27,13 +27,14 @@
             if (options && options.profile && window.console && window.console.profileEnd) {
                 console.profileEnd();
             }
-            $canvas.css({
-                position: 'absolute',
+            $canvas.css({ opacity:.3
+                /*position: 'absolute',
                 left: 0,
-                top: 0
-            }).appendTo(document.body);
+                top: 0*/
+            }).appendTo($('#canvas'));
             $canvas.siblings().toggle();
 
+            $('.content').css('display','none');
             //removed the code below, because i dont want toggle functionality
             /*$(window).click(function(){
                 $canvas.toggle().siblings().toggle();
