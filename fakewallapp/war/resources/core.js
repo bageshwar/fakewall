@@ -158,7 +158,7 @@ function buildDialogs() {
 					imageControl.userid=fmap[$('#friend').val()];
 					
 					//add image src
-					imageControl.src='http://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
+					imageControl.src='https://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
 					
 					//set the name
 					$(imageControl).parent().parent().find('.name-user').html(($('#friend').val()));
