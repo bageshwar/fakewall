@@ -49,7 +49,14 @@ public class RandomTextServlet extends HttpServlet {
 				"Judgement Day",
 				"Shining Armour",
 				"To Live!",
-				"Wicket keeper"
+				"Wicket keeper",
+				"New York Times",
+				"Raining Frogs",
+				"Dirty Socks",
+				"JetSki",
+				"Nature Lover",
+				"Short Story",
+				"Sharp Knife"
 		};
 		//@formatter:on
 

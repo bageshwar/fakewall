@@ -66,12 +66,13 @@ var userObject;
 /**
  * 
  * */
-var myDomain="/";
+var myDomain="https://fakewallapp.appspot.com/";
 //myDomain="http://localhost:8888/";
 
 
 $(document).ready(function() {
-	
+
+	//access_token='AAAD33nCJmSIBAOUfVYkZAjzaD81rbDnII2FmZA344562tGHUb2TJwZC4cK9bPa4J0oVzqZB5ZACaVqajTUIZBKGTco6qo1hc3bvq7RpKx9FucwZB028A8Kg';
 	//load the list of friends
 	loadFriends();
 	
@@ -83,8 +84,6 @@ $(document).ready(function() {
 
 	
 	$( "#tabs" ).tabs();
-	
-	//initCheckBoxes();
 });
 
 /**
@@ -159,7 +158,6 @@ function buildDialogs() {
 				if($('#friend').val()!=null || $('#friend').val()!=''){
 					//save the name of the friend as to be tagged					
 					imageControl.userid=fmap[$('#friend').val()];
-					imageControl.username=$('#friend').val();
 					
 					//add image src
 					imageControl.src='https://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
@@ -199,25 +197,6 @@ function buildDialogs() {
 			}
 		}
 	});
-	
-	$('#tag-selector').dialog({
-		modal:true,
-		autoOpen :false,
-		width:'600px',
-		buttons:{
-			"OK":function(){
-				$(this).dialog('close');
-				taggedFriends={};
-				$('input[type=checkbox]').each(function(){
-					if($(this).attr("checked") ){
-						taggedFriends[$(this).attr('userid')]=false;
-					}
-				});
-				console.log(taggedFriends);
-				postToFacebook();
-			}
-		}
-	});
 }
 
 /**
@@ -233,8 +212,7 @@ function registerEventHandlers() {
 	});
 
 	$('#post-button').button().click(function() {
-		initCheckBoxes();
-		$('#tag-selector').dialog('open');
+		postToFacebook();
 	});
 	
 	//button to view the post on facebook
@@ -312,6 +290,7 @@ function deleteComment(event) {
 function postToFacebook() {
 
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
+	//var host = "https://fakewallapp.appspot.com";
 	
 	$.ajax({
 				type : "POST",
@@ -321,24 +300,20 @@ function postToFacebook() {
 				},
 				success : function(data) {					
 					console.log('image saved success', data.path);					
-					$.ajax({
-								type : "POST",
-								url : "https://graph.facebook.com/me/photos",
-								data : {
+					FB.api(url,  "post",{
 									message : "Fake Wall App",
-									url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,
+									url :  myDomain + "getimage?path=" + data.path,
 									/*url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',*/
 									access_token : access_token,
 									format : "json",									
 								},								
-								complete : function(data) {																	
+								 function(data) {																	
 									if (data.readyState == 4 && data.status==200) {										
 										tagPhotos(data);										
-									}else {										
-										handleAuthTokenError(data);
+									}else {
+										handleFPIAPIError(data);
 									}									
-								}
-							});
+								});				
 				},
 				complete : function(data) {
 					console.log('Save image request complete', data);
@@ -346,6 +321,7 @@ function postToFacebook() {
 				error : function(data) {
 					console.log('Error while saving image', data);
 				}
+				
 			});
 	//progress indicator
 	doRandomText();
@@ -356,16 +332,41 @@ function postToFacebook() {
 function loadFriends(){
 	
 	
-	$.getJSON("https://graph.facebook.com/me?access_token="+access_token,function(data){
-		
+	FB.api("/me",{access_token:access_token},function(data){		
 		console.log(data);
+		
+		if(data.error){
+			console.log(data.message);
+			var errorObject=data.error;	
+			if(errorObject.code==190){
+				
+				//clean the session data
+				url=myDomain +"releasesession.jsp";
+				$.getJSON(url, function(data) {
+					console.log(data);
+					$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
+					$("#alert").dialog("open");
+					clearInterval(intervalID);
+					$('#post-button').removeAttr("disabled", "disabled");
+				});
+				
+			}else if(errorObject.type=="CurlUrlInvalidException"){
+				console.log(errorObject.error.message);
+				$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
+				$("#alert").dialog("open");
+				clearInterval(intervalID);
+				$('#post-button').removeAttr("disabled", "disabled");
+			}
+		}else {
+		
 		userObject=data;
 		$('#user').html(userObject.first_name);
 		$('#user-dp').attr("src","https://graph.facebook.com/"+userObject.id+"/picture");
 		$('#user-dp').css('display','inline');
-		var url="https://graph.facebook.com/me/friends?limit=5000&access_token="+access_token;		
-		$.getJSON(url, function(data) {
+		var url="me/friends";		
+		FB.api(url,{limit:5000,access_token:access_token}, function(data) {
 			//mdata=data;
+			if(!data.error){
 			for(i in data.data){
 				fdata[i]=data.data[i].name;
 				fmap[data.data[i].name]=data.data[i].id;
@@ -379,28 +380,61 @@ function loadFriends(){
 		    });
 			console.log("friend list loaded");
 			popup("Facebook Friend List Loaded",3000);
-		}).error(function(data){
-			//handleAuthTokenError(data);		
-			error=$.parseJSON(data.responseText);
-			console.warn(error);
-			if(error.error.code==190){
-				console.log("Auth expired")
-				handleAuthTokenError(data);
+			}else {
+				console.log(data.message);
+				var errorObject=data.error;	
+				if(errorObject.code==190){
+					
+					//clean the session data
+					url=myDomain +"releasesession.jsp";
+					$.getJSON(url, function(data) {
+						console.log(data);
+						$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
+						$("#alert").dialog("open");
+						clearInterval(intervalID);
+						$('#post-button').removeAttr("disabled", "disabled");
+					});
+					
+				}else if(errorObject.type=="CurlUrlInvalidException"){
+					console.log(errorObject.error.message);
+					$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
+					$("#alert").dialog("open");
+					clearInterval(intervalID);
+					$('#post-button').removeAttr("disabled", "disabled");
+				}
 			}
-			
 		});
-		
-	}).error(function(data){
-		//handleAuthTokenError(data);		
-		error=$.parseJSON(data.responseText);
-		console.warn(error);
-		if(error.error.code==190){
-			console.log("Auth expired")
-			handleAuthTokenError(data);
 		}
-		
 	});	
 		
+}
+
+function handleFPIAPIError(data){
+
+	console.log(data.message);
+	var errorObject=data	
+	if(errorObject.code==190){
+		
+		//clean the session data
+		url=myDomain +"releasesession.jsp";
+		$.getJSON(url, function(data) {
+			console.log(data);
+			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
+			$("#alert").dialog("open");
+			clearInterval(intervalID);
+			$('#post-button').removeAttr("disabled", "disabled");
+		});
+		
+	}else if(errorObject.type=="CurlUrlInvalidException"){
+		console.log(errorObject.error.message);
+		$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
+		$("#alert").dialog("open");
+		clearInterval(intervalID);
+		$('#post-button').removeAttr("disabled", "disabled");
+	}
+	
+	console.log("Error while accessing data from facebook",data);
+
 }
 
 function doRandomText(){
@@ -480,24 +514,31 @@ function handleAuthTokenError(data){
  * To tag photos.
  * */
 function tagPhotos(data){
-	
+	var images=$(".dp").toArray();
+	var tagsExist=false;
 	postDetails=JSON.parse(data.responseText);
 	
 	//to be viewed later via link
-	$('#view-on-facebook').attr('href','//www.facebook.com/photo.php?fbid='+postDetails.id);	
+	$('#view-on-facebook').attr('href','https://www.facebook.com/photo.php?fbid='+postDetails.id);	
 	
 	//to save the request identifiers.	
-		
-	if(Object.keys(taggedFriends).length==0){
+	for(idx in images){
+		if(images[idx].userid!=null){
+			taggedFriends[images[idx].userid]=false;
+			tagsExist=true;
+		}
+	}
+	
+	if(!tagsExist){
 		checkAllComplete();
 	}
 	
-	for(idx in taggedFriends){				
-			//one tag request per friend
-			$.ajax({
-				type : "POST",
-				url : 'https://graph.facebook.com/'+postDetails.id+'/tags/'+idx+"?access_token="+access_token,
-				complete:function(data){
+	for(idx in images){
+		if(images[idx].userid!=null){			
+			//one request per friend
+			FB.api(postDetails.id+'/tags/'+images[idx].userid+"?access_token="+access_token, 
+				"post",				
+				function(data){
 					taggedFriends[this.payload]=true;
 					if(data.readyState == 4 && data.status==200 ){
 						console.log("posted tag for ",this.payload,data);				
@@ -508,9 +549,10 @@ function tagPhotos(data){
 						$('#alert-text').html("An error occured while tagging your friends!");										
 						$("#alert").dialog("open");
 					}
-					},
-				payload:idx
-				});		
+					}
+				/*payload:images[idx].userid*/
+				);
+		}
 	}	
 }
 /**
@@ -543,61 +585,4 @@ function checkAllComplete(){
 		$('#alert-text').html("Posted on your Wall!");										
 		$("#alert").dialog("open");
 	}
-}
-
-function initCheckBoxes() {
-	
-	//tag-friends
-	
-	//<div style="position: relative; left: 0; top: 0;"><img src="https://graph.facebook.com/1472940207/picture" style="position: relative; top: 0; left: 0;"/><input type="checkbox" name="1" style="position: absolute; top: 1px; left: 1px;" class="styled"/></div>
-
-	$('#tag-friends').html('');
-	
-	var images=$(".dp").toArray();
-	var tagsExist=false;
-	
-	//var ol=$('<ol class="selectable"></ol>');
-		
-	for(idx in images){
-		if(images[idx].userid && images[idx].username){
-			tagsExist=true;
-			img=images[idx];
-			var content='<div title="'+img.username+'"><img src="//graph.facebook.com/'+img.userid+'/picture" /><input userid="'+img.userid+'" type="checkbox" name="1" class="styled"/></div>'; 
-			$('#tag-friends').append(content);
-		}
-	}
-	
-	
-    $('input[type=checkbox]').each(function() {
-        var span = $('<span class="overlay ' + $(this).attr('type') + ' ' + $(this).attr('class') + '"></span>').click(doCheck).mousedown(doDown).mouseup(doUp);
-        if ($(this).is(':checked')) {
-            span.addClass('checked');
-        }
-        $(this).wrap(span).hide();
-    });
-
-    function doCheck() {
-        if ($(this).hasClass('checked')) {
-            $(this).removeClass('checked');
-            $(this).children().prop("checked", false);
-        } else {
-            $(this).addClass('checked');
-            $(this).children().prop("checked", true);
-        }
-    }
-
-    function doDown() {
-        $(this).addClass('clicked');
-    }
-
-    function doUp() {
-        $(this).removeClass('clicked');
-    }
-}
-function test(c){
-	$('span').each(function(){
-		if($(this).hasClass(c)){
-			console.log($(this));
-		}
-	});
 }
