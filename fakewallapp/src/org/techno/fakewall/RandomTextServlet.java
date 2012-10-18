@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,10 +25,15 @@ public class RandomTextServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 3495763991577008300L;
 
+	private static final Logger logger = Logger.getLogger(RandomTextServlet.class.getName());
+	
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		
+		logger.info(request.getParameterMap().toString());
+		
 		try {
 			String c = request.getParameter("i");
-			int count = 5;
+			int count = 10;
 			try {
 				if (c != null)
 					count = Integer.parseInt(c);

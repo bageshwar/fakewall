@@ -67,7 +67,6 @@ var userObject;
  * 
  * */
 var myDomain="/";
-//myDomain="http://localhost:8888/";
 
 
 $(document).ready(function() {
@@ -317,7 +316,8 @@ function postToFacebook() {
 				type : "POST",
 				url :  myDomain + "saveimage",
 				data : {
-					image : $('canvas')[0].toDataURL()
+					image : $('canvas')[0].toDataURL(),
+					user:userObject
 				},
 				success : function(data) {					
 					console.log('image saved success', data.path);					

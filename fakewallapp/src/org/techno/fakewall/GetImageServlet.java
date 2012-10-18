@@ -3,6 +3,7 @@ package org.techno.fakewall;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.nio.channels.Channels;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -20,9 +21,13 @@ public class GetImageServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 3495763991577008300L;
+	
+	private static final Logger logger = Logger.getLogger(GetImageServlet.class.getName());
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
+		logger.info(request.getHeaderNames().toString());
+		
 		try{
 		String path = request.getParameter("path");
 		FileService fileService = FileServiceFactory.getFileService();
