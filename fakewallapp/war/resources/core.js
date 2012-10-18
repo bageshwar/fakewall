@@ -68,8 +68,17 @@ var userObject;
  * */
 var myDomain="/";
 
+/**
+ * The canvas object.
+ */
+var pageCanvas;
 
-$(document).ready(function() {
+/**
+ * Global Flag to check whether any friends have been tagged or not.
+ * */
+tagsExist=false;
+
+$(document).ready(function() {	
 	
 	//load the list of friends
 	loadFriends();
@@ -86,10 +95,6 @@ $(document).ready(function() {
 	//initCheckBoxes();
 });
 
-/**
- * The canvas object.
- */
-var pageCanvas;
 
 /**
  * Builds the 2 dialogs 1. For editing any span on the page. 2. For providing
@@ -155,7 +160,7 @@ function buildDialogs() {
 			if (!isPopupCancelled) {
 				
 				//priority to text present in name field,
-				if($('#friend').val()!=null || $('#friend').val()!=''){
+				if($('#friend').val()!=null && $('#friend').val()!=''){
 					//save the name of the friend as to be tagged					
 					imageControl.userid=fmap[$('#friend').val()];
 					imageControl.username=$('#friend').val();
@@ -204,19 +209,23 @@ function buildDialogs() {
 		autoOpen :false,
 		width:'600px',
 		buttons:{
-			"OK":function(){
-				$(this).dialog('close');
-				taggedFriends={};
-				$('input[type=checkbox]').each(function(){
-					if($(this).attr("checked") ){
-						taggedFriends[$(this).attr('userid')]=false;
-					}
-				});
-				console.log(taggedFriends);
-				postToFacebook();
-			}
+			"OK":initPostToFacebook
 		}
 	});
+}
+
+function initPostToFacebook(){
+	
+		$('#tag-selector').dialog('close');
+		taggedFriends={};
+		$('input[type=checkbox]').each(function(){
+			if($(this).attr("checked") ){
+				taggedFriends[$(this).attr('userid')]=false;
+			}
+		});
+		console.log("Tagged Friends",taggedFriends);
+		postToFacebook();
+	
 }
 
 /**
@@ -233,7 +242,12 @@ function registerEventHandlers() {
 
 	$('#post-button').button().click(function() {
 		initCheckBoxes();
+		//if no one is to be tagged, directly post to facebook.
+		if(tagsExist){
 		$('#tag-selector').dialog('open');
+		}else {
+			initPostToFacebook();
+		}
 	});
 	
 	//button to view the post on facebook
@@ -248,6 +262,9 @@ function registerEventHandlers() {
 	
 	// generating canvas element
 	$('#generate_canvas').button().click(function(event) {
+		
+		//hiding the delete icon from comments
+		$('i.remove-comment').hide();
 
 		h2cSelector = $('#wrapper');
 
@@ -301,7 +318,7 @@ function imageClicked(event) {
 
 function deleteComment(event) {
 		
-	console.log(event.srcElement.parentElement.outerHTML = '');
+	event.srcElement.parentElement.outerHTML = '';
 }
 
 
@@ -311,6 +328,9 @@ function deleteComment(event) {
 function postToFacebook() {
 
 	var url = 'https://graph.facebook.com/me/photos?access_token=';	
+	
+	//progress indicator
+	doRandomText();
 	
 	$.ajax({
 				type : "POST",
@@ -347,8 +367,7 @@ function postToFacebook() {
 					console.log('Error while saving image', data);
 				}
 			});
-	//progress indicator
-	doRandomText();
+	
 	$('#post-button').attr("disabled", "disabled");
 }
 
@@ -358,7 +377,7 @@ function loadFriends(){
 	
 	$.getJSON("https://graph.facebook.com/me?access_token="+access_token,function(data){
 		
-		console.log(data);
+		console.log("User Object",data);
 		userObject=data;
 		$('#user').html(userObject.first_name);
 		$('#user-dp').attr("src","https://graph.facebook.com/"+userObject.id+"/picture");
@@ -381,7 +400,7 @@ function loadFriends(){
 			popup("Facebook Friend List Loaded",3000);
 		}).error(function(data){
 			//handleAuthTokenError(data);		
-			error=$.parseJSON(data.responseText);
+			var error=$.parseJSON(data.responseText);
 			console.warn(error);
 			if(error.error.code==190){
 				console.log("Auth expired")
@@ -392,7 +411,7 @@ function loadFriends(){
 		
 	}).error(function(data){
 		//handleAuthTokenError(data);		
-		error=$.parseJSON(data.responseText);
+		var error=$.parseJSON(data.responseText);
 		console.warn(error);
 		if(error.error.code==190){
 			console.log("Auth expired")
@@ -405,10 +424,10 @@ function loadFriends(){
 
 function doRandomText(){
 	
-	url=myDomain+"randomtext";
+	var url=myDomain+"randomtext";
 	$.getJSON(url, function(data) {
-		randomText=data;
-		console.log(data);
+		var randomText=data;
+		console.log("Random Text",data);
 		intervalID=setInterval(function(){
 			$('#gaga').html(randomText[Math.floor(Math.random()*5 )]);
 		},500);
@@ -456,7 +475,7 @@ function handleAuthTokenError(data){
 	if(errorObject.error.code==190){
 		
 		//clean the session data
-		url=myDomain +"releasesession.jsp";
+		var url=myDomain +"releasesession.jsp";
 		$.getJSON(url, function(data) {
 			console.log(data);
 			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
@@ -481,7 +500,7 @@ function handleAuthTokenError(data){
  * */
 function tagPhotos(data){
 	
-	postDetails=JSON.parse(data.responseText);
+	var postDetails=JSON.parse(data.responseText);
 	
 	//to be viewed later via link
 	$('#view-on-facebook').attr('href','//www.facebook.com/photo.php?fbid='+postDetails.id);	
@@ -554,7 +573,7 @@ function initCheckBoxes() {
 	$('#tag-friends').html('');
 	
 	var images=$(".dp").toArray();
-	var tagsExist=false;
+	tagsExist=false;
 	
 	//var ol=$('<ol class="selectable"></ol>');
 		
@@ -593,11 +612,4 @@ function initCheckBoxes() {
     function doUp() {
         $(this).removeClass('clicked');
     }
-}
-function test(c){
-	$('span').each(function(){
-		if($(this).hasClass(c)){
-			console.log($(this));
-		}
-	});
 }

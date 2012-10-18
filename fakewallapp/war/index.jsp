@@ -1,18 +1,37 @@
 <%@ page language="java" contentType="text/html"%>
 <%
+	String token = null;
 
-String token = null;
-if(session.getAttribute("access_token")==null){
-	token=request.getParameter("access_token");	
-	if(token==null){
-		response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
-		return;
+	if (!request.getRemoteHost().equals("127.0.0.1")) {
+
+		if (session.getAttribute("access_token") == null) {
+			token = request.getParameter("access_token");
+			String expiresIn = request.getParameter("expires_in");
+			long millis = System.currentTimeMillis() + (Long.parseLong(expiresIn) * 1000);
+
+			if (token == null) {
+				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
+				return;
+			}
+
+			session.setAttribute("access_token", token);
+			session.setAttribute("expires_in", millis);
+			//this is to remove the ugly auth params in the URL.
+			response.sendRedirect("/");
+
+		} else {
+			//session has a token,check its expiry and get a new one if needed.
+			if ((Long) (session.getAttribute("expires_in")) < System.currentTimeMillis()) {
+				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
+			}else {
+				//token is still valid, do nothing.
+				
+			}
+		}
+	} else {
+		session.setAttribute( "access_token",
+				"");
 	}
-	session.setAttribute("access_token", token);
-	//this is to remove the ugly auth params in the URL.
-	response.sendRedirect("/");
-}    
- 
 %>
 <!doctype html>
 <html>
@@ -98,7 +117,6 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 	
 	
-	
 	<div id="comment_dialog" style="display: none;" title="Fake Wall App">
 
 		<label for="enter_comment">Comment</label>
@@ -126,8 +144,16 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 
 	<div id="alert" title="Message!">
-		<span id="alert-text" >Alert</span>
+		<span id="alert-text" ></span>
 	</div>
-	<!-- <input type="text" id="code" size="100" style="position:absolute;top:800;left:100"/> -->
-</body>
+
+	<div id="tag-selector" title="Select Friends to Tag">	
+	
+	<div id="tag-friends">
+		
+	</div>
+
+	</div>
+
+	</body>
 </html>
