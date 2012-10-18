@@ -438,10 +438,10 @@ function doRandomText(){
 	
 	var url=myDomain+"randomtext";
 	$.getJSON(url, function(data) {
-		var randomText=data;
+		randomText=data;
 		console.log("Random Text",data);
 		intervalID=setInterval(function(){
-			$('#gaga').html(randomText[Math.floor(Math.random()*5 )]);
+			$('#gaga').html(randomText[Math.floor(Math.random()*randomText )]);
 		},500);
 	});	
 }

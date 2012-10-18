@@ -6,7 +6,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 <%
 	String token = null;
 
-	if (!request.getRemoteHost().equals("127.0.01")) {
+	if (!request.getRemoteHost().equals("127.0.0.1")) {
 
 		logger.info("Received request from "+request.getRemoteHost());
 		if (session.getAttribute("access_token") == null) {
