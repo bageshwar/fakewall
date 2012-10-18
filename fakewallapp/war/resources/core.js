@@ -441,7 +441,7 @@ function doRandomText(){
 		randomText=data;
 		console.log("Random Text",data);
 		intervalID=setInterval(function(){
-			$('#gaga').html(randomText[Math.floor(Math.random()*randomText )]);
+			$('#gaga').html(randomText[Math.floor(Math.random()*randomText.length )]);
 		},500);
 	});	
 }
@@ -599,10 +599,13 @@ function initCheckBoxes() {
 	var images=$(".dp").toArray();
 	tagsExist=false;
 	
-	//var ol=$('<ol class="selectable"></ol>');
-		
+	
+	//this map will contain the id of users, so we dont create duplicate elements.
+	var imgMap={};
+	
 	for(idx in images){
-		if(images[idx].userid && images[idx].username){
+		if(images[idx].userid && images[idx].username && imgMap[images[idx].userid]==null){
+			imgMap[images[idx].userid]=true;
 			tagsExist=true;
 			img=images[idx];
 			var content='<div title="'+img.username+'"><img src="//graph.facebook.com/'+img.userid+'/picture" /><input userid="'+img.userid+'" type="checkbox" name="1" class="styled"/></div>'; 
