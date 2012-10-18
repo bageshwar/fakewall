@@ -92,7 +92,9 @@ $(document).ready(function() {
 	
 	$( "#tabs" ).tabs();
 	
-	//initCheckBoxes();
+	$(document).tooltip({
+		hide:50
+	});	
 });
 
 
@@ -194,7 +196,7 @@ function buildDialogs() {
 	});
 	
 	//alert dialog
-	$("#alert").dialog({
+	myddd=$("#alert").dialog({
 		modal : true,
 		autoOpen : false,
 		buttons : {
@@ -269,13 +271,14 @@ function registerEventHandlers() {
 		h2cSelector = $('#wrapper');
 
 		if (window.setUp) {
+			console.log('setting up windows');
 			window.setUp();
 		}
 
 		pageCanvas = $(h2cSelector).html2canvas({
 			flashcanvas : "resources/flashcanvas.min.js",
 			logging : true,
-			profile : true,
+			profile : false,
 			useCORS : true,
 			onComplete : function() {
 				
@@ -285,6 +288,7 @@ function registerEventHandlers() {
 				$('#post').css('display', 'block');
 				/*$('#post').css('position', 'absolute');
 				$('#post').css('top', $('canvas').css('height'));*/
+				$('canvas').tooltip({track:true});
 
 			},
 			onHide : function() {
@@ -292,8 +296,16 @@ function registerEventHandlers() {
 				console.log('hiding');
 			}
 		});		
-		// $('dp_dialog').css('display','none');
-		// $('div[role="dialog"]').css('display','none');
+	});
+	
+	
+	$('#cancel-preview').button().click(function(){
+		//alert("hi");
+		$('canvas').remove();
+		//$('canvas').hide();
+		$('#content').show();
+		$('#post').hide();
+		h2cSelector=null;
 	});
 			
 }
@@ -402,7 +414,7 @@ function loadFriends(){
 			//handleAuthTokenError(data);		
 			var error=$.parseJSON(data.responseText);
 			console.warn(error);
-			if(error.error.code==190){
+			if(error.error.code==190 || error.error.code==2500){
 				console.log("Auth expired")
 				handleAuthTokenError(data);
 			}
@@ -413,7 +425,7 @@ function loadFriends(){
 		//handleAuthTokenError(data);		
 		var error=$.parseJSON(data.responseText);
 		console.warn(error);
-		if(error.error.code==190){
+		if(error.error.code==190 || error.error.code==2500){
 			console.log("Auth expired")
 			handleAuthTokenError(data);
 		}
@@ -490,6 +502,18 @@ function handleAuthTokenError(data){
 		$("#alert").dialog("open");
 		clearInterval(intervalID);
 		$('#post-button').removeAttr("disabled", "disabled");
+	}else if(errorObject.error.code==324){
+		//missing image file.
+		$('#alert-text').html('Facebook did not accept the photo!<br/>Just refresh your browser and startover');
+		
+		$("#alert").dialog("open");
+		clearInterval(intervalID);
+		$('#gaga').html('');
+		$('#post-button').removeAttr("disabled", "disabled");
+		
+	}else if(errorObject.error.code==2500){
+		$('#alert-text').html('Your session has expired.<br/> Try and refresh.');		
+		$("#alert").dialog("open");
 	}
 	
 	console.log("Error while accessing data from facebook",data);

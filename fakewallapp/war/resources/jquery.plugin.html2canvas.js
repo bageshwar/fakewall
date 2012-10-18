@@ -36,7 +36,7 @@
             $canvas.attr("title","Image Preview. Nothing is editable");
             $canvas.siblings().toggle();
 
-            $('.content').css('display','none');
+            $('.content').hide();//.css('display','none');
             //removed the code below, because i dont want toggle functionality
             /*$(window).click(function(){
                 $canvas.toggle().siblings().toggle();

@@ -1,19 +1,30 @@
+<%@page import="java.util.logging.Logger"%>
 <%@ page language="java" contentType="text/html"%>
+<%!
+private static final Logger logger = Logger.getLogger("index.jsp");
+%>
 <%
 	String token = null;
 
-	if (!request.getRemoteHost().equals("127.0.0.1")) {
+	if (!request.getRemoteHost().equals("127.0.01")) {
 
+		logger.info("Received request from "+request.getRemoteHost());
 		if (session.getAttribute("access_token") == null) {
+			logger.info(" Session does not contain auth_token");
+			logger.info(request.getParameterMap().toString());
+			logger.info(session.getAttributeNames().toString());
+			
 			token = request.getParameter("access_token");
-			String expiresIn = request.getParameter("expires_in");
-			long millis = System.currentTimeMillis() + (Long.parseLong(expiresIn) * 1000);
+			String expiresIn = request.getParameter("expires_in"); 
+				
+			logger.info(" token and millis in request="+token+"###"+expiresIn);
 
-			if (token == null) {
+			if (token == null || expiresIn==null) {
 				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
 				return;
 			}
 
+			long millis = System.currentTimeMillis() + (Long.parseLong(expiresIn) * 1000);
 			session.setAttribute("access_token", token);
 			session.setAttribute("expires_in", millis);
 			//this is to remove the ugly auth params in the URL.
@@ -22,6 +33,8 @@
 		} else {
 			//session has a token,check its expiry and get a new one if needed.
 			if ((Long) (session.getAttribute("expires_in")) < System.currentTimeMillis()) {
+				session.removeAttribute("access_token");
+				session.removeAttribute("expires_in");
 				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
 			}else {
 				//token is still valid, do nothing.
@@ -38,9 +51,9 @@
 <head>
 <meta charset='utf-8'>
 <title>Fake Wall App</title>
-<script src="resources/jquery-1.7.1.min.js"></script>
+<script src="resources/jquery-1.8.2.min.js"></script>
 
-<script src="resources/jquery-ui.min.js"></script>
+<script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
 <script src="resources/jquery.autosize-min.js"></script>
 <script src="resources/commentTemplate.js"></script>
 <script src="resources/html2canvas.min.js"></script>
@@ -49,9 +62,12 @@
 <script src="resources/core.js"></script>
 
 
-<link rel="stylesheet" href="resources/style.css" />
-<link href="resources/jquery-ui.css" rel="stylesheet"
-	type="text/css" />
+<link rel="stylesheet" href="resources/style.css" type="text/css"  />
+<link href="resources/jquery-ui.1.9.min.css" rel="stylesheet"	type="text/css" /> 
+<!-- <link href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" rel="stylesheet"	type="text/css" /> -->
+
+
+
 <script type="text/javascript">
 var access_token='<%=session.getAttribute("access_token")%>';
 </script>
@@ -67,10 +83,10 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 	<div class="main">
 		
-		<div class="content" >
+		<div class="content" id="content" >
 		<div class="top-buttons" >
 			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
-			<button id="generate_canvas" title="Click to Preview the Fake Wall" >Take me to the Next Step</button>
+			<button id="generate_canvas" title="Click to Preview the Fake Wall" >Preview</button>
 		</div>
 		
 		<div class="wrapper" id="wrapper">
@@ -106,7 +122,10 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	<div id="post" style="display:none;" class="button">
 			<button id="post-button">Post to Facebook
 			<!-- <img src="resources/ajax-loader.gif" /> -->
-			</button>		 
+			</button>
+			<button id="cancel-preview" style="display:none">Go Back
+			<!-- <img src="resources/ajax-loader.gif" /> -->
+			</button>				 
 			<span id="gaga"></span>
 		</div>
 		
