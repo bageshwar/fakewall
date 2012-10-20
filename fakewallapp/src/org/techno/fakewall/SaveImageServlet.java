@@ -19,6 +19,9 @@ import com.google.appengine.api.files.FileWriteChannel;
 import com.google.appengine.repackaged.com.google.common.util.Base64;
 import com.google.appengine.repackaged.com.google.common.util.Base64DecoderException;
 
+/**
+ * Saves the image to FileService
+ * */
 public class SaveImageServlet extends HttpServlet {
 	/**
 	 * 
@@ -37,8 +40,7 @@ public class SaveImageServlet extends HttpServlet {
 			image = image.substring(image.indexOf("base64,") + 7);
 			
 			String userid=request.getParameter("user[id]");
-			String username=request.getParameter("user[name]");
-			
+			String username=request.getParameter("user[name]");		
 			
 			
 			// String token=
