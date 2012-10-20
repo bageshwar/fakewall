@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"");
+				"AAAD33nCJmSIBABw6eosZCS6CGLdQAvy2Bt17eZAQpJHE5lMZBdXTQmiAzZCGop84eXM9zeEOx75bb9Rr70lwYmM76VrCeS9KqgQHgqwMMrPaZAP0Th3OO");
 	}
 %>
 <!doctype html>
@@ -56,7 +56,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 <script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
 <script src="resources/jquery.autosize-min.js"></script>
 <script src="resources/commentTemplate.js"></script>
-<script src="resources/html2canvas.min.js"></script>
+<script src="resources/html2canvas.js"></script>
 <script src="resources/jquery.plugin.html2canvas.js"></script>
 
 <script src="resources/core.js"></script>
@@ -78,16 +78,15 @@ var access_token='<%=session.getAttribute("access_token")%>';
 <!-- <img alt="" src="resources/beta_test.jpg" class="beta" /> -->
 
 	<div id="masthead">
-		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> <a href="https://www.facebook.com/"><span
-			id="user"></span><img id="user-dp" /></a>
+		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span>
+		<span id="header-links"><a href="#">Help</a> | <a href="#">About</a></span>
+		 <a href="https://www.facebook.com/">
+		 <span id="user"></span><img id="user-dp" /></a>
 	</div>
 	<div class="main">
 		
 		<div class="content" id="content" >
-		<div class="top-buttons" >
-			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
-			<button id="generate_canvas" title="Click to Preview the Fake Wall" >Preview</button>
-		</div>
+		
 		
 		<div class="wrapper" id="wrapper">
 		<img src="resources/beta.png" style="float:right" />
@@ -113,6 +112,11 @@ var access_token='<%=session.getAttribute("access_token")%>';
 		<div class="response" id="response">
 			
 		</div>
+	</div>
+	<div class="top-buttons" >
+			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
+			<button id="post-button"  >Post to Facebook</button>
+			<span id="gaga"></span>
 	</div>	
 	</div>
 	<div id="canvas" >
@@ -120,16 +124,15 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 	
 	<div id="post" style="display:none;" class="button">
-			<button id="post-button">Post to Facebook
+			<button id="generate_canvas">#should be removed#
 			<!-- <img src="resources/ajax-loader.gif" /> -->
 			</button>
-			<button id="cancel-preview" style="display:none">Go Back
+			<button id="cancel-preview" >Go Back
 			<!-- <img src="resources/ajax-loader.gif" /> -->
-			</button>				 
-			<span id="gaga"></span>
+			</button>
 		</div>
 		
-		<div style="display:none" class="button" id="final-actions">
+		<div style="display:none" class="final-actions" id="final-actions">
 			<button id="view-on-facebook">View on Facebook</button>
 			<button id="create-new">Create another Fake Wall</button>
 		</div>
@@ -173,6 +176,6 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 
 	</div>
-
+	
 	</body>
 </html>

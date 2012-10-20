@@ -78,6 +78,11 @@ var pageCanvas;
  * */
 tagsExist=false;
 
+/**
+ * Callback function that is called when an alert dialog closes.
+ * */
+var callbackAfterAlert;
+
 $(document).ready(function() {	
 	
 	//load the list of friends
@@ -168,8 +173,8 @@ function buildDialogs() {
 					imageControl.username=$('#friend').val();
 					
 					//add image src
-					imageControl.src='https://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
-					
+					imageControl.src='proxy?url=https://graph.facebook.com/'+fmap[$('#friend').val()]+'/picture';
+					/*imageControl.src='resources/beta.png';*/
 					//set the name
 					$(imageControl).parent().parent().find('.name-user').html(($('#friend').val()));
 					
@@ -203,7 +208,13 @@ function buildDialogs() {
 			"OK":function(){
 				$(this).dialog("close");
 			}
+		},
+		close:function(event,ui){
+			if(typeof callbackAfterAlert==='funtion'){
+				callbackAfterAlert(event,ui);
+			}
 		}
+	
 	});
 	
 	$('#tag-selector').dialog({
@@ -212,6 +223,11 @@ function buildDialogs() {
 		width:'600px',
 		buttons:{
 			"OK":initPostToFacebook
+		},
+		close:function(event,ui){
+			//to re-enable the add comment and post to facebook buttons.
+			$('#add-comment,#post-button').removeAttr('disabled');
+			$('i.remove-comment').show();
 		}
 	});
 }
@@ -243,59 +259,19 @@ function registerEventHandlers() {
 	});
 
 	$('#post-button').button().click(function() {
-		initCheckBoxes();
-		//if no one is to be tagged, directly post to facebook.
-		if(tagsExist){
-		$('#tag-selector').dialog('open');
-		}else {
-			initPostToFacebook();
-		}
+		generatePreview();
+		
 	});
 	
 	//button to view the post on facebook
 	$('#view-on-facebook').button().click(function(){
-		window.location.href=$('#view-on-facebook').attr('href');
+		//window.location.href=$('#view-on-facebook').attr('href');
+		window.open($('#view-on-facebook').attr('href'));
 	});
 	
 	//button to create a new fakewall
 	$('#create-new').button().click(function(){
 		window.location.reload();
-	});
-	
-	// generating canvas element
-	$('#generate_canvas').button().click(function(event) {
-		
-		//hiding the delete icon from comments
-		$('i.remove-comment').hide();
-
-		h2cSelector = $('#wrapper');
-
-		if (window.setUp) {
-			console.log('setting up windows');
-			window.setUp();
-		}
-
-		pageCanvas = $(h2cSelector).html2canvas({
-			flashcanvas : "resources/flashcanvas.min.js",
-			logging : true,
-			profile : false,
-			useCORS : true,
-			onComplete : function() {
-				
-				// $('dp_dialog').css('display','none');
-				$('div[role="dialog"]').css('display', 'none');
-				$('ul[role="listbox"]').css('display','none');
-				$('#post').css('display', 'block');
-				/*$('#post').css('position', 'absolute');
-				$('#post').css('top', $('canvas').css('height'));*/
-				$('canvas').tooltip({track:true});
-
-			},
-			onHide : function() {
-				// $('div[role="dialog"]').css('display','none');
-				console.log('hiding');
-			}
-		});		
 	});
 	
 	
@@ -309,6 +285,61 @@ function registerEventHandlers() {
 	});
 			
 }
+
+function generatePreview(){
+	///remove any existing canvases
+	$('canvas').remove();
+	
+	$(document).tooltip({disabled:true});	
+	
+	//progress indicator
+	doRandomText();
+	
+	//disable buttons
+	$('#add-comment,#post-button').attr('disabled','disabled');
+	
+	
+	//hiding the delete icon from comments
+	$('i.remove-comment').hide();
+
+	var h2cSelector = $('#wrapper');
+
+	if (window.setUp) {
+		console.log('setting up windows');
+		window.setUp();
+	}
+
+	pageCanvas = $(h2cSelector).html2canvas({
+		flashcanvas : "resources/flashcanvas.min.js",
+		logging : true,
+		profile : false,
+		useCORS : true,
+		/*timeout:10000,*/
+		proxy:'http://fakewall-proxy.appspot.com/',
+		onComplete : function() {
+			
+			//cancel randomText
+			clearInterval(intervalID);
+			$('#gaga').hide();
+			
+			//$('div[role="dialog"]').css('display', 'none');
+			//$('ul[role="listbox"]').css('display','none');
+			$('canvas').attr("title","Image Preview. Nothing is editable");
+			$('canvas').tooltip({track:true});
+				
+				initCheckBoxes();
+				//if no one is to be tagged, directly post to facebook.
+				if(tagsExist){
+				$('#tag-selector').dialog('open');
+				}else {
+					initPostToFacebook();
+				}
+			
+		}
+	});		
+	
+}
+
 
 function spanDoubleClicked(event) {
 	// populate the text in the popup
@@ -339,10 +370,10 @@ function deleteComment(event) {
  */
 function postToFacebook() {
 
-	var url = 'https://graph.facebook.com/me/photos?access_token=';	
-	
 	//progress indicator
 	doRandomText();
+	
+	var url = 'https://graph.facebook.com/me/photos?access_token=';	
 	
 	$.ajax({
 				type : "POST",
@@ -352,14 +383,15 @@ function postToFacebook() {
 					user:userObject
 				},
 				success : function(data) {					
-					console.log('image saved success', data.path);					
+					console.log('image saved success', data.path);				
+					
 					$.ajax({
 								type : "POST",
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,
-									/*url:'http://fakewallapp.appspot.com/resources/beta_test.jpg',*/
+									/*url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,*/
+									url:'http://fakewallapp.appspot.com/resources/beta.png',
 									access_token : access_token,
 									format : "json",									
 								},								
@@ -380,7 +412,10 @@ function postToFacebook() {
 				}
 			});
 	
+	//disabling the buttons 
 	$('#post-button').attr("disabled", "disabled");
+	$('#add-comment').attr("disabled", "disabled");
+	
 }
 
 
@@ -392,7 +427,7 @@ function loadFriends(){
 		console.log("User Object",data);
 		userObject=data;
 		$('#user').html(userObject.first_name);
-		$('#user-dp').attr("src","https://graph.facebook.com/"+userObject.id+"/picture");
+		$('#user-dp').attr("src","proxy?url=https://graph.facebook.com/"+userObject.id+"/picture");
 		$('#user-dp').css('display','inline');
 		var url="https://graph.facebook.com/me/friends?limit=5000&access_token="+access_token;		
 		$.getJSON(url, function(data) {
@@ -435,6 +470,8 @@ function loadFriends(){
 }
 
 function doRandomText(){
+	
+	$('#gaga').show(500);
 	
 	var url=myDomain+"randomtext";
 	$.getJSON(url, function(data) {
@@ -492,28 +529,32 @@ function handleAuthTokenError(data){
 			console.log(data);
 			$('#alert-text').html('Facebook said NO! <br/>Just refresh your browser and startover');										
 			$("#alert").dialog("open");
-			clearInterval(intervalID);
-			$('#post-button').removeAttr("disabled", "disabled");
+			cleanButtons();
 		});
 		
 	}else if(errorObject.error.type=="CurlUrlInvalidException"){
 		console.log(errorObject.error.message);
 		$('#alert-text').html('Internal Error!<br/>Just refresh your browser and startover');										
 		$("#alert").dialog("open");
-		clearInterval(intervalID);
-		$('#post-button').removeAttr("disabled", "disabled");
+		cleanButtons();
 	}else if(errorObject.error.code==324){
 		//missing image file.
 		$('#alert-text').html('Facebook did not accept the photo!<br/>Just refresh your browser and startover');
 		
 		$("#alert").dialog("open");
-		clearInterval(intervalID);
-		$('#gaga').html('');
-		$('#post-button').removeAttr("disabled", "disabled");
+		cleanButtons();
 		
 	}else if(errorObject.error.code==2500){
 		$('#alert-text').html('Your session has expired.<br/> Try and refresh.');		
 		$("#alert").dialog("open");
+	}
+	
+	function cleanButtons(){
+		clearInterval(intervalID);
+		$('#post-button').removeAttr("disabled", "disabled");
+		$('#add-comment').removeAttr("disabled", "disabled");
+		$('#gaga').hide(500);
+		$('canvas').remove();
 	}
 	
 	console.log("Error while accessing data from facebook",data);
@@ -573,18 +614,24 @@ function checkAllComplete(){
 	if(haveAllBeenTagged()){
 		//remove progress indicator and enable the button
 		clearInterval(intervalID);
+		$('#gaga').hide();
+		
 		$('#post-button').removeAttr("disabled", "disabled");	
-		console.log("Posted on Wall!");
+		console.log("Posted on Wall!");		
+		 $('.content').hide(500);
+		 $('canvas').show(500);
+		
 		
 		//hide the post button
-		$('#post').css('display','none');
+		$('.top-buttons').hide('clip',{},100,function(){
+			$('.final-actions').show(500);
+			});
 		
-		//display a link to the post							
-		/*$('#final-actions').css('position', 'absolute');
-		$('#final-actions').css('top', $('canvas').css('height'));*/
-		$('#final-actions').css('display','block');
-		$('#alert-text').html("Posted on your Wall!");										
-		$("#alert").dialog("open");
+		
+		/*$('#alert-text').html("Posted on your Wall!");										
+		$("#alert").dialog("open");*/
+		popup("Posted on your Wall", 3000);
+		$(document).tooltip();
 	}
 }
 
@@ -640,3 +687,4 @@ function initCheckBoxes() {
         $(this).removeClass('clicked');
     }
 }
+

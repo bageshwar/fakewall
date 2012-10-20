@@ -20,33 +20,16 @@
         timer = date.getTime();
         options = options || {};
 
-        options.onrendered = options.onrendered || function( canvas ) {
-            var $canvas = $(canvas),
+        options.onrendered = options.onrendered || function( canvas ) {        	
+            var $canvas = $(canvas),           
             finishTime = new Date();
 
             if (options && options.profile && window.console && window.console.profileEnd) {
                 console.profileEnd();
             }
-            $canvas.css({ opacity:1
-                /*position: 'absolute',
-                left: 0,
-                top: 0*/
-            }).appendTo($('#canvas'));
-            
-            $canvas.attr("title","Image Preview. Nothing is editable");
-            $canvas.siblings().toggle();
-
-            $('.content').hide();//.css('display','none');
-            //removed the code below, because i dont want toggle functionality
-            /*$(window).click(function(){
-                $canvas.toggle().siblings().toggle();
-                throwMessage("Canvas Render " + ($canvas.is(':visible') ? "visible" : "hidden"));
-                if($canvas.is(':visible')){
-                	 if (typeof options.onHide === "function") {
-                         options.onHide( canvas );
-                     }
-                }
-            });
+            $canvas.appendTo($('#canvas'));
+                       
+            /*
             throwMessage('Screenshot created in '+ ((finishTime.getTime()-timer)) + " ms<br />",4000);
             */
 
@@ -60,7 +43,7 @@
                 }
             }
             if (typeof options.onComplete === "function") {
-                options.onComplete( canvas );
+                options.onComplete(  );
             }
         };
 

@@ -1,19 +1,23 @@
 .wrapper {
 	border: 1px solid #C4CDE0;
-	padding: 0 3px 1px;
+	padding: 0px 3px 1px;
 	-webkit-border-radius: 4px;
 	background-color: white;
-	/* width: 700px; */
-	word-wrap: break-word;
+	-webkit-box-shadow: 0 0 15px grey;
+	-moz-box-shadow: 0 0 15px grey;
+	box-shadow: 0 0 15px grey;
+	/* width: 700px; */ word-wrap : break-word;
 	color: #333;
 	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
 	margin-left: auto;
 	margin-right: auto;
+	word-wrap: break-word
 }
 
-.top-buttons { /* width: 700px; */
+.top-buttons,.final-actions { /* width: 700px; */
 	margin-left: auto;
 	margin-right: auto;
+	margin-top: 15px;
 }
 
 .post-content {
@@ -186,13 +190,14 @@
 
 #user-dp {
 	display: none;
-	float: right;
-	margin-left: 20px;
-	padding: 0px 5px 0 20px;
+	float: right;	
 	margin: 4px 0px 4px 0px;
 	height: 32px;
 	width: 32px;
 	border: none;
+	-webkit-box-shadow: 0 0 6px #ffffff;
+	-moz-box-shadow: 0 0 6px #ffffff;
+	box-shadow: 0 0 6px #ffffff;
 }
 
 #user {
@@ -246,7 +251,7 @@ a:hover {
 
 #tag-friends {
 	width: 500;
-	height:auto;
+	height: auto;
 	overflow: visible;
 }
 
@@ -267,4 +272,23 @@ a:hover {
 	top: 0;
 	display: inline;
 	width: 100px
+}
+
+canvas {
+	margin-top: 20px;
+	-webkit-box-shadow: 0 0 15px grey;
+	-moz-box-shadow: 0 0 15px grey;
+	box-shadow: 0 0 15px grey;
+	display: none;
+}
+
+#content {
+	padding-top: 20px;
+}
+#header-links{
+	/* float:bottom; */
+	margin:4px 0px 4px 0px;
+	padding:0px 20px 0 5px;
+	color:#A7A78F;
+	font-size:14px;
 }
