@@ -79,7 +79,7 @@ var access_token='<%=session.getAttribute("access_token")%>';
 
 	<div id="masthead">
 		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span>
-		<span id="header-links"><a href="#">Help</a> | <a href="#">About</a></span>
+		<span id="header-links"><a href="#">About</a> | <a href="help.jsp">Help</a> | <a href="#">Privacy</a></span>
 		 <a href="https://www.facebook.com/">
 		 <span id="user"></span><img id="user-dp" /></a>
 	</div>

@@ -1,0 +1,296 @@
+.wrapper {
+	border: 1px solid #C4CDE0;
+	padding: 0px 3px 1px;
+	-webkit-border-radius: 4px;
+	background-color: white;
+	-webkit-box-shadow: 0 0 15px grey;
+	-moz-box-shadow: 0 0 15px grey;
+	box-shadow: 0 0 15px grey;
+	/* width: 700px; */ word-wrap : break-word;
+	color: #333;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	word-wrap: break-word
+}
+
+.top-buttons,.final-actions { /* width: 700px; */
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 15px;
+}
+
+.post-content {
+	font-size: 26px; /* ! */
+	line-height: 34px;/* ! */
+	margin: 10px 0 5px 0;
+	padding: 10px 0 10px 15px;
+	display: block;
+}
+
+.likes {
+	margin-top: 1px;
+	font-size: 22px;/* ! */
+	background-color: #EDEFF4;
+	padding: 5px 12px 5px 12px;
+}
+
+.comment {
+	margin-top: 1px;
+	font-size: 22px;/* ! */
+	background-color: #EDEFF4;
+	padding: 5px 12px;
+}
+
+.response { /*padding:5px 12px;*/
+	
+}
+
+.likebanner {
+	margin-top: 1px;
+	font-size: 22px;/* ! */
+	background-color: #EDEFF4;
+	padding: 5px 12px;
+}
+
+.like-icon {
+	background-position: 0 -52px;
+	background-image: url(icons.png);
+	background-repeat: no-repeat;
+	height: 13px;
+	width: 15px;
+	display: block;
+	float: left;
+	padding-right: 5px;
+}
+
+.link {
+	color: #3B5998
+}
+
+.post-user {
+	margin-left: 60px;
+}
+
+.post_user {
+	height: 60px;
+	border-bottom: 1px solid #E9E9E9;
+	display: block;
+	padding: 0px 0px 0px 0px;
+	margin: 15px 15px 15px 15px;
+}
+
+.main-dp {
+	width: 75px;
+	height: 75px;
+	float: left;
+	margin-right:20px;
+}
+
+.comment-dp {
+	width: 64px;
+	height: 64px;
+	float: left;
+	margin-right:10px;
+}
+
+.comment-content {
+	margin-left: 42px;
+}
+
+.comment-likes {
+	padding-left: 0px;
+}
+
+.name-user {
+	color: #3B5998;
+	font-weight: bold;
+	text-align: left;
+	font-size: 26px; /* ! */
+}
+
+.timestamp {
+	color: #999;
+	font-size: 22px;/* ! */
+}
+
+.animated {
+	border: 1px solid #ccc;
+	vertical-align: top;
+	transition: height 0.2s;
+	-webkit-transition: height 0.2s;
+	-moz-transition: height 0.2s;
+	width: 80%;
+}
+
+.remove-comment {
+	top: 5px;
+	background-image: url(deleteicons.png);
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+	float: right;
+	background-position: left -0px;
+	opacity: 1;
+}
+
+.remove-comment:hover {
+	background-position: left -32px;
+}
+
+.remove-comment:active {
+	background-position: left -48px;
+}
+
+.beta {
+	position: fixed;
+	top: 0px;
+	left: 65%;
+	width: 100px;
+	hieght: 100px;
+}
+
+#gaga {
+	color: #3B5998;
+	font-size: 1.1em;
+	font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+	margin-left: 10px;
+}
+
+.dp { /*added to select all dp images  */
+	
+}
+
+.button { /* margin-top:15px;
+	margin-bottom:20px; */
+	
+}
+
+.main {
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+#masthead {
+	height: 40px;
+	width: 99%;
+	background-color: black;
+	position: absolute;
+	top: 0;
+	left: 0;
+	color: #CFCFBE;
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 24px;
+	padding: 3px 0 3px 10px;
+}
+
+#user-dp {
+	display: none;
+	float: right;	
+	margin: 4px 0px 4px 0px;
+	height: 32px;
+	width: 32px;
+	border: none;
+	-webkit-box-shadow: 0 0 6px #ffffff;
+	-moz-box-shadow: 0 0 6px #ffffff;
+	box-shadow: 0 0 6px #ffffff;
+}
+
+#user {
+	float: right;
+	padding: 0px 20px 0 5px;
+	margin: 4px 0px 4px 0px;
+}
+
+#appheader {
+	float: left;
+	padding: 5px 5px 0 10px;
+	margin: 4px 0px 4px 0px;
+}
+
+a {
+	text-decoration: none;
+	color: #CFCFBE;
+}
+
+a:hover {
+	color: #ffffff;
+}
+
+.checkbox,.radio {
+	width: 19px;
+	height: 20px;
+	padding: 0px;
+	background: url("ticks.jpg");
+	display: block;
+	clear: left;
+	float: left;
+}
+
+.checked {
+	background-position: 0px -50px;
+}
+
+.clicked {
+	background-position: 0px -25px;
+}
+
+.clicked.checked {
+	background-position: 0px -75px;
+}
+
+.overlay {
+	position: absolute;
+	top: 1px;
+	left: 1px;
+}
+
+#tag-friends {
+	width: 500;
+	height: auto;
+	overflow: visible;
+}
+
+#tag-friends img {
+	position: relative;
+	top: 0;
+	left: 0;
+}
+
+#tag-friends input[type='checkbox'] {
+	position: absolute;
+	left: 1px;
+}
+
+#tag-friends div {
+	position: relative;
+	left: 0;
+	top: 0;
+	display: inline;
+	width: 100px
+}
+
+canvas {
+	margin-top: 20px;
+	-webkit-box-shadow: 0 0 15px grey;
+	-moz-box-shadow: 0 0 15px grey;
+	box-shadow: 0 0 15px grey;
+	display: none;
+}
+
+#content {
+	padding-top: 20px;
+}
+#header-links{
+	/* float:bottom; */
+	margin:4px 0px 4px 0px;
+	padding:0px 20px 0 5px;
+	color:#A7A78F;
+	font-size:14px;
+}

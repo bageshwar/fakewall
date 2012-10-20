@@ -10,7 +10,7 @@ var commentTemplate = '<div class="comment">'
 		+ '<span class="comment-text clickable" onclick="spanDoubleClicked(event)" title="Click to edit Comment">Edit Me</span> <br /> '
 		+ '		<span class="timestamp clickable" onclick="spanDoubleClicked(event)" title="Click to edit Time">3 hours ago </span>'
 		+ '<span class="link">Like</span>'
-		+ '	<div class="comment-likes likes clickable">'
+		+ '	<div class="comment-likes likes ">'
 		+ '		<span class="link clickable" onclick="spanDoubleClicked(event)" title="Click to add a Name">1 person</span>'
 		+ '		<span onclick="spanDoubleClicked(event)" class="clickable" title="Click to Change"> likes this.</span>' 
 		+ '	</div>' + '</div>' + '</div>';
