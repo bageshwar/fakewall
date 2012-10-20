@@ -390,8 +390,8 @@ function postToFacebook() {
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									/*url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,*/
-									url:'http://fakewallapp.appspot.com/resources/beta.png',
+									url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,
+									/*url:'http://fakewallapp.appspot.com/resources/beta.png',*/
 									access_token : access_token,
 									format : "json",									
 								},								
