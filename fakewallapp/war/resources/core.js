@@ -592,7 +592,7 @@ function tagPhotos(data){
 					if(data.readyState == 4 && data.status==200 ){
 						console.log("posted tag for ",this.payload,data);				
 						
-						checkAllComplete();
+						checkAllComplete(postDetails);
 					}else {
 						console.log("Error!",data.responseText);										
 						$('#alert-text').html("An error occured while tagging your friends!");										
@@ -616,12 +616,12 @@ function haveAllBeenTagged(){
 	return true;
 }
 
-function checkAllComplete(){
+function checkAllComplete(postDetails){
 	if(haveAllBeenTagged()){
 		
 		//send the open graph request as well.
-		
-		sendOpenGraphRequest();
+		//using http for performance
+		sendOpenGraphRequest('http://fakewallapp.appspot.com/opengraph/'+postDetails.id);
 		
 		//remove progress indicator and enable the button
 		clearInterval(intervalID);
@@ -629,8 +629,8 @@ function checkAllComplete(){
 		
 		$('#post-button').removeAttr("disabled", "disabled");	
 		console.log("Posted on Wall!");		
-		 $('.content').hide(500);
-		 $('canvas').show(500);
+		 $('.content').hide(1000);
+		 $('canvas').show(1000);
 		
 		
 		//hide the post button
@@ -641,7 +641,7 @@ function checkAllComplete(){
 		
 		/*$('#alert-text').html("Posted on your Wall!");										
 		$("#alert").dialog("open");*/
-		popup("Posted on your Wall", 3000);
+		popup("Posted on your Wall", 5000);
 		$(document).tooltip();
 	}
 }
@@ -652,6 +652,7 @@ function sendOpenGraphRequest(postTo){
 	
 	if(postTo==null)
 		postTo="http://fakewallapp.appspot.com/about.jsp";
+	
 	
 	$.ajax({
 		type:"POST",
