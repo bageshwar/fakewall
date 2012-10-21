@@ -5,7 +5,7 @@
  <meta charset='utf-8'>
       <meta property="fb:app_id" content="272534742866210" />
         <meta property="og:title" content="Fakewall" />
-        <meta property="og:image" content="http://fakewallapp.appspot.com/resources/icon-200x200.png" />
+        <meta property="og:image" content="http://fakewallapp.appspot.com/resources/web-banner-200x200.png" />
         <meta property="og:url" content="http://fakewallapp.appspot.com<%=request.getAttribute("url")==null?"/about.jsp":request.getAttribute("url") %>" />
         <meta property="og:type" content="fakeposts:fakewall" />
         <meta property="og:description" 
