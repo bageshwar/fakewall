@@ -8,7 +8,8 @@
         <meta property="og:image" content="http://fakewallapp.appspot.com/resources/icon-200x200.png" />
         <meta property="og:url" content="http://fakewallapp.appspot.com<%=request.getAttribute("url")==null?"/about.jsp":request.getAttribute("url") %>" />
         <meta property="og:type" content="fakeposts:fakewall" />
-        <meta property="og:description" content="Hey, I just created a Fakewall using this app" />  
+        <meta property="og:description" 
+        content="Hey, I just created a Fakewall using this app. Takes a few clicks to create one for yourself!" />  
 <title>Fake Wall App | About</title>
 <script src="/resources/jquery-1.8.2.min.js"></script>
 
