@@ -579,7 +579,7 @@ function tagPhotos(data){
 	//to save the request identifiers.	
 		
 	if(Object.keys(taggedFriends).length==0){
-		checkAllComplete();
+		checkAllComplete(postDetails);
 	}
 	
 	for(idx in taggedFriends){				
