@@ -30,8 +30,7 @@ public class OpenGraphServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
 		try {
-			request.setAttribute("url", request.getRequestURI());
-			System.out.println(request.getRequestURI());
+			request.setAttribute("url", request.getRequestURI());			
 			request.getRequestDispatcher("/about.jsp").forward(request, response);
 		} catch (ServletException e) {
 			
