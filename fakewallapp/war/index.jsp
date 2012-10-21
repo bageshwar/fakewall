@@ -64,7 +64,8 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 
 <link rel="stylesheet" href="resources/style.css" type="text/css"  />
 <link href="resources/jquery-ui.1.9.min.css" rel="stylesheet"	type="text/css" /> 
-<!-- <link href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" rel="stylesheet"	type="text/css" /> -->
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> 
+
 
 
 

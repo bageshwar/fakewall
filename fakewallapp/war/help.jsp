@@ -14,6 +14,7 @@
 
 <link rel="stylesheet" href="resources/style-help.css" type="text/css" />
 <link href="resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 <style type="text/css">
 .clickable{
 /* border: 1px solid black; */

@@ -13,7 +13,7 @@
 <title>Fake Wall App | Terms of Service</title>
 
 <link rel="stylesheet" href="resources/style.css" type="text/css" />
-
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
 <style type="text/css">
 .clickable{
 /* border: 1px solid black; */
