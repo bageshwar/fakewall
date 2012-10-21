@@ -4,21 +4,22 @@
  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# fakeposts: http://ogp.me/ns/fb/fakeposts#">
  <meta charset='utf-8'>
       <meta property="fb:app_id" content="272534742866210" />
-        <meta property="og:title" content="Hey, I created a Fakewall" />
+        <meta property="og:title" content="Fakewall" />
         <meta property="og:image" content="http://fakewallapp.appspot.com/resources/icon-200x200.png" />
-        <meta property="og:url" content="http://fakewallapp.appspot.com/about.jsp" />
-        <meta property="og:type" content="fakeposts:fakewall" /> 
+        <meta property="og:url" content="http://fakewallapp.appspot.com<%=request.getAttribute("url")==null?"/about.jsp":request.getAttribute("url") %>" />
+        <meta property="og:type" content="fakeposts:fakewall" />
+        <meta property="og:description" content="Hey, I just created a Fakewall using this app" />  
 <title>Fake Wall App | About</title>
-<script src="resources/jquery-1.8.2.min.js"></script>
+<script src="/resources/jquery-1.8.2.min.js"></script>
 
-<script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
-<script src="resources/jquery.autosize-min.js"></script>
-<script src="resources/commentTemplate.js"></script>
-<script src="resources/html2canvas.min.js"></script>
-<script src="resources/jquery.plugin.html2canvas.js"></script>
+<script src="/resources/jquery-ui-1.9.0.custom.min.js"></script>
+<script src="/resources/jquery.autosize-min.js"></script>
+<script src="/resources/commentTemplate.js"></script>
+<script src="/resources/html2canvas.min.js"></script>
+<script src="/resources/jquery.plugin.html2canvas.js"></script>
 
-<link rel="stylesheet" href="resources/style.css" type="text/css" />
-<link href="resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/resources/style.css" type="text/css" />
+<link href="/resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 .clickable{
 /* border: 1px solid black; */
@@ -36,7 +37,7 @@ display:none;
 
 	<div id="masthead">
 		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> 
-		<span id="header-links"><a href="about.jsp">About</a> | <a href="help.jsp">Help</a> | <a href="privacy.jsp">Privacy</a></span> 
+		<span id="header-links"><a href="/about.jsp">About</a> | <a href="/help.jsp">Help</a> | <a href="/privacy.jsp">Privacy</a></span> 
 			<!-- <a href="https://www.facebook.com/"> <span id="user">User</span><img style="display:inline" 
 			src="resources/dp.jpg" id="user-dp" /></a> -->
 	</div>
@@ -46,10 +47,10 @@ display:none;
 
 
 			<div class="wrapper" id="wrapper">
-				<img src="resources/beta.png" style="float: right" />
+				<img src="/resources/beta.png" style="float: right" />
 				<div class="post_user">
 					<div>
-						<img class="main-dp dp clickable" src="resources/icon-32x32.png"  />
+						<img class="main-dp dp clickable" src="/resources/icon-32x32.png"  />
 					</div>
 					<div class="post-user">
 						<span class="name-user clickable" >Fake Wall</span> <br /> <span
@@ -69,7 +70,7 @@ display:none;
 					
 					<div class="comment">
 						<div>
-							<img class="comment-dp dp clickable"  src="resources/aware.jpg" />
+							<img class="comment-dp dp clickable"  src="/resources/aware.jpg" />
 						</div>
 						<i class="remove-comment clickable" ></i>
 						<div class="comment-content">
@@ -86,7 +87,7 @@ display:none;
 					
 					<div class="comment">
 						<div>
-							<img class="comment-dp dp clickable"  src="resources/icon-32x32.png" />
+							<img class="comment-dp dp clickable"  src="/resources/icon-32x32.png" />
 						</div>
 						<i class="remove-comment clickable" ></i>
 						<div class="comment-content">
@@ -104,7 +105,7 @@ display:none;
 					
 					<div class="comment">
 						<div>
-							<img class="comment-dp dp clickable"  src="resources/aware.jpg" />
+							<img class="comment-dp dp clickable"  src="/resources/aware.jpg" />
 						</div>
 						<i class="remove-comment clickable"></i>
 						<div class="comment-content">
@@ -122,7 +123,7 @@ display:none;
 					
 					<div class="comment">
 						<div>
-							<img class="comment-dp dp clickable"  src="resources/icon-32x32.png" />
+							<img class="comment-dp dp clickable"  src="/resources/icon-32x32.png" />
 						</div>
 						<i class="remove-comment clickable" ></i>
 						<div class="comment-content">
@@ -140,7 +141,7 @@ display:none;
 								<li>Comments/Likes</li>
 								<li>And you can even change the &quot;Like&quot; to anything else (Dislike maybe!!!)</li>
 								</ul>
-								<li>Just click and edit! Take a look <a class="comment-link" href="help.jsp">here</a></li>
+								<li>Just click and edit! Take a look <a class="comment-link" href="/help.jsp">here</a></li>
 								
 							<li><a class="comment-link"  href="/">Go to the home-page now!</a></li>
 							</ul>
