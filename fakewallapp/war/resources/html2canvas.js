@@ -2090,8 +2090,8 @@ _html2canvas.Preload = function( options ) {
     count = 0,
     element = options.elements[0] || document.body,
     doc = element.ownerDocument,
-    domImages = doc.images, // TODO probably should limit it to images present in the element only
-    imgLen = domImages.length,
+    domImages = $(element).find('img'),//.images, // TODO probably should limit it to images present in the element only
+    imgLen = domImages.length || 0,
     link = doc.createElement("a"),
     supportCORS = (function( img ){
         return (img.crossOrigin !== undefined);
@@ -2262,6 +2262,7 @@ _html2canvas.Preload = function( options ) {
         };
         img.onerror = function() {
 
+        	console.log("Error while loading image: ",this);
             if (img.crossOrigin === "anonymous") {
                 // CORS failed
                 window.clearTimeout( imageObj.timer );
@@ -2413,6 +2414,7 @@ _html2canvas.Preload = function( options ) {
     h2clog('html2canvas: Preload: Finding images');
     // load <img> images
     for (i = 0; i < imgLen; i+=1){
+    	console.log("Image:userid: ",domImages[i]);
         methods.loadImage( domImages[i].getAttribute( "src" ) );
     }
 

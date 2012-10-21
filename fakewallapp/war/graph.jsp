@@ -6,34 +6,26 @@
       <meta property="fb:app_id" content="272534742866210" />
         <meta property="og:title" content="Hey, I created a Fakewall" />
         <meta property="og:image" content="http://fakewallapp.appspot.com/resources/icon-200x200.png" />
-        <meta property="og:url" content="http://fakewallapp.appspot.com/about.jsp" />
+        <meta property="og:url" content="http://fakewallapp.appspot.com/graph.jsp" />
         <meta property="og:type" content="fakeposts:fakewall" /> 
-<title>Fake Wall App | About</title>
-<script src="resources/jquery-1.8.2.min.js"></script>
+  
 
-<script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
-<script src="resources/jquery.autosize-min.js"></script>
-<script src="resources/commentTemplate.js"></script>
-<script src="resources/html2canvas.min.js"></script>
-<script src="resources/jquery.plugin.html2canvas.js"></script>
+<title>Fake Wall App | Terms of Service</title>
 
 <link rel="stylesheet" href="resources/style.css" type="text/css" />
-<link href="resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
+
 <style type="text/css">
 .clickable{
 /* border: 1px solid black; */
-cursor: auto;
+cursor:auto;
 }
 .remove-comment{
 display:none;
 }
 
 </style>
-
 </head>
-
 <body>
-
 	<div id="masthead">
 		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> 
 		<span id="header-links"><a href="about.jsp">About</a> | <a href="help.jsp">Help</a> | <a href="privacy.jsp">Privacy</a></span> 
@@ -57,16 +49,14 @@ display:none;
 					</div>
 				</div>
 				<div class="post-content">
-					<span class="clickable" >Want to play a prank upon your friends?.</span>
+					<span class="clickable" >Want to play a prank upon your friends?</span>
 				</div>
 				<div class="likebanner link">Like &middot; Comment &middot; Share</div>
 				<div class="likes">
 					<i class="like-icon"></i> <span class="link clickable" > You, Me and Several
 						others</span> <span class="clickable" > like this.</span>
 				</div>
-				<div class="response" id="response">				
-					
-					
+				<div class="response" id="response">
 					<div class="comment">
 						<div>
 							<img class="comment-dp dp clickable"  src="resources/aware.jpg" />
@@ -91,7 +81,7 @@ display:none;
 						<i class="remove-comment clickable" ></i>
 						<div class="comment-content">
 							<span class="name-user clickable" >Fake Wall</span> <span class="comment-text clickable"
-								> Its very simple. Go to the <a class="comment-link"  href="/"> home-page </a>and start using this app :) 
+								> Its very simple. Go to the <a href="/"> home-page </a>and start using this app :) 
 								 </span> <br /> <span class="timestamp clickable"
 								>3 hours ago </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
@@ -138,11 +128,11 @@ display:none;
 								<li>Friend's Name</li>
 								<li>Time of the post</li>								
 								<li>Comments/Likes</li>
-								<li>And you can even change the &quot;Like&quot; to anything else (Dislike maybe!!!)</li>
+								<li>And you can change the &quot;Like&quot; to anything else (Dislike maybe!!!)</li>
 								</ul>
-								<li>Just click and edit! Take a look <a class="comment-link" href="help.jsp">here</a></li>
+								<li>Just click and edit!</li>
 								
-							<li><a class="comment-link"  href="/">Go to the home-page now!</a></li>
+							<li><a href="/">Go to the home-page now!</a></li>
 							</ul>
 								 </span> <br /> <span class="timestamp clickable"
 								>3 hours ago </span> <span class="link">Like</span>
@@ -152,11 +142,28 @@ display:none;
 							</div>
 						</div>
 					</div>
+					
+					
+					<!-- <div class="comment">
+						<div>
+							<img class="comment-dp dp clickable"  src="resources/icon-32x32.png" />
+						</div>
+						<i class="remove-comment clickable" ></i>
+						<div class="comment-content">
+							<span class="name-user clickable" >Fake Wall</span> <span class="comment-text clickable"
+								"> Its very simple. Go to the home-page and start using this app :) 
+								 </span> <br /> <span class="timestamp clickable"
+								>3 hours ago </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link clickable">Aware User</span> <span class="clickable"
+									> likes this.</span>
+							</div>
+						</div>
+					</div>
+					 -->
 				</div>
 			</div>
-
 		</div>
-
 	</div>
 
 </body>

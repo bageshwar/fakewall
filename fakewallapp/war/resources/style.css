@@ -98,6 +98,7 @@
 
 .comment-likes {
 	padding-left: 0px;
+	padding-top:0px;
 }
 
 .name-user {
@@ -291,4 +292,9 @@ canvas {
 	padding:0px 20px 0 5px;
 	color:#A7A78F;
 	font-size:14px;
+}
+
+.comment-link {
+color:blue;
+font-weight: bold;
 }

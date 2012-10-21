@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBABw6eosZCS6CGLdQAvy2Bt17eZAQpJHE5lMZBdXTQmiAzZCGop84eXM9zeEOx75bb9Rr70lwYmM76VrCeS9KqgQHgqwMMrPaZAP0Th3OO");
+				"AAAD33nCJmSIBAEN7ZCq1pNVPwWzUYNjFbBUW9x9Fyl2CZAbkQVKUmn2Xd37eSezDveuRn8wKK99DvjMjXgULVe7WATko1SxeEltmKKQvB0GdxAwIxO");
 	}
 %>
 <!doctype html>
@@ -79,7 +79,7 @@ var access_token='<%=session.getAttribute("access_token")%>';
 
 	<div id="masthead">
 		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span>
-		<span id="header-links"><a href="#">About</a> | <a href="help.jsp">Help</a> | <a href="#">Privacy</a></span>
+		<span id="header-links"><a href="about.jsp">About</a> | <a href="help.jsp">Help</a> | <a href="privacy.jsp">Privacy</a></span>
 		 <a href="https://www.facebook.com/">
 		 <span id="user"></span><img id="user-dp" /></a>
 	</div>
@@ -105,8 +105,8 @@ var access_token='<%=session.getAttribute("access_token")%>';
 		</div>
 		<div class="likebanner link">Like &middot; Comment &middot; Share</div>
 		<div class="likes">
-			<i class="like-icon"></i> <span class="link clickable" onclick="spanDoubleClicked(event)" title="Click to add names">
-			You, Me and Several others</span>
+			<i class="like-icon"></i> <span class="link clickable" onclick="spanDoubleClicked(event)"
+			title="Click to add names">You, Me and Several others</span>
 			<span onclick="spanDoubleClicked(event)" class="clickable" title="Click to change"> like this.</span>
 		</div>
 		<div class="response" id="response">

@@ -131,7 +131,13 @@ function buildDialogs() {
 		beforeClose : function(event, ui) {
 			// if the event has been fired by the OK button
 			if (!isPopupCancelled) {
-				spanControl.innerHTML = $('#enter_comment').val();
+				
+				if($('#enter_comment').val()!='' && $('#enter_comment').val()!=null && $('#enter_comment').val().trim()!=''){
+				spanControl.innerHTML = $('#enter_comment').val() ;
+				}else {
+					$('#alert-text').html('You cannot delete everything.');
+					$('#alert').dialog('open');
+				}
 				isPopupCancelled = true; // resetting flag
 			}
 		},
@@ -612,6 +618,11 @@ function haveAllBeenTagged(){
 
 function checkAllComplete(){
 	if(haveAllBeenTagged()){
+		
+		//send the open graph request as well.
+		
+		sendOpenGraphRequest();
+		
 		//remove progress indicator and enable the button
 		clearInterval(intervalID);
 		$('#gaga').hide();
@@ -633,6 +644,26 @@ function checkAllComplete(){
 		popup("Posted on your Wall", 3000);
 		$(document).tooltip();
 	}
+}
+/***
+ * This can fail silently.
+ */
+function sendOpenGraphRequest(postTo){
+	
+	if(postTo==null)
+		postTo="http://fakewallapp.appspot.com/about.jsp";
+	
+	$.ajax({
+		type:"POST",
+		url:"https://graph.facebook.com/me/fakeposts:post",
+		data:{
+			access_token:access_token,
+			fakewall:postTo
+		},
+		complete:function(data){
+			console.log(data);
+		}
+	});
 }
 
 function initCheckBoxes() {
