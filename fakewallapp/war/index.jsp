@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAEN7ZCq1pNVPwWzUYNjFbBUW9x9Fyl2CZAbkQVKUmn2Xd37eSezDveuRn8wKK99DvjMjXgULVe7WATko1SxeEltmKKQvB0GdxAwIxO");
+				"AAAD33nCJmSIBAF69U75rvr9FZCTpdUHZAhfV60w9P4DyBFmxGOFUBOEjXYZBzDFRKVQfVpxCyYLESKz4A18GynZA6N7ZBAZBlW4nfQdR10Vloa8Bs9RmqI");
 	}
 %>
 <!doctype html>
@@ -178,5 +178,13 @@ var access_token='<%=session.getAttribute("access_token")%>';
 
 	</div>
 	
+	<script type="text/javascript">
+  var uvOptions = {};
+  (function() {
+    var uv = document.createElement('script'); uv.type = 'text/javascript'; uv.async = true;
+    uv.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'widget.uservoice.com/upk6rRmHW3XJIDOaXtt6Q.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
+  })();
+</script>
 	</body>
 </html>
