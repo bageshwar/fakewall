@@ -396,7 +396,7 @@ function postToFacebook() {
 								url : "https://graph.facebook.com/me/photos",
 								data : {
 									message : "Fake Wall App",
-									url :    "https://fakewallapp.appspot.com/getimage?path=" + data.path,
+									url :    "http://fakewallapp.appspot.com/getimage?path=" + data.path,
 									/*url:'http://fakewallapp.appspot.com/resources/beta.png',*/
 									access_token : access_token,
 									format : "json",									
@@ -651,7 +651,7 @@ function checkAllComplete(postDetails){
 function sendOpenGraphRequest(postTo){
 	
 	if(postTo==null)
-		postTo="http://fakewallapp.appspot.com/about.jsp";
+		postTo="http://fakewallapp.appspot.com/opengraph/314";
 	
 	
 	$.ajax({
