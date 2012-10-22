@@ -34,14 +34,39 @@ public class SaveImageServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse resp) throws IOException {
 
+		//restricted to anonymous users.
+		if(request.getSession().getAttribute("access_token")==null){
+			return;
+		}else {
+			//access_token is present, see if its still valid
+			if ((Long) (request.getSession().getAttribute("expires_in")) < System.currentTimeMillis()){
+				//session has expired, invalidate;
+				request.getSession().invalidate();
+				//OR should we just remove the 2 attributes.
+				//request.getSession().removeAttribute("expires_in");
+				//request.getSession().removeAttribute("access_token");
+			}
+		}
+		
 		
 		try {
 			String image = request.getParameter("image");
+			
+			if(image==null){
+				logger.severe("Save image called with no image data");
+				return;
+			}
+			//simply die
 			image = image.substring(image.indexOf("base64,") + 7);
 			
 			String userid=request.getParameter("user[id]");
 			String username=request.getParameter("user[name]");		
 			
+			//simply die
+			if(userid==null || username==null){
+				logger.severe("Save Image called with no User data");
+				return;
+			}
 			
 			// String token=
 

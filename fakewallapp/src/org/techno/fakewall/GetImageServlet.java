@@ -2,7 +2,10 @@ package org.techno.fakewall;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.channels.Channels;
+import java.util.Enumeration;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -21,34 +24,58 @@ public class GetImageServlet extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 3495763991577008300L;
-	
+
 	private static final Logger logger = Logger.getLogger(GetImageServlet.class.getName());
+
+	private static final String LOG_HOST = "Remote Host %s requested image";
+
+	private static final String LOG_HEADER = "Header %s : %s";
+
+	/**
+	 * The set of IP Facebook uses to fetch content. IP addresses fetched from
+	 * whois. TODO: verify in a different geographical location.
+	 * */
+	private static final int[][] range = new int[][] { { 69, 171, 224, 0 }, { 69, 171, 255, 255 } };
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-		logger.info(request.getHeaderNames().toString());
-		
-		try{
-		String path = request.getParameter("path");
-		FileService fileService = FileServiceFactory.getFileService();
-		AppEngineFile file = new AppEngineFile(path);
-		FileReadChannel readChannel = fileService.openReadChannel(file, false);
+		String remoteHost = request.getRemoteHost();
+		logger.info(String.format(LOG_HOST, remoteHost));
 
-		DataInputStream in = new DataInputStream(Channels.newInputStream(readChannel));
-		response.setContentType("image/png");
+		// Someone is trying to act smart, or maybe facebook is using a
+		// different ip range
+		if (!validHost(remoteHost))
+			return;
 
-		ServletOutputStream out = response.getOutputStream();
-		byte data[] = new byte[8 * 1024];
-		int ret = 0;
-		while ((ret = in.read(data)) != -1) {
-			out.write(data);
-			// System.out.println(ret);
-		}
+		try {
+			String path = request.getParameter("path");
+			//logHTTPHeaders(request);
 
-		in.close();
-		readChannel.close();
-		out.close();
-		}catch(Exception e){
+			if (path == null) {
+				logger.severe("Get Image requested without any path");
+				return;
+			}
+			FileService fileService = FileServiceFactory.getFileService();
+			AppEngineFile file = new AppEngineFile(path);
+
+			FileReadChannel readChannel = fileService.openReadChannel(file, false);
+
+			DataInputStream in = new DataInputStream(Channels.newInputStream(readChannel));
+			response.setContentType("image/png");
+
+			ServletOutputStream out = response.getOutputStream();
+			byte data[] = new byte[8 * 1024];
+			int ret = 0;
+			while ((ret = in.read(data)) != -1) {
+				out.write(data);
+				// System.out.println(ret);
+			}
+
+			in.close();
+			readChannel.close();
+			out.close();
+		} catch (Exception e) {
+			// this covers file not found exceptions also.
 			e.printStackTrace();
 			response.sendError(500);
 		}
@@ -57,6 +84,46 @@ public class GetImageServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Not Supported");
+	}
+
+	/**
+	 * Log the headers
+	 * */
+	private void logHTTPHeaders(HttpServletRequest request) {
+		@SuppressWarnings("rawtypes")
+		Enumeration headers = request.getHeaderNames();
+		while (headers.hasMoreElements()) {
+			String header = headers.nextElement().toString();
+			logger.info(String.format(LOG_HEADER, header, request.getHeader(header)));
+		}
+	}
+
+	/**
+	 * Converting signed byte array to unsigned int array.
+	 * */
+	private int[] getTranslatedIntBytes(byte[] address) {
+		int[] ret = new int[4];
+		for (int i = 0; i < 4; i++) {
+			ret[i] = address[i] > 0 ? address[i] : address[i] + 256;
+		}
+		return ret;
+	}
+
+	/**
+	 * Returns if the host who requested the image is from the facebook nw.
+	 * TFBNET3.
+	 * @see http://whois.arin.net/rest/nets;q=69.171.224.2?showDetails=true&showARIN=false&ext=netref2
+	 * */
+	private boolean validHost(String host) throws UnknownHostException {
+		int[] ip = getTranslatedIntBytes(InetAddress.getByName(host).getAddress());
+		// check range
+		boolean invalid = false;
+
+		for (int i = 0; i < 4; i++) {
+			if (!(ip[i] >= range[0][i] && ip[i] <= range[1][i]))
+				invalid = true;
+		}
+		return !invalid;
 	}
 
 }
