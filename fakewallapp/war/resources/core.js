@@ -92,7 +92,7 @@ $(document).ready(function() {
 	
 	if(!jQuery.browser.chrome){
 		//not chrome
-		alert('Hi, Only Chrome is supported at the moment');
+		alert('Hi, Only Google Chrome is supported at the moment');
 	}
 	
 	//load the list of friends
