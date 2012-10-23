@@ -88,7 +88,12 @@ var callbackAfterAlert;
  * */
 var uploader;
 
-$(document).ready(function() {	
+$(document).ready(function() {
+	
+	if(!jQuery.browser.chrome){
+		//not chrome
+		alert('Hi, Only Chrome is supported at the moment');
+	}
 	
 	//load the list of friends
 	loadFriends();
