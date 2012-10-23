@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAF69U75rvr9FZCTpdUHZAhfV60w9P4DyBFmxGOFUBOEjXYZBzDFRKVQfVpxCyYLESKz4A18GynZA6N7ZBAZBlW4nfQdR10Vloa8Bs9RmqI");
+				"AAAD33nCJmSIBABdF8J503PuDdPqEgFMgi1ZAPnFgd0XouPwjFYexaNO9FvDVQDiEsxecIRipofLJNkeru02sGHtOGPhKN4DBmgRl6XuZAmKZAAqlk0q");
 	}
 %>
 <!doctype html>
@@ -58,12 +58,15 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 <script src="resources/commentTemplate.js"></script>
 <script src="resources/html2canvas.js"></script>
 <script src="resources/jquery.plugin.html2canvas.js"></script>
+ <script src="resources/fileuploader.js" type="text/javascript"></script>
 
 <script src="resources/core.js"></script>
 
 
 <link rel="stylesheet" href="resources/style.css" type="text/css"  />
-<link href="resources/jquery-ui.1.9.min.css" rel="stylesheet"	type="text/css" /> 
+<link href="resources/jquery-ui.1.9.min.css" rel="stylesheet"	type="text/css" />
+<link href="resources/fileuploader.css" rel="stylesheet" type="text/css">
+ 
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> 
 
 
@@ -140,7 +143,7 @@ var access_token='<%=session.getAttribute("access_token")%>';
 	</div>
 	
 	
-	<div id="comment_dialog" style="display: none;" title="Fake Wall App">
+	<div id="comment_dialog" style="display: none;" title="Add a Comment">
 
 		<label for="enter_comment">Comment</label>
 		<textarea name="enter_comment" id="enter_comment" class="text ui-widget-content ui-corner-all animated"
@@ -148,22 +151,33 @@ var access_token='<%=session.getAttribute("access_token")%>';
 
 	</div>
 
-	<div id="dp_dialog" style="display: none;" title="Fake Wall App">
+	<div id="dp_dialog" style="display: none;" title="Select a Friend">
 		<div id="tabs">
 			<ul>
 				<li><a href="#fb-friends">Facebook Friends</a></li>
 				<li><a href="#url-tab">URL</a></li>
+				<li><a href="#upload">Upload</a></li>
 			</ul>
 			<div id="fb-friends">
-				<label for="tags">Friend: </label> <input type="text" id="friend" 
+				<label for="tags">Name: </label> <input type="text" id="friend" 
 				class="text ui-widget-content ui-corner-all" style="width: 100%" />
 			</div>
 			<div id="url-tab">
 				<label for="dp_url">Url:</label> <input type="text" name="dp_url" id="dp_url"
 					class="text ui-widget-content ui-corner-all" style="width: 100%" />
 			</div>
+			<div id="upload">
+				<div id="file-uploader-div"></div>
+			</div>
 
 		</div>
+	</div>
+
+	<div id="like_dialog" style="display: none;" title="Select a friend">		
+			<div id="fb-friends-like">
+				<label for="friend-like">Friend: </label> <input type="text" id="friend-like" 
+				class="text ui-widget-content ui-corner-all" style="width: 100%" />
+			</div>		
 	</div>
 
 	<div id="alert" title="Message!">

@@ -5,12 +5,12 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
-		<servlet-name>Fakewallapp</servlet-name>
-		<servlet-class>org.techno.fakewall.FakewallappServlet</servlet-class>
+		<servlet-name>FileEchoServlet</servlet-name>
+		<servlet-class>org.techno.fakewall.FileEchoServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Fakewallapp</servlet-name>
-		<url-pattern>/fakewallapp</url-pattern>
+		<servlet-name>FileEchoServlet</servlet-name>
+		<url-pattern>/echo</url-pattern>
 	</servlet-mapping>
 
 

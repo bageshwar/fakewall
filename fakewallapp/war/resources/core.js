@@ -83,6 +83,11 @@ tagsExist=false;
  * */
 var callbackAfterAlert;
 
+/**
+ * Uploader
+ * */
+var uploader;
+
 $(document).ready(function() {	
 	
 	//load the list of friends
@@ -100,6 +105,8 @@ $(document).ready(function() {
 	$(document).tooltip({
 		hide:50
 	});	
+	
+	createUploader();
 });
 
 
@@ -113,6 +120,7 @@ function buildDialogs() {
 	$("#comment_dialog").dialog({
 		modal : true,
 		autoOpen : false,
+		width:600,		
 		/*
 		 * show:'slide', hide:'slide',
 		 */
@@ -236,6 +244,43 @@ function buildDialogs() {
 			$('i.remove-comment').show();
 		}
 	});
+	
+	
+	// Like Dialog: de-scoped at the moment.
+	$("#like_dialog").dialog({
+		modal : true,
+		autoOpen : false,
+		width: '500px',
+		/*
+		 * show:'slide', hide:'slide',
+		 */
+		buttons : {
+			"Add" : function() {
+
+				isPopupCancelled = false;
+				$(this).dialog("close");
+			},
+			Cancel : function() {
+				isPopupCancelled = true;
+				$(this).dialog("close");
+			}
+		},
+		beforeClose : function(event, ui) {
+			// if the event has been fired by the OK button
+			if (!isPopupCancelled) {
+				//priority to text present in name field,
+				if($('#friend-like').val()!=null && $('#friend-like').val()!=''){
+					spanControl.innerHTML=$('#friend-like').val()
+					//reset the textbox value
+					$('#friend-like').val('');			
+				}
+				isPopupCancelled = true; // resetting flag
+			}
+		},
+
+	});
+	
+	
 }
 
 function initPostToFacebook(){
@@ -356,6 +401,19 @@ function spanDoubleClicked(event) {
 	$('#enter_comment').focus();
 }
 
+/**
+ * 
+ * */
+function likeButtonClicked(event){
+	// populate the text in the popup
+	$('#friend-like').val(event.srcElement.innerHTML);
+	// setting the currently being edited span
+	spanControl = event.srcElement;
+	$("#like_dialog").dialog("open");
+	$('#friend-like').focus();
+	$('#friend-like').select();
+}
+
 function imageClicked(event) {
 	// populate the text in the popup
 	$('#dp_url').val(event.srcElement.innerHTML);
@@ -449,6 +507,42 @@ function loadFriends(){
 		        source: fdata,
 		        delay:10
 		    });
+						
+			//adding auto complete for like dialog.
+			//with capability to add multiple friends.
+			//DESCOPED at the moment.
+			$( "#friend-like" ).autocomplete({
+				source: function( request, response ) {
+                    // delegate back to autocomplete, but extract the last term
+                    response( $.ui.autocomplete.filter(fdata, extractLast( request.term ) ) );
+                },
+                focus: function() {
+                    // prevent value inserted on focus
+                    return false;
+                },
+                select: function( event, ui ) {
+                    var terms = split( this.value );
+                    // remove the current input
+                    terms.pop();
+                    // add the selected item
+                    terms.push( ui.item.value );
+                    // add placeholder to get the comma-and-space at the end
+                    terms.push( "" );
+                    this.value = terms.join( ", " );
+                    return false;
+                },
+		        delay:10
+		    });
+			
+			//not required at this moment
+		/*	$( "#friend-like" ).bind( "keydown", function( event ) {
+				console.log(event.keyCode,$.ui.keyCode.TAB,$( this ).data( "autocomplete" ).menu.active);
+                if ( event.keyCode === $.ui.keyCode.TAB &&
+                        $( this ).data( "autocomplete" ).menu.active ) {
+                    event.preventDefault();
+                }
+            });*/
+			
 			console.log("friend list loaded");
 			popup("Facebook Friend List Loaded",3000);
 		}).error(function(data){
@@ -473,6 +567,14 @@ function loadFriends(){
 		
 	});	
 		
+}
+
+//jquery autocomplete methods
+function split( val ) {
+    return val.split( /,\s*/ );
+}
+function extractLast( term ) {
+    return split( term ).pop();
 }
 
 function doRandomText(){
@@ -720,3 +822,45 @@ function initCheckBoxes() {
     }
 }
 
+/**
+ * File uploader component is licensed under the following licenses, choose one
+ * that suits your needs better.
+ *  - MIT license
+ * 
+ * The MIT License (MIT) Copyright (c) 2010 Andrew Valums
+ */
+function createUploader(){            
+     uploader = new qq.FileUploader({
+        element: document.getElementById('file-uploader-div'),
+        action: '/echo',
+        debug: true,
+        multiple:false,
+        sizeLimit:1024*100,
+        onComplete:imageUploaded,
+        uploadButtonText:'<span id="upload-button">Click to Upload</span>',
+        /*button:'ui-button'*/
+        acceptFiles:'image/*'
+    });           
+     
+     $('#upload-button').button();
+     
+     //$('#upload-button').attr('onmouseover','$(this).toggleClass("ui-state-hover")');
+     
+     /*$('#upload-button').bind('mouseenter mouseleave', function() {
+    	 console.log($(this));
+    	  $(this).toggleClass('entered');
+     });*/
+   /*  $('#upload-button').mouseout(function(){
+    	 console.log('out');
+    	 this.removeClass('ui-state-hover');
+     });*/
+     
+     //ui-state-hover
+}
+
+function imageUploaded(id,fileName,responseJSON){
+	console.log(id,fileName,responseJSON);
+	imageControl.src=responseJSON.data;
+	$('#dp_dialog').dialog('close');
+	uploader.clearStoredFiles()
+}
