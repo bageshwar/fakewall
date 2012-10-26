@@ -39,12 +39,13 @@ public class SaveImageServlet extends HttpServlet {
 			return;
 		}else {
 			//access_token is present, see if its still valid
-			if ((Long) (request.getSession().getAttribute("expires_in")) < System.currentTimeMillis()){
+			if (request.getSession().getAttribute("expires_in")!=null && 
+					(Long) (request.getSession().getAttribute("expires_in")) < System.currentTimeMillis()){
 				//session has expired, invalidate;
-				request.getSession().invalidate();
-				//OR should we just remove the 2 attributes.
-				//request.getSession().removeAttribute("expires_in");
-				//request.getSession().removeAttribute("access_token");
+				
+				request.getSession().removeAttribute("expires_in");
+				request.getSession().removeAttribute("access_token");
+				resp.setStatus(409, "Access Token has expired");
 			}
 		}
 		

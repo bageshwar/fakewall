@@ -343,6 +343,17 @@ function registerEventHandlers() {
 }
 
 function generatePreview(){
+	
+	//check if the user has actually created something,
+	//alert if not and return.
+	var isModified=checkContent();
+	
+	if(!isModified){
+		
+		return;
+	}
+	
+	
 	///remove any existing canvases
 	$('canvas').remove();
 	
@@ -396,6 +407,28 @@ function generatePreview(){
 	
 }
 
+/**
+ * 
+ * Checks through the OOB spans to check if any content was modified,
+ * because users are not actually creating anything. Just posting.
+ * */
+function checkContent(){
+	var modified=false;
+	if($($('.post-content').children()[0]).html()!='Post'){
+		modified=true;
+		
+	}else {
+		alert('You can add content to the \"Post\". Check the Help page for more details.');
+		return false;
+	}
+	if($('#response').children().length==0){
+		alert("You have not added any comment. Check the Help page for more details.")
+		return false;
+	}else {
+		modified=true;
+	}
+	return modified;
+}
 
 function spanDoubleClicked(event) {
 	// populate the text in the popup
