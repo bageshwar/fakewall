@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBABdF8J503PuDdPqEgFMgi1ZAPnFgd0XouPwjFYexaNO9FvDVQDiEsxecIRipofLJNkeru02sGHtOGPhKN4DBmgRl6XuZAmKZAAqlk0q");
+				"AAAD33nCJmSIBAASDZB6Qq4KtwKmuzC3IjzovUABjVkGZBfjZBEBPXBZAvnDh01z9hT74Fr8LlDIY2CicKF0yhsNfIobQIZAWcZCOV0mSH6bKd6zZAuPreq1");
 	}
 %>
 <!doctype html>
@@ -74,6 +74,20 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 
 <script type="text/javascript">
 var access_token='<%=session.getAttribute("access_token")%>';
+</script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-35894308-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>
 </head>
 
