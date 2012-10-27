@@ -30,7 +30,7 @@ public class FileEchoServlet extends HttpServlet {
 		//permit the upload service only to logged in users.
 		if (access_token != null) {
 			InputStream reader = request.getInputStream();
-			byte data[] = new byte[64 * 1024]; // 64K
+			
 			String dec = "";
 
 			// THIS COULD fail for very large files.
