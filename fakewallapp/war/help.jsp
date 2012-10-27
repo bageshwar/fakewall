@@ -71,17 +71,25 @@ function popup(){
 </head>
 
 <body>
-
-	<div id="masthead">
-		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> 
-		<span id="header-links"><a href="about.jsp">About</a> | <a href="help.jsp">Help</a> | <a href="privacy.jsp">Privacy</a></span> 
-			<a href="#"> <span id="user">Demo User</span><img style="display:inline" 
-			src="resources/dp.jpg" id="user-dp" /></a>
-	</div>
+<!-- FB SDK -->
+<div id="fb-root"></div>
+<script>
+	//load asynch
+	(function(d, s, id) {
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) return;
+	 js = d.createElement(s); js.id = id;
+	 js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=272534742866210";
+	 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+</script>
+	
+	<%@include file="header.jsp" %>
 	<div class="main">
 
 		<div class="content" id="content">
-
+	<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false" data-width="250" data-show-faces="true"></div>
 	<div id="desc" class="wrapper" >
 	<h4>Its simple.Everything is editable.Just hover your mouse.</h4>
 	</div>

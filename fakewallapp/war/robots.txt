@@ -6,7 +6,6 @@ Allow: /about.jsp
 Allow: /sitemap.xml
 Allow: /robots.txt
 
-Disallow: /
 Disallow: /resources/*
 
 Sitemap: http://fakewallapp.appspot.com/sitemap.xml

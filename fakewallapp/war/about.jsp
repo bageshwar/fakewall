@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html"%>
 <!doctype html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
  <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# fakeposts: http://ogp.me/ns/fb/fakeposts#">
  <meta charset='utf-8'>
       <meta property="fb:app_id" content="272534742866210" />
@@ -14,11 +14,11 @@
 <script src="/resources/jquery-1.8.2.min.js"></script>
 
 <script src="/resources/jquery-ui-1.9.0.custom.min.js"></script>
-<script src="/resources/jquery.autosize-min.js"></script>
+<!-- <script src="/resources/jquery.autosize-min.js"></script>
 <script src="/resources/commentTemplate.js"></script>
 <script src="/resources/html2canvas.min.js"></script>
 <script src="/resources/jquery.plugin.html2canvas.js"></script>
-
+ -->
 <link rel="stylesheet" href="/resources/style.css" type="text/css" />
 <link href="/resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -50,17 +50,63 @@ display:none;
 
 <body>
 
-	<div id="masthead">
-		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span> 
-		<span id="header-links"><a href="/about.jsp">About</a> | <a href="/help.jsp">Help</a> | <a href="/privacy.jsp">Privacy</a></span> 
-			<!-- <a href="https://www.facebook.com/"> <span id="user">User</span><img style="display:inline" 
-			src="resources/dp.jpg" id="user-dp" /></a> -->
-	</div>
+<!-- FB SDK -->
+<div id="fb-root"></div>
+<script>
+
+/* window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '272534742866210', // App ID
+      channelUrl : 'channel.html', // Channel File
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      xfbml      : true  // parse XFBML
+    });
+
+    // Additional initialization code here
+    
+  
+	FB.Event.subscribe('xfbml.render', function(response) {
+		$('#login-button').show();
+		});
+
+
+	FB.Event.subscribe('auth.login', function(response) {
+		console.log("logged in!!!",response);
+		window.location.href="/";
+		});
+
+	};
+
+	(function(d) {
+		var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+		if (d.getElementById(id)) {
+			return;
+		}
+		js = d.createElement('script');
+		js.id = id;
+		js.async = true;
+		js.src = "//connect.facebook.net/en_US/all/debug.js";
+		ref.parentNode.insertBefore(js, ref);
+	}(document)); */
+
+	//load asynch
+	(function(d, s, id) {
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) return;
+	 js = d.createElement(s); js.id = id;
+	 js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=272534742866210";
+	 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+</script>
+
+
+	<%@include file="header.jsp" %>
 	<div class="main">
 
-		<div class="content" id="content">
-
-
+		<div class="content" id="content">		
+		<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false" data-width="250" data-show-faces="true"></div>
 			<div class="wrapper" id="wrapper">
 				<img src="/resources/beta.png" style="float: right" />
 				<div class="post_user">
@@ -91,7 +137,7 @@ display:none;
 						<div class="comment-content">
 							<span class="name-user clickable" >Aware User</span> <span class="comment-text clickable"
 								>Yes !!! :D :D :D </span> <br /> <span class="timestamp clickable"
-								>3 hours ago </span> <span class="link">Like</span>
+								> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link clickable" >Fake Wall</span> <span class="clickable"
 									> likes this.</span>
@@ -107,9 +153,9 @@ display:none;
 						<i class="remove-comment clickable" ></i>
 						<div class="comment-content">
 							<span class="name-user clickable" >Fake Wall</span> <span class="comment-text clickable"
-								> Its very simple. Go to the <a class="comment-link"  href="/"> home-page </a>and start using this app :) 
+								> Its very simple. Go to the <a class="comment-link"  href="/?login=y"> home-page </a>and start using this app :) 
 								 </span> <br /> <span class="timestamp clickable"
-								>3 hours ago </span> <span class="link">Like</span>
+								> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link clickable">Aware User</span> <span class="clickable"
 									> likes this.</span>
@@ -126,7 +172,7 @@ display:none;
 						<div class="comment-content">
 							<span class="name-user clickable" >Aware User</span> <span class="comment-text clickable"
 								>k, but what are the benefits ? </span> <br /> <span class="timestamp clickable"
-								>3 hours ago </span> <span class="link">Like</span>
+								> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link clickable" >Fake Wall</span> <span class="clickable"
 									> likes this.</span>
@@ -158,10 +204,10 @@ display:none;
 								</ul>
 								<li>Just click and edit! Take a look <a class="comment-link" href="/help.jsp">here</a></li>
 								
-							<li><a class="comment-link"  href="/">Go to the home-page now!</a></li>
+							<li><a class="comment-link"  href="/?login=y">Go to the home-page now!</a></li>
 							</ul>
 								 </span> <br /> <span class="timestamp clickable"
-								>3 hours ago </span> <span class="link">Like</span>
+								> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link clickable">Aware User</span> <span class="clickable"
 									> likes this.</span>
@@ -170,9 +216,8 @@ display:none;
 					</div>
 				</div>
 			</div>
-
 		</div>
-
+	
 	</div>
 <script type="text/javascript">
   var uvOptions = {};

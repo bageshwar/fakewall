@@ -10,20 +10,22 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 
 		logger.info("Received request from "+request.getRemoteHost());
 		if (session.getAttribute("access_token") == null) {
-			logger.info(" Session does not contain auth_token");
-			logger.info(request.getParameterMap().toString());
-			logger.info(session.getAttributeNames().toString());
-			
 			token = request.getParameter("access_token");
 			String expiresIn = request.getParameter("expires_in"); 
-				
-			logger.info(" token and millis in request="+token+"###"+expiresIn);
-
+			String logIn=request.getParameter("login");	
+			
 			if (token == null || expiresIn==null) {
+				if(logIn!=null){
+				logger.info("User Logging In");				
 				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
 				return;
+				}else {
+					request.getRequestDispatcher("about.jsp").forward(request,response);
+					return;
+				}
 			}
 
+			logger.info(" token and millis in request="+token+"###"+expiresIn);
 			long millis = System.currentTimeMillis() + (Long.parseLong(expiresIn) * 1000);
 			session.setAttribute("access_token", token);
 			session.setAttribute("expires_in", millis);
@@ -43,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAASDZB6Qq4KtwKmuzC3IjzovUABjVkGZBfjZBEBPXBZAvnDh01z9hT74Fr8LlDIY2CicKF0yhsNfIobQIZAWcZCOV0mSH6bKd6zZAuPreq1");
+				"AAAD33nCJmSIBAHQSXzbDJlgfiyBTtfgmnbujk0gUl53jCSZBQPtv7OwzQescTamZBasROvdl96aM4F7PIMhYi7wZCd7KGzGhbbGVtCapBgEtJgkDoHd");
 	}
 %>
 <!doctype html>
@@ -74,6 +76,8 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 
 <script type="text/javascript">
 var access_token='<%=session.getAttribute("access_token")%>';
+var first_name='<%=session.getAttribute("first_name")%>';
+var user_id='<%=session.getAttribute("id")%>';
 </script>
 
 <script type="text/javascript">
@@ -92,19 +96,25 @@ var access_token='<%=session.getAttribute("access_token")%>';
 </head>
 
 <body>
+<!-- FB SDK -->
+<div id="fb-root"></div>
+<script>
+	//load asynch
+	(function(d, s, id) {
+	 var js, fjs = d.getElementsByTagName(s)[0];
+	 if (d.getElementById(id)) return;
+	 js = d.createElement(s); js.id = id;
+	 js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=272534742866210";
+	 fjs.parentNode.insertBefore(js, fjs);
+	 }(document, 'script', 'facebook-jssdk'));
+</script>
 
-<!-- <img alt="" src="resources/beta_test.jpg" class="beta" /> -->
-
-	<div id="masthead">
-		<span id="appheader"><b><a href="/">Fake Wall App</a></b></span>
-		<span id="header-links"><a href="about.jsp">About</a> | <a href="help.jsp">Help</a> | <a href="privacy.jsp">Privacy</a></span>
-		 <a href="https://www.facebook.com/">
-		 <span id="user"></span><img id="user-dp" /></a>
-	</div>
+	<%@include file="header.jsp" %>
 	<div class="main">
 		
 		<div class="content" id="content" >
-		
+		<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false" data-width="250" data-show-faces="true"></div>
 		
 		<div class="wrapper" id="wrapper">
 		<img src="resources/beta.png" style="float:right" />
