@@ -493,7 +493,7 @@ function postToFacebook() {
 								data : {
 									message : "Fake Wall App",
 									url :    "http://fakewallapp.appspot.com/getimage?path=" + data.path,
-									/*url:'http://fakewallapp.appspot.com/resources/beta.png',*/
+									/*url:'http://fakewallapp.appspot.com/resources/beta.png',*/									
 									access_token : access_token,
 									format : "json",									
 								},								
@@ -520,14 +520,29 @@ function postToFacebook() {
 	
 }
 
+function sendUserDetailsToServer(){
+	console.log("Sending user details to server",userObject);
+	if(first_name=='null' || user_id=='null'){
+	$.ajax({
+		type:"POST",
+		url:"adduserdetails",
+		data:{
+			user:userObject
+		},
+		complete:function(data){
+			console.log(data);
+		}
+	});
+	}
+}
 
 function loadFriends(){
 	
-	
+	//TODO: Remove unncessary call, if user details are already known.
 	$.getJSON("https://graph.facebook.com/me?access_token="+access_token,function(data){
-		
 		console.log("User Object",data);
 		userObject=data;
+		sendUserDetailsToServer();
 		$('#user').html(userObject.first_name);
 		$('#user-dp').attr("src","proxy?url=https://graph.facebook.com/"+userObject.id+"/picture");
 		$('#user-dp').css('display','inline');
