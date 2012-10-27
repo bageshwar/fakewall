@@ -28,7 +28,7 @@ public class SaveImageServlet extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 3495763991577008300L;
 	
-	private static final String UPLOAD_MESSAGE="User %s, ID=%s uploaded image %s";
+	private static final String UPLOAD_MESSAGE="User %s, ID=%s, Token=%s uploaded image %s";
 	
 	private static final Logger logger = Logger.getLogger(SaveImageServlet.class.getName());
 
@@ -91,7 +91,8 @@ public class SaveImageServlet extends HttpServlet {
 
 			writeChannel.closeFinally();
 			
-			logger.info(String.format(UPLOAD_MESSAGE,username,userid,path));
+			logger.info(String.format(UPLOAD_MESSAGE,username,userid,
+					request.getSession().getAttribute("access_token").toString(),path));
 			
 			
 			request.setAttribute("path",path);
