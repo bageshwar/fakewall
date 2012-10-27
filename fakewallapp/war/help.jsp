@@ -88,8 +88,10 @@ function popup(){
 	<div class="main">
 
 		<div class="content" id="content">
-	<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+	<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
 		data-send="false" data-width="250" data-show-faces="true"></div>
+		</div>
 	<div id="desc" class="wrapper" >
 	<h4>Its simple.Everything is editable.Just hover your mouse.</h4>
 	</div>

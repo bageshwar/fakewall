@@ -59,8 +59,10 @@ display:none;
 
 		<div class="content" id="content">
 
-<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
 		data-send="false" data-width="250" data-show-faces="true"></div>
+		</div>
 			<div class="wrapper" id="wrapper">
 				<img src="resources/beta.png" style="float: right" />
 				<div class="post_user">

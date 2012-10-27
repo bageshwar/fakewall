@@ -180,7 +180,7 @@
 	height: 40px;
 	width: 99%;
 	background-color: black;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	color: #CFCFBE;
@@ -297,4 +297,9 @@ canvas {
 .comment-link {
 color:blue;
 font-weight: bold;
+}
+.fb-like-wrapper{
+	position:fixed;
+	right:0%;
+	
 }

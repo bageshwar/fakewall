@@ -45,14 +45,14 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAHQSXzbDJlgfiyBTtfgmnbujk0gUl53jCSZBQPtv7OwzQescTamZBasROvdl96aM4F7PIMhYi7wZCd7KGzGhbbGVtCapBgEtJgkDoHd");
+				"AAAD33nCJmSIBACbAZBedyPZC2ib9jCcyFy29ZB0gJ8HABSZBfZB6xK5lAQkb58Pia0xt5cEdEDmJrO9FApPLkKwOaftAS2o0TQ3fTGSexZB6ZANpBctlVGP");
 	}
 %>
 <!doctype html>
 <html>
 <head>
 <meta charset='utf-8'>
-<title>Fake Wall App</title>
+<title>Fake Wall App | Create</title>
 <script src="resources/jquery-1.8.2.min.js"></script>
 
 <script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
@@ -113,8 +113,11 @@ var user_id='<%=session.getAttribute("id")%>';
 	<div class="main">
 		
 		<div class="content" id="content" >
-		<div class="fb-like" style="position:absolute;right:0%" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
 		data-send="false" data-width="250" data-show-faces="true"></div>
+		</div>
+		
 		
 		<div class="wrapper" id="wrapper">
 		<img src="resources/beta.png" style="float:right" />
