@@ -1,3 +1,4 @@
+<%@page session="true"%>
 <%
 boolean loggedIn = session.getAttribute("access_token") != null;
 %>

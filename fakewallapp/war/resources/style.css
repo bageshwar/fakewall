@@ -300,6 +300,34 @@ font-weight: bold;
 }
 .fb-like-wrapper{
 	position:fixed;
-	right:0%;
-	
+	right:0%;	
+}
+.toolbar{
+	display:none;
+	position:fixed;
+	top:50%;
+	left:0px;
+	height:126px;
+	/* font:12px; */
+	width:35px;
+	opacity:.5;
+	cursor:pointer;	
+	/* -webkit-border-radius: 4px; */
+	border: 1px black solid;
+	border-top-right-radius:4px;
+	border-bottom-right-radius:4px;	
+	margin-top:-63px;
+	padding:5px;
+}
+.toolbar:hover{
+	opacity:.7
+}
+.toolbar-item{
+	opacity:.5
+}
+.toolbar-item:hover{
+	opacity:1;
+}
+.toolbar-item:active{
+	background:black;
 }

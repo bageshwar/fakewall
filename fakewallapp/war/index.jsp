@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBACbAZBedyPZC2ib9jCcyFy29ZB0gJ8HABSZBfZB6xK5lAQkb58Pia0xt5cEdEDmJrO9FApPLkKwOaftAS2o0TQ3fTGSexZB6ZANpBctlVGP");
+				"AAAD33nCJmSIBADnJLSBlCnvV699XpCDKqjYZCUYGZBeP6PaUHLUu3ZCPux5UJEAxAIahhiSSwxZBqMGoDbgZADvGsYWltU7BXQRfUs3JHFVLYsOKDNujf");
 	}
 %>
 <!doctype html>
@@ -110,6 +110,11 @@ var user_id='<%=session.getAttribute("id")%>';
 </script>
 
 	<%@include file="header.jsp" %>
+	<div class="toolbar">
+	<div style="width:100%" class="toolbar-item"><img src="resources/settings_32.png"/></div>	
+	<div style="width:100%"  class="toolbar-item"><img src="resources/cd_drive_32.png" onclick='saveWallToLocalStorage()'/></div>
+	<div style="width:100%"  class="toolbar-item"><img src="resources/upload_32.png"/></div>
+	</div>
 	<div class="main">
 		
 		<div class="content" id="content" >
