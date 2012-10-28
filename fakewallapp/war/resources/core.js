@@ -220,7 +220,7 @@ function buildDialogs() {
 	});
 	
 	//alert dialog
-	myddd=$("#alert").dialog({
+	$("#alert").dialog({
 		modal : true,
 		autoOpen : false,
 		buttons : {
@@ -234,6 +234,13 @@ function buildDialogs() {
 			}
 		}
 	
+	});
+	
+	$('#saved_walls').dialog({
+		modal:true,
+		autoOpen:false,
+		height:'auto',
+		width:'500px'			
 	});
 	
 	$('#tag-selector').dialog({
@@ -924,24 +931,52 @@ function imageUploaded(id,fileName,responseJSON){
 /**
  * Save the fake wall to local storage
  * */
-function saveWallToLocalStorage(){
-	//TODO: Also store the name of the wall in a separate array for efficient iteration.
-	var name=window.prompt('Enter name of the Fake Wall');
-	if(name!=null && name!=''){
-		if(localStorage && Storage){
-			/*if(localStorage['walls.'+name]==null){
-				localStorage['walls']={};
-			}*/
-			if( localStorage['walls.'+name]!=null){
-				if(window.confirm('Wall already exists by the same name. Overwrite?')){
-					localStorage['walls.'+name]=lzw_encode($('#wrapper').html());
-				}else{
+function saveWallToLocalStorage() {
+	var name = window.prompt('Enter name of the Fake Wall');
+	if (name != null && name != '') {
+		if (localStorage && Storage) {
+			// initializing variables.
+			if (localStorage['walls.list'] == null) {
+				localStorage['walls.list'] = JSON.stringify([]);
+			}
+			if (localStorage['walls.all'] == null) {
+				localStorage['walls.all'] = JSON.stringify([]);
+			}
+
+			// name=name.replace(/\|/g,'_'); //replacing all | with _
+			var wallList = JSON.parse(localStorage['walls.list']);
+			var allWalls = JSON.parse(localStorage['walls.all']);
+			var idx = wallList.indexOf(name);
+			if (idx != -1) {
+				if (window
+						.confirm('Wall already exists by the same name. Overwrite?')) {
+					// localStorage['walls.'+name]=lzw_encode($('#wrapper').html());
+
+					allWalls[idx] = ({
+						data : lzw_encode($('#wrapper').html()),
+						when : (new Date()).toLocaleString()(),
+						user : userObject,
+						name : name,
+						/*index : idx*/
+					});
+
+				} else {
 					saveWallToLocalStorage();
 				}
-			}else{
-				localStorage['walls.'+name]=lzw_encode($('#wrapper').html());
-			}			
-		}else {
+			} else {
+				idx = wallList.push(name)-1;
+				allWalls[idx] = ({
+					data : lzw_encode($('#wrapper').html()),
+					when : (new Date()).toLocaleString(),
+					user : userObject,
+					name : name,
+					/*index : idx*/
+				});
+			}
+			localStorage['walls.all'] = JSON.stringify(allWalls);
+			localStorage['walls.list'] = JSON.stringify(wallList);
+
+		} else {
 			alert('Your browser does not support local storage.');
 		}
 	}
@@ -1003,4 +1038,67 @@ function lzw_decode(s) {
         oldPhrase = phrase;
     }
     return out.join("");
+}
+
+function showHistory(){
+	$('#saved_wall_content').html('');
+	var any=false;
+	if (localStorage && Storage && localStorage['walls.all']) {
+		$.each(JSON.parse(localStorage['walls.all']),function(index,item)  {
+			if (item!=null) {
+				any=true;
+				
+				var template = '<div class="comment">'
+						+ '<div>'
+						+ '<img class="comment-dp dp  " src="resources/archive.png" />'
+						+ '</div>'
+						+ '<i class="remove-comment" onclick="deleteWallFromLocalHistory('+index+',this)"></i>'
+						+'<i class="edit-wall" onclick="loadSavedWall('+index+')"></i>'
+						+ '<div class="comment-content">'
+						+ '<span class="name-user  ">Archived</span> <span class="comment-text  ">'+item.name+'</span> <br /> <span'
+						+ ' class="timestamp"> '+item.when+' '+(item.data.length/1024).toFixed(2)
+						+' KB</span> <span class="link">Like</span>'
+						+ '<div class="comment-likes likes">'
+						+ '<span class="link  ">You</span> <span class=" "> like this.</span>'
+						+ '</div>' + '</div>' + '</div>';
+				$('#saved_wall_content').append(template);
+			}
+		});
+	}
+	if(!any){
+		$('#saved_wall_content').append('<p>No walls saved</p>')
+	}
+	$('#saved_walls').dialog('open');
+}
+
+/**
+ * Deletes the wall from local storage
+ * */
+function deleteWallFromLocalHistory(index,obj){
+	if(localStorage && Storage){
+		var list=JSON.parse(localStorage['walls.list']);
+		var walls=JSON.parse(localStorage['walls.all']);
+		list.pop(index);
+		walls.pop(index);
+		localStorage['walls.list']=JSON.stringify(list);
+		localStorage['walls.all']=JSON.stringify(walls);
+		//console.log(obj);		
+		$(obj).parent().hide(500,function(){
+			$(this).remove();
+		});
+		//$(obj).parent().remove();
+	}else {
+		alert("Your browser does not support Local Storage");
+	}
+}
+
+/**
+ * 
+ * Load a Saved Wall
+ * */
+function loadSavedWall(index){
+	var wallList=JSON.parse(localStorage['walls.all']);
+	wall=wallList[index];
+	$('#wrapper').html(lzw_decode(wall.data));
+	$('#saved_walls').dialog('close');
 }

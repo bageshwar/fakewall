@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBADnJLSBlCnvV699XpCDKqjYZCUYGZBeP6PaUHLUu3ZCPux5UJEAxAIahhiSSwxZBqMGoDbgZADvGsYWltU7BXQRfUs3JHFVLYsOKDNujf");
+				"AAAD33nCJmSIBAPYUds7yzwselvt0yaS8VTVvm5U0Nf8Api6atljZBzeYjK809Uf8XwIgTnFdQPRpMapZCaJXDk122HD5lQJntYIAI3y71FEhExkJSn");
 	}
 %>
 <!doctype html>
@@ -113,7 +113,7 @@ var user_id='<%=session.getAttribute("id")%>';
 	<div class="toolbar">
 	<div style="width:100%" class="toolbar-item"><img src="resources/settings_32.png"/></div>	
 	<div style="width:100%"  class="toolbar-item"><img src="resources/cd_drive_32.png" onclick='saveWallToLocalStorage()'/></div>
-	<div style="width:100%"  class="toolbar-item"><img src="resources/upload_32.png"/></div>
+	<div style="width:100%"  class="toolbar-item"><img src="resources/upload_32.png" onclick='showHistory()'/></div>
 	</div>
 	<div class="main">
 		
@@ -149,6 +149,7 @@ var user_id='<%=session.getAttribute("id")%>';
 			
 		</div>
 	</div>
+	<!-- <input type="text" id="wallname" value="My Fake Wall_1"/> -->
 	<div class="top-buttons" >
 			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
 			<button id="post-button"  >Post to Facebook</button>
@@ -187,19 +188,21 @@ var user_id='<%=session.getAttribute("id")%>';
 		<div id="tabs">
 			<ul>
 				<li><a href="#fb-friends">Facebook Friends</a></li>
-				<li><a href="#url-tab">URL</a></li>
+				<!-- <li><a href="#url-tab">URL</a></li> -->
 				<li><a href="#upload">Upload</a></li>
 			</ul>
 			<div id="fb-friends">
 				<label for="tags">Name: </label> <input type="text" id="friend" 
 				class="text ui-widget-content ui-corner-all" style="width: 100%" />
 			</div>
-			<div id="url-tab">
+			<!-- <div id="url-tab">
 				<label for="dp_url">Url:</label> <input type="text" name="dp_url" id="dp_url"
 					class="text ui-widget-content ui-corner-all" style="width: 100%" />
-			</div>
+			</div> -->
 			<div id="upload">
 				<div id="file-uploader-div"></div>
+				<hr />
+				<div id="uploaded"></div>
 			</div>
 
 		</div>
@@ -214,6 +217,11 @@ var user_id='<%=session.getAttribute("id")%>';
 
 	<div id="alert" title="Message!">
 		<span id="alert-text" ></span>
+	</div>
+	
+	<div id="saved_walls" title="Saved Walls" style="display:none">
+	<div id="saved_wall_content">
+	</div>
 	</div>
 
 	<div id="tag-selector" title="Select Friends to Tag">	

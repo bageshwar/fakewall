@@ -141,6 +141,26 @@
 	background-position: left -48px;
 }
 
+
+.edit-wall {
+	top: 5px;
+	background-image: url(goicons.png);
+	background-repeat: no-repeat;
+	height: 15px;
+	width: 15px;
+	float: right;
+	background-position: left -0px;
+	opacity: 1;
+}
+
+.edit-wall:hover {
+	background-position: left -32px;
+}
+
+.edit-wall:active {
+	background-position: left -48px;
+}
+
 .beta {
 	position: fixed;
 	top: 0px;
@@ -303,7 +323,7 @@ font-weight: bold;
 	right:0%;	
 }
 .toolbar{
-	display:none;
+	/* display:none; */
 	position:fixed;
 	top:50%;
 	left:0px;
