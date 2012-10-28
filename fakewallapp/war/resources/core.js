@@ -1052,8 +1052,8 @@ function showHistory(){
 						+ '<div>'
 						+ '<img class="comment-dp dp  " src="resources/archive.png" />'
 						+ '</div>'
-						+ '<i class="remove-comment" onclick="deleteWallFromLocalHistory('+index+',this)"></i>'
-						+'<i class="edit-wall" onclick="loadSavedWall('+index+')"></i>'
+						+ '<i class="remove-comment" title="Remove" onclick="deleteWallFromLocalHistory('+index+',this)"></i>'
+						+'<i class="edit-wall" title="Show" onclick="loadSavedWall('+index+')"></i>'
 						+ '<div class="comment-content">'
 						+ '<span class="name-user  ">Archived</span> <span class="comment-text  ">'+item.name+'</span> <br /> <span'
 						+ ' class="timestamp"> '+item.when+' '+(item.data.length/1024).toFixed(2)
