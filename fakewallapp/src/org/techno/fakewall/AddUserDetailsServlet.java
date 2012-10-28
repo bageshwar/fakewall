@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Save the User's name and ID in session.
+ * This is required for logging and masthead to show user profile pic and name
+ * without requiring a roundtrip to facebook.
+ * */
 public class AddUserDetailsServlet extends HttpServlet {
 	
 	
@@ -17,6 +22,8 @@ public class AddUserDetailsServlet extends HttpServlet {
 	private static final long serialVersionUID = -5099428285876186326L;
 
 	private static final Logger logger = Logger.getLogger(AddUserDetailsServlet.class.getName());
+	
+	private static final String LOGIN_LOG="User %s (%s) logged in.";
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse resp) throws IOException {		
 		
@@ -28,7 +35,7 @@ public class AddUserDetailsServlet extends HttpServlet {
 			String id=request.getParameter("user[id]");
 			request.getSession().setAttribute("first_name", first_name);
 			request.getSession().setAttribute("id",id);
-			
+			logger.info(String.format(LOGIN_LOG, first_name,id));
 		}
 
 	}
