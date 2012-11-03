@@ -14,10 +14,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+import org.techno.fakewall.utils.ImageUtils;
+
 import com.google.appengine.api.files.AppEngineFile;
 import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
+import com.google.appengine.api.images.Image;
 
 public class GetImageServlet extends HttpServlet {
 	/**
@@ -61,15 +65,29 @@ public class GetImageServlet extends HttpServlet {
 			FileReadChannel readChannel = fileService.openReadChannel(file, false);
 
 			DataInputStream in = new DataInputStream(Channels.newInputStream(readChannel));
-			response.setContentType("image/png");
+			
 
 			ServletOutputStream out = response.getOutputStream();
-			byte data[] = new byte[8 * 1024];
+			
+			byte[] imageBytes=IOUtils.toByteArray(in);
+			
+			String type=request.getParameter("type");
+			//logger.info("Type requested: "+type);
+			if(type!=null && "jpg".equalsIgnoreCase(type)){
+				response.setContentType("image/jpg");
+				Image output = ImageUtils.getInstance().getJPEGAutoImage(imageBytes);
+				out.write(output.getImageData());
+				//System.out.println(output.getFormat().toString());
+			}else {
+				response.setContentType("image/png");
+				out.write(imageBytes);
+			}
+			
+			/*byte data[] = new byte[8 * 1024];
 			int ret = 0;
 			while ((ret = in.read(data)) != -1) {
-				out.write(data);
-				// System.out.println(ret);
-			}
+				out.write(data);				
+			}*/
 
 			in.close();
 			readChannel.close();
