@@ -17,7 +17,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 			if (token == null || expiresIn==null) {
 				if(logIn!=null){
 				logger.info("User Logging In");				
-				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=http://2.fakewallapp.appspot.com/landing.html&response_type=token");
+				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
 				return;
 				}else {
 					request.getRequestDispatcher("about.jsp").forward(request,response);
@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAKi5q2WykcNk6LPiJtEvcA6K2HZC7dKYvk60n5UCWqLWvjhNx0Nsdq5RcCz63EBCFZB12YV5ea95f9gRu2FAkqhUtaSfv5X0GadwGN");
+				"AAAD33nCJmSIBACz1i0h1VYGwZAQgIBfR9Xqin4Wmr9YH73ZCnHlr4Jn1geD1mNY1eUP65s8wNeHiPZC9l9c9VyUXr6FfdBRR8ZBBSKH3DS3q26U77Quz");
 	}
 %>
 <!doctype html>
@@ -208,10 +208,10 @@ var user_id='<%=session.getAttribute("id")%>';
 				<div id="file-uploader-div"></div>
 				<hr />
 				<div id="uploaded">
-					<div class="uploaded-image" onmouseover="uploadedImageMouseOver(this)" onmouseout='uploadedImageMouseOut(this)'
+					<!-- <div class="uploaded-image" onmouseover="uploadedImageMouseOver(this)" onmouseout='uploadedImageMouseOut(this)'
 					onclick='setUploadedImage(this)'>
 						<i class="remove-uploaded-image" onclick='removeUploadedImage("imagename",this)'></i><img src="resources/settings_32.png" />
-					</div>
+					</div> -->
 					
 				
 				
