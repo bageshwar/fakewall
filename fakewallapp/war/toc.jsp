@@ -56,10 +56,7 @@
 
 		<div class="content" id="content">
 
-		<div class="fb-like-wrapper">
-		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
-		data-send="false" data-width="250" data-show-faces="true"></div>
-		</div>
+		
 			<div class="wrapper" id="wrapper">
 				<img src="resources/beta.png" style="float: right" />
 				<div class="post_user">
@@ -82,22 +79,36 @@
 				<div class="response" id="response">
 					<div class="comment">
 						<div>
-							<img class="comment-dp dp clickable" title="Click to add a Friend" src="resources/aware.jpg" />
+							<img class="comment-dp dp  " src="resources/aware.jpg" />
 						</div>
-						<i class="remove-comment clickable" title="Click to delete Comment"></i>
 						<div class="comment-content">
-							<span class="name-user clickable" title="Click to add a Name">Aware User</span> <span class="comment-text clickable"
-								title="Click to edit Comment">:/</span> <br /> <span class="timestamp clickable"
-								title="Click to edit Time">3 hours ago </span> <span class="link">Like</span>
+							<span class="name-user  ">Aware User</span> <span class="comment-text  ">:/ </span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
-								<span class="link clickable" title="Click to add a Name">1 person</span> <span class="clickable"
-									title="Click to Change"> likes this.</span>
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
 							</div>
+						</div></div>
+					
+					
+					<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/icon-32x32.png" />
 						</div>
-					</div>
+						<div class="comment-content">
+							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">  You can visit the 
+					<a class="comment-link" href="privacy.jsp">privacy</a> page to know more. </span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div></div>
 				</div>
 			</div>
 
+		<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false"  data-show-faces="true"></div>
+		</div>
 		</div>
 
 	</div>

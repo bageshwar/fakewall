@@ -17,7 +17,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 			if (token == null || expiresIn==null) {
 				if(logIn!=null){
 				logger.info("User Logging In");				
-				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=https://fakewallapp.appspot.com/landing.html&response_type=token");
+				response.sendRedirect("https://www.facebook.com/dialog/oauth?client_id=272534742866210&scope=publish_stream,user_photos&redirect_uri=http://2.fakewallapp.appspot.com/landing.html&response_type=token");
 				return;
 				}else {
 					request.getRequestDispatcher("about.jsp").forward(request,response);
@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAPYUds7yzwselvt0yaS8VTVvm5U0Nf8Api6atljZBzeYjK809Uf8XwIgTnFdQPRpMapZCaJXDk122HD5lQJntYIAI3y71FEhExkJSn");
+				"AAAD33nCJmSIBAKi5q2WykcNk6LPiJtEvcA6K2HZC7dKYvk60n5UCWqLWvjhNx0Nsdq5RcCz63EBCFZB12YV5ea95f9gRu2FAkqhUtaSfv5X0GadwGN");
 	}
 %>
 <!doctype html>
@@ -63,6 +63,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
  <script src="resources/fileuploader.js" type="text/javascript"></script>
 
 <script src="resources/core.js"></script>
+
 
 
 <link rel="stylesheet" href="resources/style.css" type="text/css"  />
@@ -111,17 +112,13 @@ var user_id='<%=session.getAttribute("id")%>';
 
 	<%@include file="header.jsp" %>
 	<div class="toolbar">
-	<div style="width:100%" class="toolbar-item"><img src="resources/settings_32.png"/></div>	
-	<div style="width:100%"  class="toolbar-item"><img src="resources/cd_drive_32.png" onclick='saveWallToLocalStorage()'/></div>
-	<div style="width:100%"  class="toolbar-item"><img src="resources/upload_32.png" onclick='showHistory()'/></div>
+	<div style="width:100%" class="toolbar-item" title="Settings"><img src="resources/settings_32.png"/></div>	
+	<div style="width:100%"  class="toolbar-item" title="Save"><img src="resources/cd_drive_32.png" onclick='saveWallToLocalStorage()'/></div>
+	<div style="width:100%"  class="toolbar-item" title="Saved Fake Walls"><img src="resources/upload_32.png" onclick='showHistory()'/></div>
 	</div>
 	<div class="main">
 		
 		<div class="content" id="content" >
-		<div class="fb-like-wrapper">
-		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
-		data-send="false" data-width="250" data-show-faces="true"></div>
-		</div>
 		
 		
 		<div class="wrapper" id="wrapper">
@@ -149,6 +146,8 @@ var user_id='<%=session.getAttribute("id")%>';
 			
 		</div>
 	</div>
+	
+	
 	<!-- <input type="text" id="wallname" value="My Fake Wall_1"/> -->
 	<div class="top-buttons" >
 			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
@@ -156,6 +155,12 @@ var user_id='<%=session.getAttribute("id")%>';
 			<span id="gaga"></span>
 	</div>	
 	</div>
+	
+	<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false"  data-show-faces="true" ></div>
+	</div>
+		
 	<div id="canvas" >
 		
 	</div>
@@ -202,7 +207,15 @@ var user_id='<%=session.getAttribute("id")%>';
 			<div id="upload">
 				<div id="file-uploader-div"></div>
 				<hr />
-				<div id="uploaded"></div>
+				<div id="uploaded">
+					<div class="uploaded-image" onmouseover="uploadedImageMouseOver(this)" onmouseout='uploadedImageMouseOut(this)'
+					onclick='setUploadedImage(this)'>
+						<i class="remove-uploaded-image" onclick='removeUploadedImage("imagename",this)'></i><img src="resources/settings_32.png" />
+					</div>
+					
+				
+				
+				</div>
 			</div>
 
 		</div>
@@ -220,8 +233,8 @@ var user_id='<%=session.getAttribute("id")%>';
 	</div>
 	
 	<div id="saved_walls" title="Saved Walls" style="display:none">
-	<div id="saved_wall_content">
-	</div>
+		<div id="saved_wall_content">
+		</div>
 	</div>
 
 	<div id="tag-selector" title="Select Friends to Tag">	

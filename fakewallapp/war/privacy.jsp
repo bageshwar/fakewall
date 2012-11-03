@@ -57,10 +57,7 @@ display:none;
 	<div class="main">
 
 		<div class="content" id="content">
-		<div class="fb-like-wrapper">
-		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
-		data-send="false" data-width="250" data-show-faces="true"></div>
-		</div>
+		
 
 			<div class="wrapper" id="wrapper">
 				<img src="resources/beta.png" style="float: right" />
@@ -107,6 +104,7 @@ display:none;
 						</div>
 						</div>
 						
+						
 						<div class="comment">
 						<div>
 							<img class="comment-dp dp  " src="resources/privacy.png" />
@@ -126,6 +124,66 @@ display:none;
 						</div>
 						<div class="comment-content">
 							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">Nope!</span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div></div>
+						
+							<!-- Security Image access -->
+						<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/security.png" />
+						</div>
+						<!-- <i class="remove-comment  "></i> -->
+						<div class="comment-content">
+							<span class="name-user  ">Security Aware User</span> <span class="comment-text  ">Are the fakewalls we 
+							publish accessible to anybody outside of facebook?</span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div></div>
+						
+						<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/icon-32x32.png" />
+						</div>
+						<div class="comment-content">
+							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">No, the fakewall that you 
+							publish is only accessible on facebook.</span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div>
+						</div>
+						
+						<!-- Privacy Logs-->
+							<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/privacy.png" />
+						</div>
+						<div class="comment-content">
+							<span class="name-user  ">Privacy Aware User</span> <span class="comment-text  ">Any other information is saved?</span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div>
+						</div>
+						
+						<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/icon-32x32.png" />
+						</div>
+						<div class="comment-content">
+							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">
+							On our server, we save the active user details when one of the following happens
+							<ul>
+							<li>User Logs-in to this app</li>
+							<li>User publishes a fakewall to Facebook.</li>							
+							</ul></span> <br />
 							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
@@ -153,6 +211,40 @@ display:none;
 							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">It will depend upon the visibility settings you chose 
 							while authorizing this app. You can verify the same <a class="comment-link" target="_BLANK" href="http://www.facebook.com/appcenter/my">here</a> 
 							(Search for the FakeWall App). <br />All the friends that have been tagged can also see the post. </span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div></div>
+						
+						<!-- permissions -->
+						<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/permissions.gif" />
+						</div>
+						<div class="comment-content">
+							<span class="name-user  ">Permissions Aware User</span> <span class="comment-text  ">What all permissions does this app require 
+							and how is it used?</span> <br />
+							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
+							<div class="comment-likes likes">
+								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
+							</div>
+						</div></div>
+						
+						<div class="comment">
+						<div>
+							<img class="comment-dp dp  " src="resources/icon-32x32.png" />
+						</div>
+						<div class="comment-content">
+							<span class="name-user  ">Fake Wall</span> <span class="comment-text  ">
+							This app requests for the following permissions
+							<ul>
+							<li><b>User Details: </b> These are provided by Facebook by default</li>
+							<li><b>Publish to your timeline: </b>To publish the fakewall your created to facebook, without requiring you to take screenshots
+							or share links.</li>
+							<li><b>Access your photos: </b>To tag friends(optional) that you included in your fakewall.</li>							
+							</ul>
+							</span> <br />
 							<span class="timestamp  "> some time back </span> <span class="link">Like</span>
 							<div class="comment-likes likes">
 								<span class="link  ">1 person</span> <span class=" "> likes this.</span>
@@ -231,6 +323,10 @@ display:none;
 						
 					</div>
 				</div>
+				<div class="fb-like-wrapper">
+		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
+		data-send="false"  data-show-faces="true"></div>
+		</div>
 			</div>
 
 		</div>
