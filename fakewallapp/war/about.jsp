@@ -105,10 +105,7 @@ display:none;
 	<div class="main">
 
 		<div class="content" id="content">		
-		<div class="fb-like-wrapper">
-		<div class="fb-like"  data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" 
-		data-send="false" data-width="250" data-show-faces="true"></div>
-		</div>
+		
 			<div class="wrapper" id="wrapper">
 				<img src="/resources/beta.png" style="float: right" />
 				<div class="post_user">
@@ -217,6 +214,11 @@ display:none;
 						</div>
 					</div>
 				</div>
+			</div>
+
+			<div class="fb-like-wrapper">
+				<div class="fb-like" data-href="http://www.facebook.com/pages/FakePosts-Community/429286103795737" data-send="false"
+					data-show-faces="true"></div>
 			</div>
 		</div>
 	
