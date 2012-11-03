@@ -405,3 +405,12 @@ canvas {
 .remove-uploaded-image-div-hover{
 	background-position-y: -0px;
 }
+.more-about-text{
+	font-size:10px;
+}
+.more-about-text a{
+	color:blue;
+}
+.more-about-text a:hover{
+	font-weight:bold;
+}

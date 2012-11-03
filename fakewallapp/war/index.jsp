@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBACz1i0h1VYGwZAQgIBfR9Xqin4Wmr9YH73ZCnHlr4Jn1geD1mNY1eUP65s8wNeHiPZC9l9c9VyUXr6FfdBRR8ZBBSKH3DS3q26U77Quz");
+				"AAAD33nCJmSIBAJYF9Et45nIMIhKEZCbuXgzuUz1C4X11XOGoiOzRZCgZAJ8cFACBBZA9HGsVuc50YWrGCZCuFm8CwDtoVZAwF3MuZACT9VzxTaCpYiE0zJb");
 	}
 %>
 <!doctype html>
@@ -211,11 +211,10 @@ var user_id='<%=session.getAttribute("id")%>';
 					<!-- <div class="uploaded-image" onmouseover="uploadedImageMouseOver(this)" onmouseout='uploadedImageMouseOut(this)'
 					onclick='setUploadedImage(this)'>
 						<i class="remove-uploaded-image" onclick='removeUploadedImage("imagename",this)'></i><img src="resources/settings_32.png" />
-					</div> -->
-					
-				
-				
+					</div> -->					
 				</div>
+				<hr />
+				<span class="more-about-text">More about these <a href="td.jsp" style="color:blue" target="_BLANK">saved images.</a></span>
 			</div>
 
 		</div>
@@ -235,6 +234,8 @@ var user_id='<%=session.getAttribute("id")%>';
 	<div id="saved_walls" title="Saved Walls" style="display:none">
 		<div id="saved_wall_content">
 		</div>
+		<hr />
+		<span class="more-about-text">More about these <a style="color:blue" href="td.jsp" target="_BLANK">saved fakewalls.</a></span>
 	</div>
 
 	<div id="tag-selector" title="Select Friends to Tag">	
