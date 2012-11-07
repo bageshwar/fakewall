@@ -62,7 +62,14 @@ public class RandomTextServlet extends HttpServlet {
 				"JetSki",
 				"Nature Lover",
 				"Short Story",
-				"Sharp Knife"
+				"Sharp Knife",
+				"Alternate Exercising",
+				"Cabinet Needle",
+				"Earthward Increment",
+				"Traveling Prospect",
+				"Crisp Terminology",
+				"Sophisticated Translation"
+				
 		};
 		//@formatter:on
 
