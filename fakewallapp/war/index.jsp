@@ -45,7 +45,7 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 		}
 	} else {
 		session.setAttribute( "access_token",
-				"AAAD33nCJmSIBAJYF9Et45nIMIhKEZCbuXgzuUz1C4X11XOGoiOzRZCgZAJ8cFACBBZA9HGsVuc50YWrGCZCuFm8CwDtoVZAwF3MuZACT9VzxTaCpYiE0zJb");
+				"AAAD33nCJmSIBAHcLysk2WzisGUrGXMQmJvxo7P8X7dFocsgxmZAaH03FCppZAR9vbDQOG1h0CQ1H9Y0vOzvPM8zGVUg9kB79cu6Y1hR82UzqZByh56K");
 	}
 %>
 <!doctype html>
@@ -71,8 +71,6 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 <link href="resources/fileuploader.css" rel="stylesheet" type="text/css">
  
 <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" /> 
-
-
 
 
 <script type="text/javascript">
@@ -109,6 +107,7 @@ var user_id='<%=session.getAttribute("id")%>';
 	 fjs.parentNode.insertBefore(js, fjs);
 	 }(document, 'script', 'facebook-jssdk'));
 </script>
+
 
 	<%@include file="header.jsp" %>
 	<div class="toolbar">
@@ -152,7 +151,8 @@ var user_id='<%=session.getAttribute("id")%>';
 	<div class="top-buttons" >
 			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
 			<button id="post-button"  >Post to Facebook</button>
-			<span id="gaga"></span>
+			<span id="gaga" >			
+			</span>
 	</div>	
 	</div>
 	

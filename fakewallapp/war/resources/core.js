@@ -530,6 +530,7 @@ function postToFacebook() {
 	// progress indicator
 	doRandomText();
 
+	//TODO: appears to be un-used.
 	var url = 'https://graph.facebook.com/me/photos?access_token=';
 
 	$.ajax({
@@ -750,7 +751,7 @@ function doRandomText() {
 	$.getJSON(url, function(data) {
 		randomText = data;
 		console.log("Random Text", data);
-		intervalID = setInterval(function() {
+		intervalID = setInterval(function() {			
 			$('#gaga').html(
 					randomText[Math.floor(Math.random() * randomText.length)]);
 		}, 500);
@@ -1329,4 +1330,3 @@ function setUploadedImage(div) {
 	imageControl.src = $(div).find('img').attr('src');
 	$('#dp_dialog').dialog('close');
 }
-

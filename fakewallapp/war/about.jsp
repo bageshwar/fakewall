@@ -11,9 +11,9 @@
         <meta property="og:description" 
         content="Hey, I just created a Fakewall using this app. Takes a few clicks to create one for yourself!" />  
 <title>Fake Wall App | About</title>
-<script src="/resources/jquery-1.8.2.min.js"></script>
+<!-- <script src="/resources/jquery-1.8.2.min.js"></script>
 
-<script src="/resources/jquery-ui-1.9.0.custom.min.js"></script>
+<script src="/resources/jquery-ui-1.9.0.custom.min.js"></script> -->
 <!-- <script src="/resources/jquery.autosize-min.js"></script>
 <script src="/resources/commentTemplate.js"></script>
 <script src="/resources/html2canvas.min.js"></script>

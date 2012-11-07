@@ -3,16 +3,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Fake Wall App</title>
-<script src="resources/jquery-1.7.1.min.js"></script>
+<!-- <script src="resources/jquery-1.7.1.min.js"></script> -->
 <script type="text/javascript">
-$(document).ready(function() {
+function doLoad() {
 	var query =window.location.hash.substring(1);
 	console.log(query);
 	window.location="index.jsp?"+query;	
-});
+}
 </script>
 </head>
-<body>
-
+<body onload="doLoad()">
 </body>
 </html>

@@ -4,14 +4,14 @@
 <head>
 <meta charset='utf-8'>
 <title>Fake Wall App | Privacy</title>
-<script src="resources/jquery-1.8.2.min.js"></script>
+<!-- <script src="resources/jquery-1.8.2.min.js"></script>
 
 <script src="resources/jquery-ui-1.9.0.custom.min.js"></script>
 <script src="resources/jquery.autosize-min.js"></script>
 <script src="resources/commentTemplate.js"></script>
 <script src="resources/html2canvas.min.js"></script>
 <script src="resources/jquery.plugin.html2canvas.js"></script>
-
+ -->
 <link rel="stylesheet" href="resources/style.css" type="text/css" />
 <link href="resources/jquery-ui.1.9.min.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
