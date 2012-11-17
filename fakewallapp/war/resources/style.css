@@ -32,14 +32,14 @@
 .likes {
 	margin-top: 1px;
 	font-size: 11px;
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px 5px 12px;
 }
 
 .comment {
 	margin-top: 1px;
 	font-size: 11px;
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px;
 }
 
@@ -50,8 +50,9 @@
 .likebanner {
 	margin-top: 1px;
 	font-size: 11px;
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px;
+	display:none;
 }
 
 .like-icon {
@@ -66,7 +67,8 @@
 }
 
 .link {
-	color: #3B5998
+	/* color: #3B5998 */
+	font-weight: bold;	
 }
 
 .post-user {
@@ -103,15 +105,15 @@
 }
 
 .name-user {
-	color: #3B5998;
+	/* color: #3B5998; */
 	font-weight: bold;
 	text-align: left;
 	font-size: 13px;
 }
 
 .timestamp {
-	color: #999;
-	font-size: 11px;
+	color: #646464;
+	font-size: 9px;
 }
 
 .animated {
@@ -125,7 +127,7 @@
 
 .remove-comment {
 	top: 5px;
-	background-image: url(deleteicons.png);
+	background-image: url(reddeleteicons_16.png);
 	background-repeat: no-repeat;
 	height: 15px;
 	width: 15px;
@@ -417,4 +419,8 @@ canvas {
 }
 .more-about-text a:hover{
 	font-weight:bold;
+}
+
+.comment-text{
+	margin-left:5px;
 }

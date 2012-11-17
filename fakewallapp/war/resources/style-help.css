@@ -31,14 +31,14 @@
 .likes {
 	margin-top: 1px;
 	font-size: 22px;/* ! */
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px 5px 12px;
 }
 
 .comment {
 	margin-top: 1px;
 	font-size: 22px;/* ! */
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px;
 }
 
@@ -49,8 +49,9 @@
 .likebanner {
 	margin-top: 1px;
 	font-size: 22px;/* ! */
-	background-color: #EDEFF4;
+	background-color: white;
 	padding: 5px 12px;
+	display:none;
 }
 
 .like-icon {
@@ -125,7 +126,7 @@
 
 .remove-comment {
 	top: 5px;
-	background-image: url(deleteicons.png);
+	background-image: url(reddeleteicons_16.png);
 	background-repeat: no-repeat;
 	height: 15px;
 	width: 15px;
