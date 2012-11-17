@@ -97,18 +97,28 @@ var home=window.location.origin+'/';
 var homeSecured=window.location.origin+'/';
 
 $(document).ready(function() {
+	init();
+});
 
+/**
+ * Fired when DOM ready.
+ * */
+function init(){
 	if (!jQuery.browser.chrome) {
 		// not chrome
 		alert('Hi, Only Google Chrome is supported at the moment');
 	}
-
+	
+	
 	// load the list of friends
 	loadFriends();
 
 	// dialogs
 	buildDialogs();
 
+	//TODO: uncomment this line
+	//showDisclaimer();
+	
 	// event handlers
 	registerEventHandlers();
 
@@ -119,9 +129,16 @@ $(document).ready(function() {
 	});
 
 	createUploader();
-	
-	//initDB();
-});
+		
+}
+
+/**
+ * Show a disclaimer message, that this has nothing to do with facebook.
+ * */
+function showDisclaimer(){
+	$('#alert-text').html('This is the disclaimer message');
+	$('#alert').dialog('open');
+}
 
 /**
  * Builds the 2 dialogs 1. For editing any span on the page. 2. For providing
@@ -260,8 +277,8 @@ function buildDialogs() {
 	$('#saved_walls').dialog({
 		modal : true,
 		autoOpen : false,
-		height : 'auto',
-		width : '500px'
+		height : window.innerHeight-30,
+		width : '500'
 	});
 
 	$('#tag-selector').dialog({
@@ -314,17 +331,6 @@ function buildDialogs() {
 
 			});
 
-}
-
-/**
- * create the table and DB if does not exists.
- * */
-function initDB(){
-	window.db2storage.open(function(){
-		//initialize the 2 values, if null.
-		
-	});
-	
 }
 
 function loadLocallyStoredImageIntoDialog(){
@@ -469,6 +475,8 @@ function generatePreview() {
  * users are not actually creating anything. Just posting.
  */
 function checkContent() {
+	//TODO: Remove this line.
+	return true;
 	var modified = false;
 	if ($($('.post-content').children()[0]).html() != 'Post') {
 		modified = true;
@@ -526,10 +534,13 @@ function deleteComment(event) {
  * Called to post the image to facebook.
  */
 function postToFacebook() {
-
+	
 	// progress indicator
 	doRandomText();
 
+	//save image to local storage
+	saveWallToLocalStorage('AutoSaved_'+new Date().getTime());
+	
 	//TODO: appears to be un-used.
 	var url = 'https://graph.facebook.com/me/photos?access_token=';
 
@@ -558,7 +569,13 @@ function postToFacebook() {
 					if (data.readyState == 4 && data.status == 200 && !JSON.parse(data.responseText).error) {
 						tagPhotos(data);
 					} else {
-						handleAuthTokenError(data);
+						//TODO: remove the hard coded Image URL.
+						//photos permission were not given by the user, down the photo manually.
+						$('#form_downloadimage_path').val('/blobstore/writable:c7g2s-lH0iayxfmyD3qGAw');
+						document.forms[0].submit();
+						//TODO: get the error code for this scenario and
+						//add it to the below function.
+						//handleAuthTokenError(data);
 					}
 				}
 			});
@@ -725,6 +742,11 @@ function loadFriends() {
 					}).error(function(data) {
 				// handleAuthTokenError(data);
 				var error = $.parseJSON(data.responseText);
+				if(error==null){
+					console.error("cross domain error ",data);
+					//cross domain error, return
+					return;
+				}
 				console.warn(error);
 				if (error.error.code == 190 || error.error.code == 2500) {
 					console.log("Auth expired")
@@ -916,8 +938,8 @@ function checkAllComplete(postDetails) {
 
 		// send the open graph request as well.
 		// using http for performance
-		sendOpenGraphRequest(home+'opengraph/'
-				+ postDetails.id);
+		//FIXME: Disabling open graph calls due to facebook limitation
+		//sendOpenGraphRequest(home+'opengraph/'+ postDetails.id);
 
 		// remove progress indicator and enable the button
 		clearInterval(intervalID);
@@ -1101,8 +1123,7 @@ function saveImageToLocalStorage(fileName, data) {
 	}
 }
 
-function addLocalImageToDialog(fileName, data) {
-	console.log('error',fileName);
+function addLocalImageToDialog(fileName, data) {	
 	var uploadedImage = '<div class="uploaded-image" onmouseover="uploadedImageMouseOver(this)" onmouseout="uploadedImageMouseOut(this)"'
 			+ 'onclick="setUploadedImage(this)">'
 			+ '<i class="remove-uploaded-image" onclick=\'removeUploadedImage("'
@@ -1114,8 +1135,12 @@ function addLocalImageToDialog(fileName, data) {
 /**
  * Save the fake wall to local storage
  */
-function saveWallToLocalStorage() {
-	var name = window.prompt('Enter name of the Fake Wall');
+function saveWallToLocalStorage(wallName) {
+	var name=null;
+	if(wallName==null)
+		name = window.prompt('Enter name of the Fake Wall');
+	else  name=wallName;
+	
 	if (name != null && name != '') {
 		if (localStorage && Storage) {
 			// initializing variables.

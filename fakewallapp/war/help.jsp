@@ -25,7 +25,7 @@ font-family: Verdana, Arial, sans-serif;
 /* margin:15px 0px 15px 0px ; 
  padding:8px 0 8px 0px;  */
  /* padding-left:20px; */
- 
+ margin-bottom: 20px;
 }
 #desc h4{
  margin-left:auto;
@@ -113,7 +113,7 @@ function popup(){
 				</div>
 				<div class="likebanner link">Like &middot; Comment &middot; Share</div>
 				<div class="likes">
-					<i class="like-icon"></i> <span class="link clickable" title="Click to add names"> You, Me and Several
+					<i class="like-icon"></i> <span class="link clickable" title="Click to add names"> You and several
 						others</span> <span class="clickable" title="Click to change"> like this.</span>
 				</div>
 				<div class="response" id="response">
@@ -125,7 +125,7 @@ function popup(){
 						<div class="comment-content">
 							<span class="name-user clickable" title="Click to add a Name">Add Me</span> <span class="comment-text clickable"
 								title="Click to edit Comment">Edit Me</span> <br /> <span class="timestamp clickable"
-								title="Click to edit Time">3 hours ago </span> <span class="link">Like</span>
+								title="Click to edit Time">3 hours ago </span> <!-- span class="link">Like</span-->
 							<div class="comment-likes likes">
 								<span class="link clickable" title="Click to add a Name">1 person</span> <span class="clickable"
 									title="Click to Change"> likes this.</span>

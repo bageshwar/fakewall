@@ -5,6 +5,11 @@ private static final Logger logger = Logger.getLogger("index.jsp");
 %>
 <%
 	String token = null;
+	
+	//Temp fix since the app has been blocked.
+	//request.getRequestDispatcher("down.jsp").forward(request,response);
+
+	
 
 	if (!request.getRemoteHost().equals("127.0.0.1")) {
 
@@ -111,7 +116,7 @@ var user_id='<%=session.getAttribute("id")%>';
 
 	<%@include file="header.jsp" %>
 	<div class="toolbar">
-	<div style="width:100%" class="toolbar-item" title="Settings"><img src="resources/settings_32.png"/></div>	
+	<!-- <div style="width:100%" class="toolbar-item" title="Settings"><img src="resources/settings_32.png"/></div>	 -->
 	<div style="width:100%"  class="toolbar-item" title="Save"><img src="resources/cd_drive_32.png" onclick='saveWallToLocalStorage()'/></div>
 	<div style="width:100%"  class="toolbar-item" title="Saved Fake Walls"><img src="resources/upload_32.png" onclick='showHistory()'/></div>
 	</div>
@@ -138,7 +143,7 @@ var user_id='<%=session.getAttribute("id")%>';
 		<div class="likebanner link">Like &middot; Comment &middot; Share</div>
 		<div class="likes">
 			<i class="like-icon"></i> <span class="link clickable" onclick="spanDoubleClicked(event)"
-			title="Click to add names">You, Me and Several others</span>
+			title="Click to add names">You and several others</span>
 			<span onclick="spanDoubleClicked(event)" class="clickable" title="Click to change"> like this.</span>
 		</div>
 		<div class="response" id="response">
@@ -150,7 +155,7 @@ var user_id='<%=session.getAttribute("id")%>';
 	<!-- <input type="text" id="wallname" value="My Fake Wall_1"/> -->
 	<div class="top-buttons" >
 			<button id="add-comment" title="Click to add a New Comment" >Add Comment</button>
-			<button id="post-button"  >Post to Facebook</button>
+			<button id="post-button"  >Upload to Facebook</button>			
 			<span id="gaga" >			
 			</span>
 	</div>	
@@ -254,5 +259,9 @@ var user_id='<%=session.getAttribute("id")%>';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(uv, s);
   })();
 </script>
-	</body>
+
+	<form action="/downloadimage" method="get" target="">
+		<input type="hidden" name="path" id="form_downloadimage_path" />
+	</form>
+</body>
 </html>
