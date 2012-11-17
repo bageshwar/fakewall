@@ -69,6 +69,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/adduserdetails</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>DownloadImage</servlet-name>
+		<servlet-class>org.techno.fakewall.DownloadImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DownloadImage</servlet-name>
+		<url-pattern>/downloadimage</url-pattern>
+	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
