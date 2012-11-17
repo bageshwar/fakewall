@@ -66,7 +66,8 @@ public class SaveImageServlet extends HttpServlet {
 			//simply die
 			if(userid==null || username==null){
 				logger.severe("Save Image called with no User data");
-				return;
+				//return;
+				//TODO: uncomment the above.
 			}
 			
 			// String token=

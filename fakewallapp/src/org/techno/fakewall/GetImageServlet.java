@@ -48,15 +48,16 @@ public class GetImageServlet extends HttpServlet {
 
 		// Someone is trying to act smart, or maybe facebook is using a
 		// different ip range
+		
 		if (!validHost(remoteHost))
 			return;
-
+				
 		try {
 			String path = request.getParameter("path");
-			//logHTTPHeaders(request);
-
+			// logHTTPHeaders(request);
+			
 			if (path == null) {
-				logger.severe("Get Image requested without any path");
+				logger.severe("Get Image requested without any path");				
 				return;
 			}
 			FileService fileService = FileServiceFactory.getFileService();
@@ -65,29 +66,28 @@ public class GetImageServlet extends HttpServlet {
 			FileReadChannel readChannel = fileService.openReadChannel(file, false);
 
 			DataInputStream in = new DataInputStream(Channels.newInputStream(readChannel));
-			
 
 			ServletOutputStream out = response.getOutputStream();
+
+			byte[] imageBytes = IOUtils.toByteArray(in);
+
+			String type = request.getParameter("type");
 			
-			byte[] imageBytes=IOUtils.toByteArray(in);
-			
-			String type=request.getParameter("type");
-			//logger.info("Type requested: "+type);
-			if(type!=null && "jpg".equalsIgnoreCase(type)){
+			if (type != null && "jpg".equalsIgnoreCase(type)) {
 				response.setContentType("image/jpg");
 				Image output = ImageUtils.getInstance().getJPEGAutoImage(imageBytes);
 				out.write(output.getImageData());
-				//System.out.println(output.getFormat().toString());
-			}else {
+
+			} else {
 				response.setContentType("image/png");
 				out.write(imageBytes);
 			}
+						
 			
-			/*byte data[] = new byte[8 * 1024];
-			int ret = 0;
-			while ((ret = in.read(data)) != -1) {
-				out.write(data);				
-			}*/
+			/*
+			 * byte data[] = new byte[8 * 1024]; int ret = 0; while ((ret =
+			 * in.read(data)) != -1) { out.write(data); }
+			 */
 
 			in.close();
 			readChannel.close();
@@ -99,7 +99,7 @@ public class GetImageServlet extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/plain");
 		resp.getWriter().println("Not Supported");
 	}
@@ -107,6 +107,7 @@ public class GetImageServlet extends HttpServlet {
 	/**
 	 * Log the headers
 	 * */
+	@SuppressWarnings("unused")
 	private void logHTTPHeaders(HttpServletRequest request) {
 		@SuppressWarnings("rawtypes")
 		Enumeration headers = request.getHeaderNames();
