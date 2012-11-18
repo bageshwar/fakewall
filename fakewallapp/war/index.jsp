@@ -261,7 +261,7 @@ var user_id='<%=session.getAttribute("id")%>';
 </script>
 
 	<form action="/downloadimage" method="get" target="">
-		<input type="hidden" name="path" id="form_downloadimage_path" />
+		<input type="hidden" name="type" value="jpg" />
 	</form>
 </body>
 </html>

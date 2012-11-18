@@ -47,8 +47,9 @@ public class DownloadImageServlet extends HttpServlet {
 		//TODO: Uncomment the above validation.
 		
 		try {
-			String path = request.getParameter("path");
-			// logHTTPHeaders(request);
+			String path = request.getSession().getAttribute("path")==null?null: 
+				request.getSession().getAttribute("path").toString();
+			// logHTTPHeaders(request); 
 			
 			if (path == null) {
 				logger.severe("Get Image requested without any path");				
@@ -66,11 +67,7 @@ public class DownloadImageServlet extends HttpServlet {
 			byte[] imageBytes = IOUtils.toByteArray(in);
 
 			String type = request.getParameter("type");
-			
-			//TODO: Remove the localhost hard code.
-			if(remoteHost.equals("127.0.0.1")){
-				setHeaders(response);
-			}
+			setHeaders(response,type);
 			
 			if (type != null && "jpg".equalsIgnoreCase(type)) {
 				response.setContentType("image/jpg");
@@ -102,13 +99,13 @@ public class DownloadImageServlet extends HttpServlet {
 	/**
 	 * Set headers for popup
 	 * */
-	private void setHeaders(HttpServletResponse response) {
+	private void setHeaders(HttpServletResponse response,String type) {
 		
 		response.setHeader("Expires", "0");
 		response.addHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 		//response.addHeader("Cache-Control", "private");
 				
-		response.setHeader("Content-Disposition", "attachment; filename=\"fakewallimage.png\";");
+		response.setHeader("Content-Disposition", "attachment; filename=\"fakewallimage."+type+"\";");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		
 	}

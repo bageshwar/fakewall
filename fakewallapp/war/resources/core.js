@@ -111,7 +111,7 @@ function init(){
 	
 	
 	// load the list of friends
-	loadFriends();
+	//loadFriends();
 
 	// dialogs
 	buildDialogs();
@@ -569,10 +569,11 @@ function postToFacebook() {
 					if (data.readyState == 4 && data.status == 200 && !JSON.parse(data.responseText).error) {
 						tagPhotos(data);
 					} else {
-						//TODO: remove the hard coded Image URL.
-						//photos permission were not given by the user, down the photo manually.
-						$('#form_downloadimage_path').val('/blobstore/writable:c7g2s-lH0iayxfmyD3qGAw');
-						document.forms[0].submit();
+						
+						//photos permission were not given by the user, download the photo manually.
+						//this form submission will get the image in the current session.
+						document.forms[0].submit(); 
+						cleanButtons();
 						//TODO: get the error code for this scenario and
 						//add it to the below function.
 						//handleAuthTokenError(data);
@@ -855,15 +856,15 @@ function handleAuthTokenError(data) {
 		$("#alert").dialog("open");
 	}
 
-	function cleanButtons() {
-		clearInterval(intervalID);
-		$('#post-button').removeAttr("disabled", "disabled");
-		$('#add-comment').removeAttr("disabled", "disabled");
-		$('#gaga').hide(500);
-		$('canvas').remove();
-	}
-
 	console.log("Error while accessing data from facebook", data);
+}
+
+function cleanButtons() {
+	clearInterval(intervalID);
+	$('#post-button').removeAttr("disabled", "disabled");
+	$('#add-comment').removeAttr("disabled", "disabled");
+	$('#gaga').hide(500);
+	$('canvas').remove();
 }
 
 /**

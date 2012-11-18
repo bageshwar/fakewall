@@ -97,6 +97,10 @@ public class SaveImageServlet extends HttpServlet {
 			
 			
 			request.setAttribute("path",path);
+			
+			//add this to session also, to facilitate downloading of the image.
+			request.getSession().setAttribute("path", path);
+			
 			//request.getSession().setAttribute("image", image.substring(image.indexOf("base64,") + 7));
 			request.getRequestDispatcher("upload.jsp").forward(request, resp);
 			
