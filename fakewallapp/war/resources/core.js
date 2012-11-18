@@ -115,9 +115,8 @@ function init(){
 
 	// dialogs
 	buildDialogs();
-
-	//TODO: uncomment this line
-	//showDisclaimer();
+	
+	showDisclaimer();
 	
 	// event handlers
 	registerEventHandlers();
@@ -136,7 +135,8 @@ function init(){
  * Show a disclaimer message, that this has nothing to do with facebook.
  * */
 function showDisclaimer(){
-	$('#alert-text').html('This is the disclaimer message');
+	$('#alert-text').html('The Fake Wall that you will create using this app will be posted as an Image on <b>Your</b> timeline.'+
+			'This app is not associated with Facebook in any form.');
 	$('#alert').dialog('open');
 }
 
